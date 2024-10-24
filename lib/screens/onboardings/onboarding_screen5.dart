@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:main_app/screens/authentication_page/phone_number_page.dart';
 
 class OnboardingScreen5 extends StatelessWidget {
@@ -8,6 +9,12 @@ class OnboardingScreen5 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
