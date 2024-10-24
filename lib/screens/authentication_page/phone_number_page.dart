@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -162,6 +163,36 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                             borderRadius: BorderRadius.circular(15),
                           ),
                         ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        text: 'تایید و ادامه به معنای پذیرش ',
+                        style: const TextStyle(
+                          color: Color(0xFF657381),
+                          fontSize: 16,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'قوانین سالمینا',
+                            style: const TextStyle(
+                              color: Color(0xFF4BB4D8),
+                              decoration: TextDecoration.none,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                // Navigator.of(context).push(
+                                //   MaterialPageRoute(
+                                //       builder: (context) => PoliciesPage()),
+                                // );
+                              },
+                          ),
+                          const TextSpan(text: ' می‌باشد.'),
+                        ],
                       ),
                     ),
                   ),
