@@ -84,17 +84,17 @@ class OnboardingScreen5 extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) =>
-                            const PhoneNumberPage(),
+                        builder: (context) => const PhoneNumberPage(),
                       ),
                     );
                   },
                   child: const Text(
-                    'صفحه بعد',
+                    'ورود/ثبت نام',
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800),
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ),
               ),

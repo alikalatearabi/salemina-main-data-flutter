@@ -31,85 +31,135 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
             ClipPath(
               clipper: TopArcClipper(),
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.98,
+                height: MediaQuery.of(context).size.height,
                 color: Colors.white,
               ),
             ),
             // Main content
-            Column(
-              children: [
-                const SizedBox(height: 80), // Spacing for status bar
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Back Arrow Icon
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pop(); // Go back to the previous page
-                        },
-                      ),
-                      const SizedBox(height: 20), // Spacing below the icon
-                      // Bold Text: "شماره موبایل"
-                      const Text(
-                        'شماره موبایل',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+            Directionality(
+              textDirection: TextDirection.rtl,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0,
+                      vertical: 80,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: IconButton(
+                            iconSize: 30,
+                            icon: const Icon(Icons.arrow_forward),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
                         ),
-                        textAlign: TextAlign.right,
-                      ),
-                      SizedBox(height: 10), // Spacing between texts
-                      // Regular Text: "لطفا شماره موبایل خود را وارد کنید."
-                      Text(
-                        'لطفا شماره موبایل خود را وارد کنید.',
-                        style: TextStyle(
-                          fontSize: 14,
+                        const Text(
+                          'شماره موبایل',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF232A34),
+                          ),
+                          textAlign: TextAlign.right,
                         ),
-                        textAlign: TextAlign.right,
-                      ),
-                      SizedBox(height: 20), // Spacing for the input
-                      // Phone Number Input
-                      TextField(
-                        controller: _phoneController,
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'شماره موبایل', // Placeholder text
+                        const SizedBox(height: 10),
+                        const Text(
+                          'لطفا شماره موبایل خود را وارد کنید.',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Color(0xFF232A34),
+                          ),
+                          textAlign: TextAlign.right,
                         ),
-                      ),
-                    ],
+                        Container(
+                          margin: const EdgeInsets.only(top: 20),
+                          child: TextField(
+                            controller: _phoneController,
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: const BorderSide(
+                                  color: Color(0xFF232A34),
+                                  width: 2.0,
+                                ),
+                              ),
+                              labelText: 'شماره موبایل',
+                              labelStyle: const TextStyle(
+                                  color: Color.fromARGB(255, 32, 50, 68),
+                                  fontSize: 17),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: const BorderSide(
+                                  color: Color(0xFF232A34),
+                                  width: 2.0,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: const BorderSide(
+                                  color: Color(0xFFF2506E),
+                                  width: 2.0,
+                                ),
+                              ),
+                              errorText:
+                                  _validatePhoneNumber(_phoneController.text),
+                              errorStyle: const TextStyle(
+                                color: Color(0xFFF2506E),
+                              ),
+                            ),
+                            style: const TextStyle(
+                              color: Color(0xFF232A34),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Spacer(),
-                // Button: "تایید و ادامه"
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width *
-                        0.8, // 80% width of the page
-                    child: ElevatedButton.icon(
-                      icon: Icon(Icons.arrow_forward), // Right arrow icon
-                      label: Text('تایید و ادامه'),
-                      onPressed: _isButtonEnabled
-                          ? () {
-                              // Handle the next action
-                            }
-                          : null, // Disable button if no phone number
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF018A08), // Green background
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              15), // Border radius for button
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: 50,
+                      child: ElevatedButton.icon(
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: _isButtonEnabled ? Colors.white : Colors.grey,
+                        ),
+                        label: Text(
+                          'تایید و ادامه',
+                          style: TextStyle(
+                            color:
+                                _isButtonEnabled ? Colors.white : Colors.grey,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onPressed: _isButtonEnabled
+                            ? () {
+                                // Handle the next action
+                              }
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF018A08),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
@@ -128,17 +178,28 @@ class TopArcClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    path.moveTo(0, size.height * 0.05); // Start point slightly lower
+    path.moveTo(0, size.height * 0.03);
     path.quadraticBezierTo(
-      size.width / 2, size.height * 0.0, // Control point at the top
-      size.width, size.height * 0.05, // End point slightly lower
+      size.width / 2,
+      size.height * 0.0,
+      size.width,
+      size.height * 0.03,
     );
-    path.lineTo(size.width, size.height); // Line to the bottom right
-    path.lineTo(0, size.height); // Line to the bottom left
-    path.close(); // Complete the path
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.close();
     return path;
   }
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
+String? _validatePhoneNumber(String value) {
+  if (value.isEmpty) {
+    return null;
+  } else if (!RegExp(r'^[0-9]{10,}$').hasMatch(value)) {
+    return 'شماره موبایل وارد شده صحیح نیست.';
+  }
+  return null;
 }
