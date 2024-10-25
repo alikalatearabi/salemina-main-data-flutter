@@ -1,15 +1,17 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:main_app/screens/authentication_page/code_input_page.dart';
 
 class PhoneNumberPage extends StatefulWidget {
   const PhoneNumberPage({super.key});
 
   @override
-  _PhoneNumberPageState createState() => _PhoneNumberPageState();
+  PhoneNumberPageState createState() => PhoneNumberPageState();
 }
 
-class _PhoneNumberPageState extends State<PhoneNumberPage> {
+class PhoneNumberPageState extends State<PhoneNumberPage> {
+   
   final TextEditingController _phoneController = TextEditingController();
   bool _isButtonEnabled = false;
 
@@ -154,7 +156,13 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                         ),
                         onPressed: _isButtonEnabled
                             ? () {
-                                // Handle the next action
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => CodeInputPage(
+                                      phoneNumber: _phoneController.text,
+                                    ),
+                                  ),
+                                );
                               }
                             : null,
                         style: ElevatedButton.styleFrom(
@@ -187,7 +195,9 @@ class _PhoneNumberPageState extends State<PhoneNumberPage> {
                               ..onTap = () {
                                 // Navigator.of(context).push(
                                 //   MaterialPageRoute(
-                                //       builder: (context) => PoliciesPage()),
+                                //     builder: (context) =>
+                                //         const ActivationCodePage(),
+                                //   ),
                                 // );
                               },
                           ),
