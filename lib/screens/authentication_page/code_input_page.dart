@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:main_app/screens/authentication_page/phone_number_page.dart';
+import 'package:main_app/screens/personal_info/personal_info_confirmation.dart';
 import 'package:main_app/services/to_farsi_numbers.dart';
 
 class CodeInputPage extends StatefulWidget {
@@ -282,13 +283,12 @@ class CodeInputPageState extends State<CodeInputPage> {
                         ),
                         onPressed: _isButtonEnabled
                             ? () {
-                                // Navigator.of(context).push(
-                                //   MaterialPageRoute(
-                                //     builder: (context) => CodeInputPage(
-                                //       phoneNumber: _phoneController.text,
-                                //     ),
-                                //   ),
-                                // );
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PersonalInfoConfirmationPage(),
+                                  ),
+                                );
                               }
                             : null,
                         style: ElevatedButton.styleFrom(
