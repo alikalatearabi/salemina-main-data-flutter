@@ -11,7 +11,6 @@ class PhoneNumberPage extends StatefulWidget {
 }
 
 class PhoneNumberPageState extends State<PhoneNumberPage> {
-   
   final TextEditingController _phoneController = TextEditingController();
   bool _isButtonEnabled = false;
 
@@ -45,7 +44,6 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
                 color: Colors.white,
               ),
             ),
-            // Main content
             Directionality(
               textDirection: TextDirection.rtl,
               child: Column(
