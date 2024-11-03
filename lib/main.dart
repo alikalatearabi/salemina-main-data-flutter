@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/personal_info/personal_info_confirmation.dart';
-import 'screens/splash_screen.dart';
+import 'widgets/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
