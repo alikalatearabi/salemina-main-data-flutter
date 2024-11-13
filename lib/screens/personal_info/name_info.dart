@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:main_app/screens/personal_info/gender_page.dart';
 
 class NameInfoPage extends StatefulWidget {
   const NameInfoPage({super.key});
@@ -63,7 +64,7 @@ class NameInfoPageState extends State<NameInfoPage> {
                   const SizedBox(height: 20),
                   _buildNameInput(),
                   const Spacer(),
-                  _buildSubmitButton(),
+                  _buildSubmitButton(context),
                 ],
               ),
             ),
@@ -147,37 +148,46 @@ class NameInfoPageState extends State<NameInfoPage> {
     );
   }
 
-  Widget _buildSubmitButton() {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton.icon(
-        onPressed: _isButtonEnabled ? () {} : null,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: _isButtonEnabled
-              ? const Color(0xFF018A08)
-              : const Color(0x929EABCC),
-          padding: const EdgeInsets.symmetric(vertical: 15),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-        icon: const Padding(
-          padding: EdgeInsets.only(top: 3),
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
-        ),
-        label: const Text(
-          "تایید و ادامه",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 23,
-          ),
+Widget _buildSubmitButton(BuildContext context) {
+  return SizedBox(
+    width: double.infinity,
+    child: ElevatedButton.icon(
+      onPressed: _isButtonEnabled
+          ? () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const GenderPage(), 
+                ),
+              );
+            }
+          : null,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: _isButtonEnabled
+            ? const Color(0xFF018A08)
+            : const Color(0x929EABCC),
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
         ),
       ),
-    );
-  }
+      icon: const Padding(
+        padding: EdgeInsets.only(top: 3),
+        child: Icon(
+          Icons.arrow_back_ios,
+          color: Colors.white,
+        ),
+      ),
+      label: const Text(
+        "تایید و ادامه",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 23,
+        ),
+      ),
+    ),
+  );
+}
 }
 
 class ArcClipper extends CustomClipper<Path> {
