@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:main_app/screens/personal_info/birthday_page.dart';
 
 class GenderPage extends StatefulWidget {
   const GenderPage({super.key});
@@ -115,7 +116,16 @@ class GenderPageState extends State<GenderPage> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
-        onPressed: _isButtonEnabled ? () {} : null,
+        onPressed: _isButtonEnabled
+            ? () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BirthdayPage(),
+                  ),
+                );
+              }
+            : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: _isButtonEnabled
               ? const Color(0xFF018A08)
