@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:main_app/screens/personal_info/weight_page.dart';
 import 'package:main_app/utility/english_to_persian_number.dart';
 
-class HeightPage extends StatefulWidget {
-  const HeightPage({super.key});
+class WeightPage extends StatefulWidget {
+  const WeightPage({super.key});
 
   @override
-  HeightPageState createState() => HeightPageState();
+  WeightPageState createState() => WeightPageState();
 }
 
-class HeightPageState extends State<HeightPage> {
+class WeightPageState extends State<WeightPage> {
   bool _isButtonEnabled = true;
-  int selectedHeight = 170;
+  int selectedWeight = 75;
+  int selectedDecimal = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class HeightPageState extends State<HeightPage> {
                   _buildHeader(),
                   const SizedBox(height: 20),
                   const Text(
-                    "قد خود را به سانتی‌متر مشخص کنید",
+                    "وزن خود را به کیلوگرم مشخص کنید",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 17,
@@ -41,7 +41,7 @@ class HeightPageState extends State<HeightPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  _buildHeightField(),
+                  _buildWeightField(),
                   const Spacer(),
                   _buildSubmitButton(),
                 ],
@@ -59,12 +59,7 @@ class HeightPageState extends State<HeightPage> {
       child: ElevatedButton.icon(
         onPressed: _isButtonEnabled
             ? () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const WeightPage(),
-                  ),
-                );
+                print("Selected Weight: $selectedWeight.${selectedDecimal} kg");
               }
             : null,
         style: ElevatedButton.styleFrom(
@@ -104,7 +99,7 @@ class HeightPageState extends State<HeightPage> {
           const Row(
             children: [
               Text(
-                'قد',
+                'وزن',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 23,
@@ -123,7 +118,7 @@ class HeightPageState extends State<HeightPage> {
               ),
             ),
             child: const Text(
-              "۴ از ۱۲",
+              "۵ از ۱۲",
               style: TextStyle(
                 color: Color(0xFF018A08),
                 fontSize: 18,
@@ -136,7 +131,7 @@ class HeightPageState extends State<HeightPage> {
     );
   }
 
-  Widget _buildHeightField() {
+  Widget _buildWeightField() {
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -144,18 +139,36 @@ class HeightPageState extends State<HeightPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _buildListWheel(
-              itemCount: 201,
-              initialItem: selectedHeight - 50,
+              itemCount: 10,
+              initialItem: selectedDecimal,
               onSelectedItemChanged: (index) => setState(() {
-                selectedHeight = index + 50;
+                selectedDecimal = index;
               }),
-              itemBuilder: (context, index) => _buildHeightItem(index + 50),
+              itemBuilder: (context, index) => _buildWeightItem(index),
+            ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 20),
+              child: const Text(
+                ".",
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            _buildListWheel(
+              itemCount: 200,
+              initialItem: selectedWeight,
+              onSelectedItemChanged: (index) => setState(() {
+                selectedWeight = index;
+              }),
+              itemBuilder: (context, index) => _buildWeightItem(index),
             ),
             const SizedBox(width: 10),
             Container(
               margin: const EdgeInsets.only(bottom: 18),
               child: const Text(
-                "سانتی‌متر",
+                "کیلوگرم",
                 style: TextStyle(
                   fontSize: 18,
                   color: Color(0xFF657381),
@@ -179,14 +192,14 @@ class HeightPageState extends State<HeightPage> {
     );
   }
 
-  Widget _buildHeightItem(int height) {
+  Widget _buildWeightItem(int value) {
     return Text(
-      toPersianNumber(height.toString()),
+      toPersianNumber(value.toString()), 
       style: TextStyle(
-        fontSize: 23,
-        color: height == selectedHeight
-            ? const Color(0xFF232A34)
-            : const Color(0xFF657381),
+        fontSize: (value == selectedWeight || value == selectedDecimal) ? 27 : 22,
+        color: (value == selectedWeight || value == selectedDecimal)
+            ? const Color(0xFF232A34) 
+            : const Color(0xFF657381), 
       ),
     );
   }
