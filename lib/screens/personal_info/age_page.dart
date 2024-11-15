@@ -1,38 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:main_app/screens/personal_info/age_page.dart';
 import 'package:main_app/utility/english_to_persian_number.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 
-class BirthdayPage extends StatefulWidget {
-  const BirthdayPage({super.key});
+class HeightPage extends StatefulWidget {
+  const HeightPage({super.key});
 
   @override
-  BirthdayPageState createState() => BirthdayPageState();
+  HeightPageState createState() => HeightPageState();
 }
 
-class BirthdayPageState extends State<BirthdayPage> {
+class HeightPageState extends State<HeightPage> {
   bool _isButtonEnabled = true;
-
-  // Get today's date in Jalali
-  final Jalali today = Jalali.now();
-  late int selectedDay = today.day;
-  late int selectedMonth = today.month;
-  late int selectedYear = today.year;
-
-  final List<String> persianMonths = [
-    "فروردین",
-    "اردیبهشت",
-    "خرداد",
-    "تیر",
-    "مرداد",
-    "شهریور",
-    "مهر",
-    "آبان",
-    "آذر",
-    "دی",
-    "بهمن",
-    "اسفند"
-  ];
+  int selectedHeight = 170; 
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +32,7 @@ class BirthdayPageState extends State<BirthdayPage> {
                   _buildHeader(),
                   const SizedBox(height: 20),
                   const Text(
-                    'تاریخ تولد خود را مشخص کنید',
+                    "قد خود را به سانتی‌متر مشخص کنید",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 17,
@@ -62,7 +40,7 @@ class BirthdayPageState extends State<BirthdayPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  _buildBirthdayField(),
+                  _buildHeightField(),
                   const Spacer(),
                   _buildSubmitButton(),
                 ],
@@ -74,19 +52,13 @@ class BirthdayPageState extends State<BirthdayPage> {
     );
   }
 
-  // Submit button
   Widget _buildSubmitButton() {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
         onPressed: _isButtonEnabled
             ? () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HeightPage(),
-                  ),
-                );
+                print("Selected Height: $selectedHeight cm");
               }
             : null,
         style: ElevatedButton.styleFrom(
@@ -116,7 +88,6 @@ class BirthdayPageState extends State<BirthdayPage> {
     );
   }
 
-  // Header widget
   Widget _buildHeader() {
     return Container(
       margin: const EdgeInsets.only(top: 30),
@@ -127,7 +98,7 @@ class BirthdayPageState extends State<BirthdayPage> {
           const Row(
             children: [
               Text(
-                "تاریخ تولد",
+                'قد',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 23,
@@ -146,7 +117,7 @@ class BirthdayPageState extends State<BirthdayPage> {
               ),
             ),
             child: const Text(
-              "۳ از ۱۲",
+              "۴ از ۱۲",
               style: TextStyle(
                 color: Color(0xFF018A08),
                 fontSize: 18,
@@ -159,60 +130,27 @@ class BirthdayPageState extends State<BirthdayPage> {
     );
   }
 
-  Widget _buildBirthdayField() {
+  Widget _buildHeightField() {
     return Stack(
       alignment: Alignment.center,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Day picker, with dynamic limit based on selected year and month
             _buildListWheel(
-              itemCount: _getMaxDayCount(),
-              initialItem: _getMaxDayCount() - selectedDay,
+              itemCount: 201,
+              initialItem: selectedHeight - 50,
               onSelectedItemChanged: (index) => setState(() {
-                selectedDay = _getMaxDayCount() - index;
+                selectedHeight = index + 50;
               }),
-              itemBuilder: (context, index) => _buildDateItem(
-                _getMaxDayCount() - index,
-                selectedDay,
-              ),
+              itemBuilder: (context, index) => _buildHeightItem(index + 50),
             ),
-            // Month picker, limited if current year is selected
-            _buildListWheel(
-              itemCount: _getMaxMonthCount(),
-              initialItem: _getMaxMonthCount() - selectedMonth,
-              onSelectedItemChanged: (index) => setState(() {
-                selectedMonth = _getMaxMonthCount() - index;
-                if (selectedYear == today.year &&
-                    selectedMonth == today.month) {
-                  selectedDay =
-                      selectedDay > today.day ? today.day : selectedDay;
-                }
-              }),
-              itemBuilder: (context, index) => _buildDateItem(
-                persianMonths[_getMaxMonthCount() - 1 - index],
-                persianMonths[selectedMonth - 1],
-              ),
-            ),
-            // Year picker, limited to current year
-            _buildListWheel(
-              itemCount: today.year - 1300 + 1,
-              initialItem: (today.year - 1300 + 1) - (selectedYear - 1300) - 1,
-              onSelectedItemChanged: (index) => setState(() {
-                selectedYear = today.year - index;
-                if (selectedYear == today.year) {
-                  selectedMonth =
-                      selectedMonth > today.month ? today.month : selectedMonth;
-                  if (selectedMonth == today.month) {
-                    selectedDay =
-                        selectedDay > today.day ? today.day : selectedDay;
-                  }
-                }
-              }),
-              itemBuilder: (context, index) => _buildDateItem(
-                today.year - index,
-                selectedYear,
+            const SizedBox(width: 10),
+            Container(
+              margin: const EdgeInsets.only(bottom: 20),
+              child: const Text(
+                "سانتی‌متر",
+                style: TextStyle(fontSize: 18, color: Color(0xFF657381)),
               ),
             ),
           ],
@@ -232,35 +170,18 @@ class BirthdayPageState extends State<BirthdayPage> {
     );
   }
 
-  // Build a single item with opacity based on selection
-  Widget _buildDateItem(dynamic item, dynamic selectedItem) {
+  Widget _buildHeightItem(int height) {
     return Text(
-      toPersianNumber(item.toString()),
+      toPersianNumber(height.toString()), 
       style: TextStyle(
-        fontSize: 22,
-        color:
-            item == selectedItem ? Colors.black : Colors.black.withOpacity(0.4),
+        fontSize: 23,
+        color: height == selectedHeight
+            ? const Color(0xFF232A34)
+            : const Color(0xFF657381),
       ),
     );
   }
 
-  // Calculate max days based on selected year and month
-  int _getMaxDayCount() {
-    if (selectedYear == today.year && selectedMonth == today.month) {
-      return today.day;
-    }
-    return 31;
-  }
-
-  // Calculate max months based on selected year
-  int _getMaxMonthCount() {
-    if (selectedYear == today.year) {
-      return today.month;
-    }
-    return 12;
-  }
-
-  // Reusable ListWheel for days, months, years
   Widget _buildListWheel({
     required int itemCount,
     required int initialItem,
@@ -285,7 +206,6 @@ class BirthdayPageState extends State<BirthdayPage> {
   }
 }
 
-// Custom clipper for the arc shape at the top
 class ArcClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
