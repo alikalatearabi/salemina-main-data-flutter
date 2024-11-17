@@ -82,12 +82,12 @@ class GenderPageState extends State<GenderPage> {
           curve: Curves.easeInOut,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            border: Border.all(
-              color: _selectedGender == gender
-                  ? const Color(0xFF018A08)
-                  : Colors.transparent,
-              width: 2,
-            ),
+            // border: Border.all(
+            //   color: _selectedGender == gender
+            //       ? const Color(0xFF018A08)
+            //       : Colors.transparent,
+            //   width: 2,
+            // ),
             boxShadow: _selectedGender == gender
                 ? [
                     BoxShadow(
@@ -99,10 +99,17 @@ class GenderPageState extends State<GenderPage> {
                   ]
                 : [],
           ),
-          child: AspectRatio(
-            aspectRatio: 1,
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            switchInCurve: Curves.easeInOut,
+            switchOutCurve: Curves.easeInOut,
             child: Image.asset(
-              imageAsset,
+              _selectedGender == gender
+                  ? imageAsset.replaceFirst('.png', '_active.png')
+                  : imageAsset,
+              key: ValueKey(_selectedGender == gender
+                  ? 'active_$gender'
+                  : 'inactive_$gender'),
               fit: BoxFit.contain,
             ),
           ),
