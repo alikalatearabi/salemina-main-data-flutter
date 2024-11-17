@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:main_app/screens/personal_info/ideal_weight_page.dart';
 import 'package:main_app/utility/english_to_persian_number.dart';
 
-class WeightPage extends StatefulWidget {
-  const WeightPage({super.key});
+class IdealWeightPage extends StatefulWidget {
+  const IdealWeightPage({super.key});
 
   @override
-  WeightPageState createState() => WeightPageState();
+  IdealWeightPageState createState() => IdealWeightPageState();
 }
 
-class WeightPageState extends State<WeightPage> {
+class IdealWeightPageState extends State<IdealWeightPage> {
   bool _isButtonEnabled = true;
   int selectedWeight = 75;
   int selectedDecimal = 0;
@@ -34,7 +33,7 @@ class WeightPageState extends State<WeightPage> {
                   _buildHeader(),
                   const SizedBox(height: 20),
                   const Text(
-                    "وزن خود را به کیلوگرم مشخص کنید",
+                    "لطفا وزن ایده‌آل خود را به کیلوگرم وارد کنید",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 17,
@@ -60,12 +59,7 @@ class WeightPageState extends State<WeightPage> {
       child: ElevatedButton.icon(
         onPressed: _isButtonEnabled
             ? () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const IdealWeightPage(),
-                  ),
-                );
+                print("Selected Weight: $selectedWeight.${selectedDecimal} kg");
               }
             : null,
         style: ElevatedButton.styleFrom(
@@ -105,7 +99,7 @@ class WeightPageState extends State<WeightPage> {
           const Row(
             children: [
               Text(
-                'وزن',
+                "وزن ایده‌آل",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 23,
@@ -124,7 +118,7 @@ class WeightPageState extends State<WeightPage> {
               ),
             ),
             child: const Text(
-              "۵ از ۱۲",
+              "۶ از ۱۲",
               style: TextStyle(
                 color: Color(0xFF018A08),
                 fontSize: 18,
@@ -138,59 +132,76 @@ class WeightPageState extends State<WeightPage> {
   }
 
   Widget _buildWeightField() {
-    return Stack(
-      alignment: Alignment.center,
+    return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        Stack(
+          alignment: Alignment.center,
           children: [
-            _buildListWheel(
-              itemCount: 10,
-              initialItem: selectedDecimal,
-              onSelectedItemChanged: (index) => setState(() {
-                selectedDecimal = index;
-              }),
-              itemBuilder: (context, index) => _buildWeightItem(index),
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 20),
-              child: const Text(
-                ".",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildListWheel(
+                  itemCount: 10,
+                  initialItem: selectedDecimal,
+                  onSelectedItemChanged: (index) => setState(() {
+                    selectedDecimal = index;
+                  }),
+                  itemBuilder: (context, index) => _buildWeightItem(index),
                 ),
-              ),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 20),
+                  child: const Text(
+                    ".",
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                _buildListWheel(
+                  itemCount: 200,
+                  initialItem: selectedWeight,
+                  onSelectedItemChanged: (index) => setState(() {
+                    selectedWeight = index;
+                  }),
+                  itemBuilder: (context, index) => _buildWeightItem(index),
+                ),
+                const SizedBox(width: 10),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 18),
+                  child: const Text(
+                    "کیلوگرم",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Color(0xFF657381),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            _buildListWheel(
-              itemCount: 200,
-              initialItem: selectedWeight,
-              onSelectedItemChanged: (index) => setState(() {
-                selectedWeight = index;
-              }),
-              itemBuilder: (context, index) => _buildWeightItem(index),
-            ),
-            const SizedBox(width: 10),
-            Container(
-              margin: const EdgeInsets.only(bottom: 18),
-              child: const Text(
-                "کیلوگرم",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Color(0xFF657381),
+            IgnorePointer(
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 18),
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border.all(color: const Color(0xFF018A08), width: 2),
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
             ),
           ],
         ),
-        IgnorePointer(
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 18),
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: 50,
-            decoration: BoxDecoration(
-              border: Border.all(color: const Color(0xFF018A08), width: 2),
-              borderRadius: BorderRadius.circular(12),
+        const SizedBox(height: 20),
+        const Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Text(
+            "محدوده سلامت BMI شما طبق محاسبات سالمینا مطابق محدوده سبز مشخص شده پایین می‌باشد.\nلطفا وزن هدف خود را در محدوده ایده‌آل سبز رنگ مشخص کنید.",
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              fontSize: 15,
+              color: Color(0xFF657381),
+              height: 1.5,
             ),
           ),
         ),
