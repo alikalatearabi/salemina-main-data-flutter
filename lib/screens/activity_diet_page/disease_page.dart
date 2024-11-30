@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:main_app/screens/activity_diet_page/diet_page.dart';
 
 class DiseasePage extends StatefulWidget {
   const DiseasePage({super.key});
@@ -362,7 +363,11 @@ class DiseasePageState extends State<DiseasePage> {
       width: double.infinity,
       child: ElevatedButton.icon(
         onPressed: () {
-          print(selectedConditions);
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const DietPage(),
+            ),
+          );
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF018A08),
