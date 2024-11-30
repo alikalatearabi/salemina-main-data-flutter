@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:main_app/screens/activity_diet_page/allergies_page.dart';
 
 class PreferredFoodPage extends StatefulWidget {
   const PreferredFoodPage({super.key});
@@ -198,7 +199,11 @@ class PreferredFoodPageState extends State<PreferredFoodPage> {
       child: ElevatedButton.icon(
         onPressed: isEnabled
             ? () {
-                print("Selected Preference: $selectedPreference");
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AllergiesPage(),
+                  ),
+                );
               }
             : null,
         style: ElevatedButton.styleFrom(
