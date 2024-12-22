@@ -72,6 +72,7 @@ flutter:
     - assets/gender_man.png
     - assets/gender_man_active.png
     - assets/gender_woman_active.png
+    - assets/icons/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
