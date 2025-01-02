@@ -57,8 +57,8 @@ class PreferredFoodPageState extends State<PreferredFoodPage> {
             Padding(
               padding: const EdgeInsets.only(
                 top: 120,
-                left: 16,
-                right: 16,
+                left: 25,
+                right: 25,
                 bottom: 16,
               ),
               child: Column(
@@ -73,6 +73,7 @@ class PreferredFoodPageState extends State<PreferredFoodPage> {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
+                          color: const Color(0xFFE8F5E9),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: const Color(0xFF018A08),
@@ -84,7 +85,7 @@ class PreferredFoodPageState extends State<PreferredFoodPage> {
                           style: TextStyle(
                             color: Color(0xFF018A08),
                             fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ),
@@ -134,8 +135,7 @@ class PreferredFoodPageState extends State<PreferredFoodPage> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          selectedPreference =
-              isSelected ? null : preference.title; // Toggle selection
+          selectedPreference = isSelected ? null : preference.title;
         });
       },
       child: AnimatedContainer(
@@ -143,50 +143,55 @@ class PreferredFoodPageState extends State<PreferredFoodPage> {
         margin: const EdgeInsets.symmetric(vertical: 8),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isSelected
                 ? const Color(0xFF018A08)
-                : const Color(0xFFEEEEEE), // Light border for unselected
-            width: 2,
+                : const Color.fromARGB(255, 197, 203, 209),
+            width: isSelected ? 2 : 1,
           ),
           color: isSelected ? const Color(0xFFE8F5E9) : Colors.white,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    preference.title,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: isSelected
-                          ? const Color(0xFF018A08)
-                          : const Color(0xFF232A34),
-                    ),
-                  ),
-                  if (preference.description.isNotEmpty) ...[
-                    const SizedBox(height: 8),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Text(
-                      preference.description,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
+                      preference.title,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                        color: isSelected
+                            ? const Color(0xFF018A08)
+                            : const Color(0xFF232A34),
                       ),
                     ),
+                    if (preference.description.isNotEmpty) ...[
+                      const SizedBox(height: 8),
+                      Text(
+                        preference.description,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
-            ),
-            Icon(
-              isSelected ? Icons.radio_button_checked : Icons.radio_button_off,
-              color: isSelected ? const Color(0xFF018A08) : Colors.grey,
-            ),
-          ],
+              Icon(
+                isSelected
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_off,
+                color: isSelected ? const Color(0xFF018A08) : Colors.grey,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -235,8 +240,8 @@ class TopCurveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-    path.lineTo(0, 100);
-    path.quadraticBezierTo(size.width / 2, 50, size.width, 100);
+    path.lineTo(0, 80);
+    path.quadraticBezierTo(size.width / 2, 50, size.width, 80);
     path.lineTo(size.width, 0);
     path.close();
     return path;

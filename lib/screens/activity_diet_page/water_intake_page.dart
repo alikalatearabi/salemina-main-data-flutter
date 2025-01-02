@@ -27,7 +27,7 @@ class WaterIntakePageState extends State<WaterIntakePage> {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                top: 120,
+               top: 120,
                 left: 25,
                 right: 25,
                 bottom: 16,
@@ -49,11 +49,11 @@ class WaterIntakePageState extends State<WaterIntakePage> {
                           ),
                         ),
                         child: const Text(
-                          "۱۳ از ۱۲",
+                          "۱۳ از ۱۳",
                           style: TextStyle(
                             color: Color(0xFF018A08),
                             fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ),

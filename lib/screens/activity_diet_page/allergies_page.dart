@@ -53,8 +53,8 @@ class AllergiesPageState extends State<AllergiesPage> {
             Padding(
               padding: const EdgeInsets.only(
                 top: 120,
-                left: 16,
-                right: 16,
+                left: 25,
+                right: 25,
                 bottom: 16,
               ),
               child: Column(
@@ -67,6 +67,7 @@ class AllergiesPageState extends State<AllergiesPage> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
+                          color: const Color(0xFFE8F5E9),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: const Color(0xFF018A08),
@@ -78,7 +79,7 @@ class AllergiesPageState extends State<AllergiesPage> {
                           style: TextStyle(
                             color: Color(0xFF018A08),
                             fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ),
