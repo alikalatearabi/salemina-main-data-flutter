@@ -59,7 +59,7 @@ class NameInfoPageState extends State<NameInfoPage> {
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 17,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.normal),
                   ),
                   const SizedBox(height: 20),
                   _buildNameInput(),
@@ -92,7 +92,7 @@ class NameInfoPageState extends State<NameInfoPage> {
                 "نام و نام‌خانوادگی",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 23,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -121,7 +121,7 @@ class NameInfoPageState extends State<NameInfoPage> {
     );
   }
 
-  Widget _buildNameInput() {
+  Widget  _buildNameInput() {
     return TextField(
       controller: _nameController,
       decoration: InputDecoration(
@@ -166,7 +166,7 @@ Widget _buildSubmitButton(BuildContext context) {
         backgroundColor: _isButtonEnabled
             ? const Color(0xFF018A08)
             : const Color(0x929EABCC),
-        padding: const EdgeInsets.symmetric(vertical: 15),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),

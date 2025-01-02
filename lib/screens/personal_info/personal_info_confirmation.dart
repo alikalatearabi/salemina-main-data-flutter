@@ -80,7 +80,7 @@ class PersonalInfoConfirmationPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            width: 100,
+            width: 80,
             child: ElevatedButton(
               onPressed: () {},
               style: _buttonStyle(Colors.grey[200]!),
@@ -88,7 +88,7 @@ class PersonalInfoConfirmationPage extends StatelessWidget {
                 "رد کردن",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 17,
+                  fontSize: 16,
                 ),
               ),
             ),
@@ -136,7 +136,13 @@ class PersonalInfoConfirmationPage extends StatelessWidget {
               ),
             );
           },
-          style: _buttonStyle(const Color(0xFF018A08)),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF018A08),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+          ),
           icon: const Padding(
             padding: EdgeInsets.only(top: 3),
             child: Icon(
@@ -149,7 +155,7 @@ class PersonalInfoConfirmationPage extends StatelessWidget {
             "شروع",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 23,
+              fontSize: 22,
             ),
           ),
         ),
@@ -163,7 +169,7 @@ class PersonalInfoConfirmationPage extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
     );
   }
 }

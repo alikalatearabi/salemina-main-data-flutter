@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:main_app/screens/activity_diet_page/activity_level_page.dart';
 import 'package:main_app/utility/english_to_persian_number.dart';
 
 class IdealWeightPage extends StatefulWidget {
@@ -37,7 +38,7 @@ class IdealWeightPageState extends State<IdealWeightPage> {
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 17,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -59,14 +60,19 @@ class IdealWeightPageState extends State<IdealWeightPage> {
       child: ElevatedButton.icon(
         onPressed: _isButtonEnabled
             ? () {
-                print("Selected Weight: $selectedWeight.${selectedDecimal} kg");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ActivityLevelPage(),
+                  ),
+                );
               }
             : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: _isButtonEnabled
               ? const Color(0xFF018A08)
               : const Color(0x929EABCC),
-          padding: const EdgeInsets.symmetric(vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),

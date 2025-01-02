@@ -42,7 +42,7 @@ class ActivityLevelPageState extends State<ActivityLevelPage> {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                top: 90,
+                top: 80,
                 left: 25,
                 right: 25,
                 bottom: 16,
@@ -60,6 +60,7 @@ class ActivityLevelPageState extends State<ActivityLevelPage> {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
+                          color: const Color(0xFFE8F5E9),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: const Color(0xFF018A08),
@@ -71,7 +72,7 @@ class ActivityLevelPageState extends State<ActivityLevelPage> {
                           style: TextStyle(
                             color: Color(0xFF018A08),
                             fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ),
@@ -92,7 +93,7 @@ class ActivityLevelPageState extends State<ActivityLevelPage> {
                     "میزان فعالیت خود را مشخص کنید.",
                     style: TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.normal,
                       color: Colors.black,
                     ),
                   ),
@@ -121,42 +122,50 @@ class ActivityLevelPageState extends State<ActivityLevelPage> {
         margin: const EdgeInsets.symmetric(vertical: 8),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? const Color(0xFF018A08) : Colors.transparent,
-            width: 2,
+            color: isSelected
+                ? const Color(0xFF018A08)
+                : const Color.fromARGB(255, 197, 203, 209),
+            width: isSelected ? 2 : 1,
           ),
           color: isSelected ? const Color(0xFFE8F5E9) : Colors.white,
         ),
-        child: Row(
-          children: [
-            Icon(
-              isSelected ? Icons.radio_button_checked : Icons.radio_button_off,
-              color: isSelected ? const Color(0xFF018A08) : Colors.grey,
-            ),
-            const SizedBox(width: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  option.title,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: isSelected ? const Color(0xFF018A08) : Colors.black,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    option.title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color:
+                          isSelected ? const Color(0xFF018A08) : Colors.black,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  option.description,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
+                  const SizedBox(height: 4),
+                  Text(
+                    option.description,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+              Icon(
+                isSelected
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_off,
+                color: isSelected ? const Color(0xFF018A08) : Colors.grey,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -179,7 +188,7 @@ class ActivityLevelPageState extends State<ActivityLevelPage> {
         style: ElevatedButton.styleFrom(
           backgroundColor:
               isEnabled ? const Color(0xFF018A08) : const Color(0xFF9E9E9E),
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -205,8 +214,8 @@ class TopCurveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-    path.lineTo(0, 100);
-    path.quadraticBezierTo(size.width / 2, 50, size.width, 100);
+    path.lineTo(0, 80);
+    path.quadraticBezierTo(size.width / 2, 50, size.width, 80);
     path.lineTo(size.width, 0);
     path.close();
     return path;

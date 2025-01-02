@@ -58,7 +58,7 @@ class BirthdayPageState extends State<BirthdayPage> {
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 17,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -93,7 +93,7 @@ class BirthdayPageState extends State<BirthdayPage> {
           backgroundColor: _isButtonEnabled
               ? const Color(0xFF018A08)
               : const Color(0x929EABCC),
-          padding: const EdgeInsets.symmetric(vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
