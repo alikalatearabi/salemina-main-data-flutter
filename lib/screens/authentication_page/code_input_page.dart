@@ -130,10 +130,10 @@ class CodeInputPageState extends State<CodeInputPage> {
                         const SizedBox(height: 10),
                         Text(
                           'کد فعال‌سازی ارسال شده به شماره ${toFarsiNumber(widget.phoneNumber)} را وارد کنید.',
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.right,
                           style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
                               color: Color(0xFF000000)),
                         ),
                       ],
@@ -173,41 +173,47 @@ class CodeInputPageState extends State<CodeInputPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: List.generate(5, (index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.16,
-                            height: 60,
-                            child: TextFormField(
-                              controller: _controllers[index],
-                              focusNode: _focusNodes[index],
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              maxLength: 1,
-                              style: const TextStyle(fontSize: 24),
-                              decoration: InputDecoration(
-                                counterText: '',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color: _focusNodes[index].hasFocus
-                                        ? const Color(0xFF232A34)
-                                        : const Color(0xFF657381),
-                                    width: 2,
+                        return Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 4.0,
+                            ),
+                            child: SizedBox(
+                              height: 60,
+                              child: TextFormField(
+                                controller: _controllers[index],
+                                focusNode: _focusNodes[index],
+                                keyboardType: TextInputType.number,
+                                textAlign: TextAlign.center,
+                                maxLength: 1,
+                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 15,
+                                  ),
+                                  counterText: '',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: BorderSide(
+                                      color: _focusNodes[index].hasFocus
+                                          ? const Color(0xFF232A34)
+                                          : const Color(0xFF657381),
+                                      width: 2,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: const BorderSide(
+                                      color: Color(0xFF232A34),
+                                      width: 2,
+                                    ),
                                   ),
                                 ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: const BorderSide(
-                                    color: Color(0xFF232A34),
-                                    width: 2,
-                                  ),
-                                ),
+                                onChanged: (value) {
+                                  _checkCodeLength();
+                                  _onInputChange(value, index);
+                                },
                               ),
-                              onChanged: (value) {
-                                _checkCodeLength();
-                                _onInputChange(value, index);
-                              },
                             ),
                           ),
                         );

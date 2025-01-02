@@ -191,12 +191,6 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                // Navigator.of(context).push(
-                                //   MaterialPageRoute(
-                                //     builder: (context) =>
-                                //         const ActivationCodePage(),
-                                //   ),
-                                // );
                               },
                           ),
                           const TextSpan(text: ' می‌باشد.'),

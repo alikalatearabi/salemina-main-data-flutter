@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:main_app/screens/home_page/circular_progress.dart';
+import 'package:main_app/screens/home_page/header_section.dart';
+import 'package:main_app/screens/home_page/nutrition_stats.dart';
+import 'package:main_app/screens/home_page/water_tracker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -45,106 +49,11 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   children: [
                     // Header Content
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 15),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'خانه',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 2,
-                                ),
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.transparent,
-                              ),
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 8,
-                                ),
-                                child: Text(
-                                  'خرید اشتراک',
-                                  style: TextStyle(
-                                    color: Colors.white, // White text color
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    const HeaderSection(),
                     // Circular Progress Indicator
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Container(
-                            width: 200,
-                            height: 200,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.green[400],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: CircularProgressIndicator(
-                                value: 0.75,
-                                strokeWidth: 12,
-                                backgroundColor: Colors.green[300]!,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          const Column(
-                            children: [
-                              Text(
-                                '٥٥٥٥',
-                                style: TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(
-                                'از ٥٥٥٥ کیلوکالری',
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    const CircularProgress(),                    
                     // Nutrition Stats
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buildNutritionStat('چربی', '٥٥٥', true),
-                          _buildNutritionStat('قند', '٥٥٥', true),
-                          _buildNutritionStat('اسید چرب', '٥٥٥', true),
-                          _buildNutritionStat('نمک', '٥٥٥', true),
-                        ],
-                      ),
-                    ),
+                    const NutritionStats(),
                     // Add Meal Button
                     Transform.translate(
                       offset: const Offset(0, 20),
@@ -153,7 +62,9 @@ class HomePage extends StatelessWidget {
                         child: SizedBox(
                           width: 200,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _openCenterModal(context);
+                            },
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
@@ -255,39 +166,6 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildNutritionStat(String label, String value, bool isWhite) {
-    final textColor = isWhite ? Colors.white : Colors.black;
-    final secondaryColor = isWhite ? Colors.white70 : Colors.grey;
-
-    return Column(
-      children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: textColor,
-          ),
-        ),
-        Text(
-          label,
-          style: TextStyle(
-            color: secondaryColor,
-            fontSize: 12,
-          ),
-        ),
-        Container(
-          width: 50,
-          height: 4,
-          margin: const EdgeInsets.only(top: 4),
-          decoration: BoxDecoration(
-            color: isWhite ? Colors.white30 : Colors.green.shade200,
-            borderRadius: BorderRadius.circular(2),
-          ),
-        ),
-      ],
     );
   }
 
@@ -399,7 +277,8 @@ Widget _buildHealthTracker(double healthValue) {
                         isHealthy
                             ? Icons.sentiment_very_satisfied
                             : Icons.sentiment_very_dissatisfied,
-                        color: isHealthy ? Colors.green : const Color(0xFFD44661),
+                        color:
+                            isHealthy ? Colors.green : const Color(0xFFD44661),
                         size: 26,
                       ),
                     ),
@@ -458,127 +337,50 @@ Widget _buildHealthTracker(double healthValue) {
   );
 }
 
-class WaterTracker extends StatefulWidget {
-  const WaterTracker({super.key});
-
-  @override
-  _WaterTrackerState createState() => _WaterTrackerState();
-}
-
-class _WaterTrackerState extends State<WaterTracker> {
-  int _selectedCups = 0; // Number of selected cups of water
-  final int _totalCups = 9; // Total number of cups available
-
-  @override
-  Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Container(
+void _openCenterModal(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
           padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.shade200,
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              // Header with title and count display
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: RadialGradient(
-                            colors: [
-                              Colors.green.shade50,
-                              Colors.green.shade50,
-                              Colors.white,
-                            ],
-                            stops: const [0.0, 0.7, 1.0],
-                            center: Alignment.center,
-                            radius: 0.8,
-                          ),
-                        ),
-                        child: const Icon(
-                          Icons.water_drop,
-                          color: Colors.green,
-                          size: 20,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      const Text(
-                        'آب',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      '$_selectedCups از $_totalCups لیوان',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ],
+              const Text(
+                'مصرف وعده غذایی',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 16),
-              // Clickable water drops
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(
-                  _totalCups,
-                  (index) => GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        // Update selected cups based on user click
-                        if (index < _selectedCups) {
-                          _selectedCups = index; // Deselect cup
-                        } else {
-                          _selectedCups = index + 1; // Select cup
-                        }
-                      });
-                    },
-                    child: Icon(
-                      Icons.water_drop_outlined,
-                      color: index < _selectedCups
-                          ? Colors.blue
-                          : Colors.grey[300],
-                      size: 28,
-                    ),
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'نام وعده غذایی',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context); // Close the modal
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
+                child: const Text('ثبت'),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
+      );
+    },
+  );
 }
