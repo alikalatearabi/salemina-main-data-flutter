@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:main_app/screens/activity_diet_page/disease_page.dart';
 import 'package:main_app/screens/activity_diet_page/prefered_food_page.dart';
 
 class DietPage extends StatefulWidget {
@@ -60,6 +59,7 @@ class DietPageState extends State<DietPage> {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
+                          color: const Color(0xFFE8F5E9),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: const Color(0xFF018A08),
@@ -71,7 +71,7 @@ class DietPageState extends State<DietPage> {
                           style: TextStyle(
                             color: Color(0xFF018A08),
                             fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ),
@@ -89,10 +89,10 @@ class DietPageState extends State<DietPage> {
                   ),
                   const SizedBox(height: 12),
                   const Text(
-                    "میزان فعالیت خود را مشخص کنید.",
+                    "میزان اشتهای خود را مشخص کنید.",
                     style: TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.normal,
                       color: Colors.black,
                     ),
                   ),
@@ -121,35 +121,43 @@ class DietPageState extends State<DietPage> {
         margin: const EdgeInsets.symmetric(vertical: 8),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? const Color(0xFF018A08) : Colors.transparent,
-            width: 2,
+            color: isSelected
+                ? const Color(0xFF018A08)
+                : const Color.fromARGB(255, 197, 203, 209),
+            width: isSelected ? 2 : 1,
           ),
           color: isSelected ? const Color(0xFFE8F5E9) : Colors.white,
         ),
-        child: Row(
-          children: [
-            Icon(
-              isSelected ? Icons.radio_button_checked : Icons.radio_button_off,
-              color: isSelected ? const Color(0xFF018A08) : Colors.grey,
-            ),
-            const SizedBox(width: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  option.title,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: isSelected ? const Color(0xFF018A08) : Colors.black,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    option.title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      color:
+                          isSelected ? const Color(0xFF018A08) : Colors.black,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-              ],
-            ),
-          ],
+                  const SizedBox(height: 4),
+                ],
+              ),
+              Icon(
+                isSelected
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_off,
+                color: isSelected ? const Color(0xFF018A08) : Colors.grey,
+              ),
+            ],
+          ),
         ),
       ),
     );
