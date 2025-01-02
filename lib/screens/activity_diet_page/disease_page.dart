@@ -61,6 +61,7 @@ class DiseasePageState extends State<DiseasePage> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
+                          color: const Color(0xFFE8F5E9),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: const Color(0xFF018A08),
@@ -154,8 +155,8 @@ class DiseasePageState extends State<DiseasePage> {
                 Text(
                   disease.name,
                   style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                     color: Color(0xFF232A34),
                   ),
                 ),
@@ -167,12 +168,17 @@ class DiseasePageState extends State<DiseasePage> {
                   Text(
                     selectedCondition!,
                     style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
+                      fontSize: 17,
+                      color: Color(0xFF018A08),
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  const Icon(Icons.edit, color: Colors.grey, size: 20),
+                  const SizedBox(width: 16),
+                  Image.asset(
+                    'assets/icons/edit.png',
+                    width: 22, 
+                    height: 22, 
+                    color: Colors.black, 
+                  )
                 ],
               ),
           ],
@@ -182,19 +188,24 @@ class DiseasePageState extends State<DiseasePage> {
   }
 
   Widget _buildDialogHeader(Disease disease) {
-    final selected = selectedConditions[disease.name] ?? "انتخاب نشده";
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          "وضعیت ${disease.name}: $selected",
+          "وضعیت ${disease.name}",
           style: const TextStyle(
-            fontSize: 16,
+            fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Color(0xFF018A08),
+            color: Color(0xFF000000),
           ),
         ),
-        const Divider(color: Colors.grey),
+        IconButton(
+          icon: const Icon(Icons.close, color: Colors.grey),
+          onPressed: () {
+            Navigator.pop(context); // Close the dialog
+          },
+        ),
       ],
     );
   }
@@ -241,23 +252,36 @@ class DiseasePageState extends State<DiseasePage> {
                           return GestureDetector(
                             onTap: () {
                               dialogSetState(() {
-                                selectedConditions[disease.name] = option;
+                                if (isSelected) {
+                                  // Deselect the item
+                                  selectedConditions.remove(disease.name);
+                                } else {
+                                  // Select the item
+                                  selectedConditions[disease.name] = option;
+                                }
                               });
 
                               setState(() {
-                                selectedConditions[disease.name] = option;
+                                if (isSelected) {
+                                  // Deselect the item
+                                  selectedConditions.remove(disease.name);
+                                } else {
+                                  // Select the item
+                                  selectedConditions[disease.name] = option;
+                                }
                               });
                             },
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 200),
                               margin: const EdgeInsets.symmetric(vertical: 8),
-                              padding: const EdgeInsets.all(12),
+                              padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
                                   color: isSelected
                                       ? const Color(0xFF018A08)
-                                      : const Color(0xFFE0E0E0),
+                                      : const Color.fromARGB(
+                                          255, 238, 238, 238),
                                   width: 2,
                                 ),
                                 color: isSelected
@@ -272,7 +296,7 @@ class DiseasePageState extends State<DiseasePage> {
                                     option,
                                     style: TextStyle(
                                       fontSize: 16,
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.normal,
                                       color: isSelected
                                           ? const Color(0xFF018A08)
                                           : Colors.black,
@@ -291,40 +315,6 @@ class DiseasePageState extends State<DiseasePage> {
                             ),
                           );
                         }),
-                        if (selectedConditions[disease.name] != null)
-                          GestureDetector(
-                            onTap: () {
-                              dialogSetState(() {
-                                selectedConditions.remove(disease.name);
-                              });
-                              setState(() {
-                                selectedConditions.remove(disease.name);
-                              });
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 8),
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFFFEDED),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: Colors.red, width: 2),
-                              ),
-                              child: const Row(
-                                children: [
-                                  Icon(Icons.delete, color: Colors.red),
-                                  SizedBox(width: 16),
-                                  Text(
-                                    "حذف انتخاب",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
                         const SizedBox(height: 16),
                         SizedBox(
                           width: double.infinity,
@@ -333,16 +323,19 @@ class DiseasePageState extends State<DiseasePage> {
                               Navigator.pop(context);
                             },
                             style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
                               backgroundColor: const Color(0xFF018A08),
                               elevation: 2,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(15),
                               ),
                             ),
                             child: const Text(
                               "تایید و ذخیره",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                              ),
                             ),
                           ),
                         ),
