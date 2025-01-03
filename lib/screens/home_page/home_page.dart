@@ -1,386 +1,246 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:main_app/screens/home_page/circular_progress.dart';
-import 'package:main_app/screens/home_page/header_section.dart';
-import 'package:main_app/screens/home_page/nutrition_stats.dart';
-import 'package:main_app/screens/home_page/water_tracker.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.green,
-        scaffoldBackgroundColor: Colors.white,
-      ),
-      home: const HomePage(),
-    );
-  }
-}
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Header Section
-            Container(
-              padding: const EdgeInsets.only(top: 0),
-              decoration: const BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
-              ),
-              child: SafeArea(
-                child: Column(
-                  children: [
-                    // Header Content
-                    const HeaderSection(),
-                    // Circular Progress Indicator
-                    const CircularProgress(),                    
-                    // Nutrition Stats
-                    const NutritionStats(),
-                    // Add Meal Button
-                    Transform.translate(
-                      offset: const Offset(0, 20),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: SizedBox(
-                          width: 200,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              _openCenterModal(context);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 16,
-                              ),
-                              backgroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              side: const BorderSide(
-                                color: Color(0xFF82C786),
-                                width: 1,
-                              ),
-                              elevation: 2,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.add, color: Colors.green[700]),
-                                const SizedBox(width: 8),
-                                Text(
-                                  'مصرف وعده غذایی',
-                                  style: TextStyle(
-                                    color: Colors.green[700],
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 30), // Space for overlapping button
-            // Main Content
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildActionButton('رتبه‌بندی خوشه‌ها', Icons.bar_chart),
-                  _buildActionButton('مقایسه محصولات', Icons.compare_arrows),
-                ],
-              ),
-            ),
-            // Health Tracker
-            _buildHealthTracker(0.3),
-            // Water Tracker
-            const WaterTracker(),
-            const SizedBox(height: 16),
-          ],
-        ),
-      ),
-      // Bottom Navigation
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.green,
-        unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'خانه',
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: 'داشبورد',
-          ),
-          BottomNavigationBarItem(
-            icon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.green,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.green.withOpacity(0.3),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: const Icon(Icons.add, color: Colors.white),
-            ),
-            label: '',
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'جستجو',
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'پروفایل',
-          ),
-        ],
-      ),
-    );
-  }
+    final screenHeight = MediaQuery.of(context).size.height;
 
-  Widget _buildActionButton(String label, IconData icon) {
-    return Container(
-      width: 170,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade200,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
+    return Scaffold(
+      body: Column(
         children: [
           Container(
-            width: 55,
-            height: 55,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: RadialGradient(
-                colors: [
-                  Colors.green.shade200,
-                  Colors.green.shade100,
-                  Colors.green.shade50,
-                  Colors.white,
-                ],
-                stops: const [0.0, 0.2, 0.8, 1.0],
-                center: Alignment.center,
-                radius: 0.8,
+            height: screenHeight * 0.50,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/home_back.png'),
+                fit: BoxFit.cover,
               ),
             ),
-            child: Icon(
-              icon,
-              color: Colors.green,
-              size: 24,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-Widget _buildHealthTracker(double healthValue) {
-  bool isHealthy = healthValue >= 0.5;
-
-  return Directionality(
-    textDirection: TextDirection.rtl,
-    child: Padding(
-      padding: const EdgeInsets.all(16),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade200,
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
               children: [
-                Row(
-                  children: [
-                    Text(
-                      isHealthy ? 'سلامت کامل' : 'ریسک بالا',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: RadialGradient(
-                          colors: [
-                            isHealthy
-                                ? Colors.green.shade50
-                                : Colors.red.shade100,
-                            Colors.white,
-                          ],
-                          stops: const [0.0, 0.7],
-                          center: Alignment.center,
-                          radius: 0.8,
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 50, right: 20, left: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'خانه',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      child: Icon(
-                        isHealthy
-                            ? Icons.sentiment_very_satisfied
-                            : Icons.sentiment_very_dissatisfied,
-                        color:
-                            isHealthy ? Colors.green : const Color(0xFFD44661),
-                        size: 26,
-                      ),
-                    ),
-                  ],
-                ),
-                if (!isHealthy)
-                  GestureDetector(
-                    onTap: () {
-                      // Handle click event for "هشدارها"
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.red.shade100,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Row(
-                        children: [
-                          Text(
-                            'هشدارها',
-                            style: TextStyle(
-                              color: Color(0xFFD44661),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
+                        OutlinedButton(
+                          onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                            ),
+                            side: const BorderSide(color: Colors.white),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
                             ),
                           ),
-                          SizedBox(width: 8),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: Color(0xFFD44661),
-                            size: 14,
+                          child: const Text(
+                            'خرید اشتراک',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Center(
+                    child: Container(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      margin: const EdgeInsets.only(bottom: 110),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          SizedBox(
+                            width: 200,
+                            height: 200,
+                            child: CustomPaint(
+                              painter: HalfCirclePainter(),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 200,
+                            height: 200,
+                            child: CustomPaint(
+                              painter: HalfCircleFilledPainter(
+                                consumedCalories: 500,
+                                totalCalories: 2000,
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: Transform.translate(
+                              offset: const Offset(0, 55),
+                              child: const Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    '۵۰۰',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 32,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    'از ۲۰۰۰ کالری',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: LinearProgressIndicator(
-                value: healthValue,
-                backgroundColor: Colors.grey[200],
-                color: isHealthy ? Colors.green : const Color(0xFFD44661),
-                minHeight: 8,
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
+                ),
 
-void _openCenterModal(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'مصرف وعده غذایی',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'نام وعده غذایی',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context); // Close the modal
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                // Health factors section
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 0, left: 20, right: 20, bottom: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildHealthFactor('چربی', 200, 300),
+                      _buildHealthFactor('اسید چرب', 50, 100),
+                      _buildHealthFactor('قند', 80, 150),
+                      _buildHealthFactor('نمک', 10, 30),
+                    ],
                   ),
                 ),
-                child: const Text('ثبت'),
-              ),
-            ],
+              ],
+            ),
+          ),
+          Expanded(
+            child: Container(
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Helper method to build a health factor widget
+  Widget _buildHealthFactor(String name, int consumed, int total) {
+    return Column(
+      children: [
+        Text(
+          name,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
-      );
-    },
-  );
+        const SizedBox(height: 3),
+        Container(
+          width: 60,
+          height: 8,
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            border: Border.all(color: Colors.white, width: 1),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: LinearProgressIndicator(
+              value: consumed / total,
+              backgroundColor: Colors.transparent,
+              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+            ),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          '$consumed گرم',
+          style: const TextStyle(
+            fontSize: 14,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// Custom painter for the half circle background
+class HalfCirclePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white.withOpacity(0.2)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 18
+      ..strokeCap = StrokeCap.round;
+
+    final rect = Rect.fromCircle(
+      center: Offset(size.width / 2, size.height),
+      radius: size.width / 2,
+    );
+
+    canvas.drawArc(rect, -pi, pi * 1.2, false, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+// Custom painter for the filled half circle
+class HalfCircleFilledPainter extends CustomPainter {
+  final int consumedCalories;
+  final int totalCalories;
+
+  HalfCircleFilledPainter(
+      {required this.consumedCalories, required this.totalCalories});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 18
+      ..strokeCap = StrokeCap.round;
+
+    final rect = Rect.fromCircle(
+      center: Offset(size.width / 2, size.height),
+      radius: size.width / 2,
+    );
+
+    final sweepAngle = (pi * consumedCalories) / totalCalories;
+
+    canvas.drawArc(rect, -pi * 1.19, sweepAngle, false, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+void main() {
+  runApp(const MaterialApp(
+    home: HomePage(),
+  ));
 }

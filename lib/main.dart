@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'yekan',
       ),
-      home: const PhoneNumberPage(),
+      home: const HomePage(),
     );
   }
 }

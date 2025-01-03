@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:main_app/screens/home_page/home_page.dart';
 
 class WaterIntakePage extends StatefulWidget {
   const WaterIntakePage({super.key});
@@ -27,7 +28,7 @@ class WaterIntakePageState extends State<WaterIntakePage> {
             ),
             Padding(
               padding: const EdgeInsets.only(
-               top: 120,
+                top: 120,
                 left: 25,
                 right: 25,
                 bottom: 16,
@@ -69,7 +70,7 @@ class WaterIntakePageState extends State<WaterIntakePage> {
                       color: Colors.black,
                     ),
                   ),
-                  const SizedBox(height: 8), 
+                  const SizedBox(height: 8),
                   const Text(
                     "میزان لیوان آب مصرفی روزانه خود را مشخص کنید.",
                     style: TextStyle(
@@ -146,7 +147,11 @@ class WaterIntakePageState extends State<WaterIntakePage> {
       width: double.infinity,
       child: ElevatedButton.icon(
         onPressed: () {
-          print("Selected Glasses: $selectedGlass");
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+          );
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF018A08),
