@@ -117,7 +117,7 @@ class HomePage extends StatelessWidget {
           },
           onProfilePressed: () {
             print('Profile button pressed');
-          },
+          }, selectedPage: 'home',
         ),
       ],
     );

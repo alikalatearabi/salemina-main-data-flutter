@@ -6,6 +6,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final void Function()? onSearchPressed;
   final void Function()? onProfilePressed;
   final void Function()? onScanPressed;
+  final String selectedPage; // Added to track selected page
 
   const CustomBottomNavigationBar({
     super.key,
@@ -14,7 +15,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
     this.onSearchPressed,
     this.onProfilePressed,
     this.onScanPressed,
-    required Null Function() onNotificationsPressed,
+    required this.selectedPage, required Null Function() onNotificationsPressed, // Required selected page parameter
   });
 
   @override
@@ -43,25 +44,29 @@ class CustomBottomNavigationBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildNavItem(
-                assetPath: 'assets/icons/home_inactive.png',
+                assetPath: 'assets/icons/home.png',
                 label: 'خانه',
                 onPressed: onHomePressed,
+                isSelected: selectedPage == 'home',
               ),
               _buildNavItem(
                 assetPath: 'assets/icons/dashboard.png',
                 label: 'داشبورد',
                 onPressed: onDashboardPressed,
+                isSelected: selectedPage == 'dashboard',
               ),
               _buildScanButton(onPressed: onScanPressed),
               _buildNavItem(
                 assetPath: 'assets/icons/search.png',
                 label: 'جستجو',
                 onPressed: onSearchPressed,
+                isSelected: selectedPage == 'search',
               ),
               _buildNavItem(
                 assetPath: 'assets/icons/profile.png',
                 label: 'پروفایل',
                 onPressed: onProfilePressed,
+                isSelected: selectedPage == 'profile',
               ),
             ],
           ),
@@ -74,6 +79,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
     required String assetPath,
     required String label,
     required void Function()? onPressed,
+    required bool isSelected, // Added to determine selection
   }) {
     return GestureDetector(
       onTap: onPressed,
@@ -81,18 +87,25 @@ class CustomBottomNavigationBar extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            assetPath,
-            width: 24,
-            height: 24,
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              
+              Image.asset(
+                assetPath,
+                width: 24,
+                height: 24,
+              ),
+            ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 8),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
-              color: Color(0xFF657381),
-              decoration: TextDecoration.none
+              color: isSelected ? const Color(0xFF018A08) : const Color(0xFF657381),
+              decoration: TextDecoration.none,
+              fontFamily: 'Yekan',
             ),
           ),
         ],
