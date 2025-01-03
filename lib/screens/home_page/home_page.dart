@@ -232,11 +232,16 @@ class HomePage extends StatelessWidget {
                                                   fontSize: 16,
                                                 ),
                                               ),
-                                              const SizedBox(height: 8),
+                                              const SizedBox(height: 15),
                                               Row(
                                                 children:
                                                     List.generate(6, (index) {
                                                   return SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.10,
                                                     child: Container(
                                                       margin: const EdgeInsets
                                                           .symmetric(
