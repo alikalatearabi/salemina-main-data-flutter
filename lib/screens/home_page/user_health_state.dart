@@ -48,7 +48,7 @@ class HealthStatusWidget extends StatelessWidget {
                   Text(
                     healthText,
                     style: const TextStyle(
-                      color: Color(0xFF018A08),
+                      color: Color(0xFF25A749),
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),

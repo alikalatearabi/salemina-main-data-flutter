@@ -19,7 +19,7 @@ class WaterTrackerWidget extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(top: 20),
         width: double.infinity,
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -39,22 +39,24 @@ class WaterTrackerWidget extends StatelessWidget {
                 const Text(
                   'آب',
                   style: TextStyle(
-                    color: Color(0xFF013C04),
+                    color: Colors.blue,
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 14, vertical: 8),
+                    horizontal: 16,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(146, 228, 226, 226),
+                    color: Colors.blue.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
                     '$consumedGlasses از $totalGlasses لیوان',
                     style: const TextStyle(
-                      color: Color(0xFF232A34),
+                      color: Colors.blue,
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
                     ),
@@ -70,9 +72,7 @@ class WaterTrackerWidget extends StatelessWidget {
                   onTap: () => onGlassTap?.call(index + 1),
                   child: Icon(
                     Icons.water_drop,
-                    color: index < consumedGlasses
-                        ? Colors.blue
-                        : Colors.grey,
+                    color: index < consumedGlasses ? Colors.blue : Colors.grey,
                     size: 30,
                   ),
                 );
