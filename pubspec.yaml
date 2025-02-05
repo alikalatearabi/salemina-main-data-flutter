@@ -92,6 +92,10 @@ flutter:
     - family: yekan
       fonts:
         - asset: assets/fonts/Yekan.ttf
+    - family: yekanBakh
+      fonts:
+        - asset: assets/fonts/YekanBakh-Regular.ttf
+
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

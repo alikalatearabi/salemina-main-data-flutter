@@ -40,7 +40,7 @@ class OnboardingScreen1 extends StatelessWidget {
                 children: [
                   Image.asset('assets/onboarding1.png'),
                   const Text(
-                    'دستیار دیجیتال انتخاب محصولات غذایی سالم تر',
+                    'دستیار دیجیتال انتخاب محصولات \n غذایی سالم تر',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -48,15 +48,18 @@ class OnboardingScreen1 extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const Text(
-                    'انتخاب  و آگاهانه‌تر مواد غذایی، بر اساس ملاحظات و نیازهای شما',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color(
-                        0xFF464E59,
+                  Container(
+                    margin: const EdgeInsets.only(top: 16),
+                    child: const Text(
+                      'انتخاب سالم تر و آگاهانه‌تر مواد غذایی، بر اساس ملاحظات و نیازهای شما',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Color(
+                          0xFF464E59,
+                        ),
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
@@ -85,7 +88,7 @@ class OnboardingScreen1 extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF018A08),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(18),
                     ),
                   ),
                   onPressed: () {

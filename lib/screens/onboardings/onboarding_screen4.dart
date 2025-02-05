@@ -48,15 +48,18 @@ class OnboardingScreen4 extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const Text(
-                    'تحلیل الگوی مصرف و همراهی با شما برای رسیدن به عادات تغذیه‌ای سالم‌تر با ایجاد آگاهی از محصولات سالم‌تر',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color(
-                        0xFF464E59,
+                  Container(
+                    margin: const EdgeInsets.only(top: 16),
+                    child: const Text(
+                      'تحلیل الگوی مصرف و همراهی با شما برای رسیدن به عادات تغذیه‌ای سالم‌تر با ایجاد آگاهی از محصولات سالم‌تر',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Color(
+                          0xFF464E59,
+                        ),
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
@@ -85,7 +88,7 @@ class OnboardingScreen4 extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF018A08),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(18),
                     ),
                   ),
                   onPressed: () {

@@ -104,18 +104,29 @@ class CodeInputPageState extends State<CodeInputPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 20.0, right: 20.0, top: 80, bottom: 20),
+                      left: 30.0,
+                      right: 30.0,
+                      top: 80,
+                      bottom: 10,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Align(
-                          alignment: Alignment.centerLeft,
-                          child: IconButton(
-                            iconSize: 30,
-                            icon: const Icon(Icons.arrow_forward),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
+                          alignment: Alignment.topLeft,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Color(0xFF232A34),
+                              shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                              iconSize: 25,
+                              icon: const Icon(Icons.arrow_forward_ios),
+                              color: Colors.white,
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
                           ),
                         ),
                         const Text(
@@ -186,7 +197,9 @@ class CodeInputPageState extends State<CodeInputPage> {
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.center,
                                 maxLength: 1,
-                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.normal),
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
                                     vertical: 15,

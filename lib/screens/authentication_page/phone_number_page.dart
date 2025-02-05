@@ -50,20 +50,27 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0,
+                      horizontal: 30.0,
                       vertical: 80,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Align(
-                          alignment: Alignment.centerLeft,
-                          child: IconButton(
-                            iconSize: 30,
-                            icon: const Icon(Icons.arrow_forward),
-                            onPressed: () {
+                          alignment: Alignment.topLeft,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                            color: Color(0xFF232A34),
+                            shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                              iconSize: 25,
+                              icon: const Icon(Icons.arrow_forward_ios),
+                              color: Colors.white,
+                              onPressed: () {
                               Navigator.of(context).pop();
-                            },
+                              },
+                            ),
                           ),
                         ),
                         const Text(
@@ -91,12 +98,12 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
                             keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(18),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(18),
                                 borderSide: const BorderSide(
-                                  color: Color(0xFF232A34),
+                                  color: Color(0xFF657381),
                                   width: 2.0,
                                 ),
                               ),
@@ -218,12 +225,12 @@ class TopArcClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    path.moveTo(0, size.height * 0.03);
+    path.moveTo(0, size.height * 0.05);
     path.quadraticBezierTo(
       size.width / 2,
       size.height * 0.0,
       size.width,
-      size.height * 0.03,
+      size.height * 0.05,
     );
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);

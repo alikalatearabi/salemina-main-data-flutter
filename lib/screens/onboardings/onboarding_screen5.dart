@@ -48,15 +48,18 @@ class OnboardingScreen5 extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const Text(
-                    'بررسی و به‌کارگیری شاخص‌ها و قواعد معتبر تغذیه‌ای در ارائه پیشنهادات و هشدارهای تغذیه‌ای',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Color(
-                        0xFF464E59,
+                  Container(
+                    margin: const EdgeInsets.only(top: 16),
+                    child: const Text(
+                      'بررسی و به‌کارگیری شاخص‌ها و قواعد معتبر تغذیه‌ای در ارائه پیشنهادات و هشدارهای تغذیه‌ای',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Color(
+                          0xFF464E59,
+                        ),
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
@@ -85,7 +88,7 @@ class OnboardingScreen5 extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF018A08),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(18),
                     ),
                   ),
                   onPressed: () {
