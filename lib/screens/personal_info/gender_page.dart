@@ -144,7 +144,7 @@ class GenderPageState extends State<GenderPage> {
               : const Color(0x929EABCC),
           padding: const EdgeInsets.symmetric(vertical: 10),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(18),
           ),
         ),
         icon: const Padding(

@@ -25,7 +25,12 @@ class IdealWeightPageState extends State<IdealWeightPage> {
           child: Container(
             width: double.infinity,
             color: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            padding: const EdgeInsets.only(
+              left: 30,
+              right: 30,
+              top: 60,
+              bottom: 30,
+            ),
             child: Directionality(
               textDirection: TextDirection.rtl,
               child: Column(
@@ -74,7 +79,7 @@ class IdealWeightPageState extends State<IdealWeightPage> {
               : const Color(0x929EABCC),
           padding: const EdgeInsets.symmetric(vertical: 10),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(18),
           ),
         ),
         icon: const Padding(
@@ -115,9 +120,9 @@ class IdealWeightPageState extends State<IdealWeightPage> {
             ],
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(18),
               border: Border.all(
                 color: const Color(0xFF018A08),
                 width: 2.0,

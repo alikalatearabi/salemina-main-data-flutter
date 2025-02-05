@@ -24,7 +24,12 @@ class HeightPageState extends State<HeightPage> {
           child: Container(
             width: double.infinity,
             color: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            padding: const EdgeInsets.only(
+              left: 30,
+              right: 30,
+              top: 60,
+              bottom: 30,
+            ),
             child: Directionality(
               textDirection: TextDirection.rtl,
               child: Column(
@@ -114,9 +119,9 @@ class HeightPageState extends State<HeightPage> {
             ],
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(18),
               border: Border.all(
                 color: const Color(0xFF018A08),
                 width: 2.0,
