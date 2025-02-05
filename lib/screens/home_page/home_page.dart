@@ -61,16 +61,6 @@ class HomePage extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // ActionButtonWithModal(
-                              //   label: 'مصرف وعده غذایی',
-                              //   icon: Icons.add,
-                              //   modalBuilder: (context) {
-                              //     return GestureDetector(
-                              //       onTap: () {},
-                              //       child: buildProductOptionsModal(context),
-                              //     );
-                              //   },
-                              // ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
