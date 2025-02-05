@@ -166,7 +166,7 @@ class DiseasePageState extends State<DiseasePage> {
               Row(
                 children: [
                   Text(
-                    selectedCondition!,
+                    selectedCondition,
                     style: const TextStyle(
                       fontSize: 17,
                       color: Color(0xFF018A08),

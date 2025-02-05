@@ -67,7 +67,7 @@ class DietPageState extends State<DietPage> {
                           ),
                         ),
                         child: const Text(
-                          "۹ از ۱۲",
+                          "۹ از ۱۳",
                           style: TextStyle(
                             color: Color(0xFF018A08),
                             fontSize: 18,
