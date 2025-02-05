@@ -60,7 +60,7 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
                           alignment: Alignment.topLeft,
                           child: Container(
                             decoration: const BoxDecoration(
-                            color: Color(0xFF232A34),
+                            color: Color(0xFF018A08),
                             shape: BoxShape.circle,
                             ),
                             child: IconButton(

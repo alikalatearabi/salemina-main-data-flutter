@@ -88,6 +88,7 @@ class PersonalInfoConfirmationPage extends StatelessWidget {
                 "رد کردن",
                 style: TextStyle(
                   color: Colors.black,
+                  fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
               ),
@@ -99,7 +100,7 @@ class PersonalInfoConfirmationPage extends StatelessWidget {
               "اطلاعات تکمیلی",
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 22,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -113,11 +114,10 @@ class PersonalInfoConfirmationPage extends StatelessWidget {
     return const Directionality(
       textDirection: TextDirection.rtl,
       child: Text(
-        "در ادامه اطلاعاتی در مورد تغذیه و ورزش شما گرفته می‌شود.لطفا با دقت اطلاعات هر مرحله را وارد کنید تا تجربه بهتری برای شما فراهم کنیم",
-        textAlign: TextAlign.justify,
+        "در ادامه اطلاعاتی در مورد تغذیه و ورزش شما گرفته می‌شود. \n لطفا با دقت اطلاعات هر مرحله را وارد کنید تا تجربه بهتری برای شما فراهم کنیم",
         style: TextStyle(
           color: Colors.black,
-          fontSize: 17,
+          fontSize: 16,
         ),
       ),
     );
@@ -139,9 +139,12 @@ class PersonalInfoConfirmationPage extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF018A08),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(18),
             ),
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+            padding: const EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 0,
+            ),
           ),
           icon: const Padding(
             padding: EdgeInsets.only(top: 3),

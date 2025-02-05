@@ -42,8 +42,8 @@ class NameInfoPageState extends State<NameInfoPage> {
             width: double.infinity,
             color: Colors.white,
             padding: const EdgeInsets.only(
-              left: 20,
-              right: 20,
+              left: 30,
+              right: 30,
               top: 60,
               bottom: 30,
             ),
@@ -81,14 +81,10 @@ class NameInfoPageState extends State<NameInfoPage> {
       children: [
         Container(
           margin: const EdgeInsets.only(top: 5),
-          child: Row(
+          child: const Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back_ios),
-                onPressed: () {},
-              ),
-              const Text(
+              Text(
                 "نام و نام‌خانوادگی",
                 style: TextStyle(
                   color: Colors.black,
