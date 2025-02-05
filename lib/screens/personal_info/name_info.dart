@@ -88,7 +88,7 @@ class NameInfoPageState extends State<NameInfoPage> {
                 "نام و نام‌خانوادگی",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 22,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -96,9 +96,9 @@ class NameInfoPageState extends State<NameInfoPage> {
           ),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(18),
             border: Border.all(
               color: const Color(0xFF018A08),
               width: 2.0,
@@ -122,8 +122,12 @@ class NameInfoPageState extends State<NameInfoPage> {
       controller: _nameController,
       decoration: InputDecoration(
         hintText: "نام و نام‌خانوادگی",
+        hintStyle: const TextStyle(
+          color: Color.fromARGB(255, 145, 152, 160),
+          fontSize: 17,
+        ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(18),
           borderSide: const BorderSide(
             color: Color(0xFF657381),
             width: 2,
@@ -164,7 +168,7 @@ Widget _buildSubmitButton(BuildContext context) {
             : const Color(0x929EABCC),
         padding: const EdgeInsets.symmetric(vertical: 10),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(18),
         ),
       ),
       icon: const Padding(
