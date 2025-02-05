@@ -84,23 +84,21 @@ Widget buildHealthFactor(String name, int consumed, int total) {
 Widget buildProductOptionsModal(BuildContext context) {
   return Center(
     child: Column(
-      mainAxisSize: MainAxisSize.min, // Center content in the modal
+      mainAxisSize: MainAxisSize.min, 
       children: [
         buildModalButton(
           context,
           'اسکن محصول',
-          Icons.qr_code_scanner, // Icon for scanning
+          Icons.qr_code_scanner, 
           () {
-            // Action for اسکن محصول
           },
         ),
-        const SizedBox(height: 16), // Space between buttons
+        const SizedBox(height: 16), 
         buildModalButton(
           context,
           'جست و جوی محصول',
-          Icons.search, // Icon for search
+          Icons.search, 
           () {
-            // Action for جست و جوی محصول
           },
         ),
       ],

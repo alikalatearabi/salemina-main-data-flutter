@@ -13,112 +13,59 @@ class HomeHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: screenHeight * 0.51,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/home_back.png'),
-          fit: BoxFit.cover,
+    return ClipPath(
+      clipper: BottomArcClipper(), // Apply the custom clipper
+      child: Container(
+        height: screenHeight * 0.51,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/home_back.png'),
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-      child: Column(
-        children: [
-          Directionality(
-            textDirection: TextDirection.rtl,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 50,
-                right: 20,
-                left: 20,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'خانه',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const DietPage(),
-                        ),
-                      );
-                    },
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                      ),
-                      side: const BorderSide(color: Colors.white),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    child: const Text(
-                      'خرید اشتراک',
+        child: Column(
+          children: [
+            Directionality(
+              textDirection: TextDirection.rtl,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 50,
+                  right: 20,
+                  left: 20,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'خانه',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 210,
-            child: Center(
-              child: Container(
-                padding: const EdgeInsets.only(bottom: 10),
-                margin: const EdgeInsets.only(bottom: 80),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      width: 200,
-                      height: 200,
-                      child: CustomPaint(
-                        painter: HalfCirclePainter(),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 200,
-                      height: 200,
-                      child: CustomPaint(
-                        painter: HalfCircleFilledPainter(
-                          consumedCalories: 500,
-                          totalCalories: 2000,
+                    OutlinedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const DietPage(),
+                          ),
+                        );
+                      },
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        side: const BorderSide(color: Colors.white),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                    ),
-                    Center(
-                      child: Transform.translate(
-                        offset: const Offset(0, 50),
-                        child: const Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              '۵۰۰',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              'از ۲۰۰۰ کالری',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
+                      child: const Text(
+                        'خرید اشتراک',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
                         ),
                       ),
                     ),
@@ -126,26 +73,103 @@ class HomeHeaderWidget extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 0,
-              left: 20,
-              right: 20,
-              bottom: 70,
+            SizedBox(
+              height: 210,
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  margin: const EdgeInsets.only(bottom: 80),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SizedBox(
+                        width: 200,
+                        height: 200,
+                        child: CustomPaint(
+                          painter: HalfCirclePainter(),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 200,
+                        height: 200,
+                        child: CustomPaint(
+                          painter: HalfCircleFilledPainter(
+                            consumedCalories: 500,
+                            totalCalories: 2000,
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Transform.translate(
+                          offset: const Offset(0, 50),
+                          child: const Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                '۵۰۰',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                'از ۲۰۰۰ کالری',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                buildHealthFactor('چربی', 200, 300),
-                buildHealthFactor('اسید چرب', 50, 100),
-                buildHealthFactor('قند', 80, 150),
-                buildHealthFactor('نمک', 10, 30),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 0,
+                left: 20,
+                right: 20,
+                bottom: 70,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  buildHealthFactor('چربی', 200, 300),
+                  buildHealthFactor('اسید چرب', 50, 100),
+                  buildHealthFactor('قند', 80, 150),
+                  buildHealthFactor('نمک', 10, 30),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+}
+
+class BottomArcClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0, size.height - 20); // Start from bottom left, slightly higher
+
+    // Create an upward curve
+    path.quadraticBezierTo(
+      size.width / 2, size.height - 60, // Move control point upward
+      size.width, size.height - 20, // End point on bottom right
+    );
+
+    path.lineTo(size.width, 0); // Line to top right
+    path.close(); // Close the path
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
