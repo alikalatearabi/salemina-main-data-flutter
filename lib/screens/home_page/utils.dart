@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:main_app/screens/home_page/barcode_scanner_screen.dart';
 
 Widget buildInfoBox(BuildContext context, String text, Widget icon) {
   return Container(
@@ -84,22 +85,31 @@ Widget buildHealthFactor(String name, int consumed, int total) {
 Widget buildProductOptionsModal(BuildContext context) {
   return Center(
     child: Column(
-      mainAxisSize: MainAxisSize.min, 
+      mainAxisSize: MainAxisSize.min,
       children: [
         buildModalButton(
           context,
           'اسکن محصول',
-          Icons.qr_code_scanner, 
-          () {
+          Icons.qr_code_scanner,
+          () async {
+            final scannedCode = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const BarcodeScannerScreen(),
+              ),
+            );
+
+            if (scannedCode != null) {
+              print('Scanned Code: $scannedCode');
+            }
           },
         ),
-        const SizedBox(height: 16), 
+        const SizedBox(height: 16),
         buildModalButton(
           context,
           'جست و جوی محصول',
-          Icons.search, 
-          () {
-          },
+          Icons.search,
+          () {},
         ),
       ],
     ),
@@ -109,17 +119,17 @@ Widget buildProductOptionsModal(BuildContext context) {
 Widget buildModalButton(
     BuildContext context, String text, IconData icon, VoidCallback onPressed) {
   return SizedBox(
-    width: MediaQuery.of(context).size.width * 0.7, // 70% of screen width
+    width: MediaQuery.of(context).size.width * 0.7,
     child: ElevatedButton.icon(
       onPressed: onPressed,
       icon: Icon(
         icon,
-        color: const Color(0xFF018A08), // Icon color
+        color: const Color(0xFF018A08),
       ),
       label: Text(
         text,
         style: const TextStyle(
-          color: Color(0xFF018A08), // Text color
+          color: Color(0xFF018A08),
           fontWeight: FontWeight.bold,
         ),
       ),
