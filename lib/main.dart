@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/onboardings/onboarding_screen1.dart';
+import 'package:main_app/screens/product_page/product_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -17,9 +18,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'yekanBakh',
       ),
-      home: const OnboardingScreen1(
-        currentPage: 0,
-      ),
+      home: ProductPage(),
+
+
     );
   }
 }

@@ -29,7 +29,6 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   shamsi_date: ^1.0.4
-  barcode_scan2: ^4.3.3
   mobile_scanner: ^6.0.6
   flutter:
     sdk: flutter
@@ -38,6 +37,9 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  barcode_scan2: ^4.5.0
+  flutter_svg: ^2.0.17
+  syncfusion_flutter_charts: ^28.2.9
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +72,7 @@ flutter:
     - assets/onboarding4.png
     - assets/onboarding5.png
     - assets/personal1.png
+    - assets/eges.png
     - assets/gender_woman.png
     - assets/gender_man.png
     - assets/gender_man_active.png

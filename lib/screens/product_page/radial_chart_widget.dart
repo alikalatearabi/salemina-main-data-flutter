@@ -19,9 +19,21 @@ class RadialChartWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          width: 80,
-          height: 80,
+          width: 60,
+          height: 60,
           child: SfCircularChart(
+            margin: EdgeInsets.zero,
+            annotations: <CircularChartAnnotation>[
+              CircularChartAnnotation(
+                widget: Text(
+                  '${value.toInt()}g',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+            ],
             series: <CircularSeries>[
               RadialBarSeries<ChartData, String>(
                 dataSource: [ChartData(label, value, color)],
@@ -31,19 +43,19 @@ class RadialChartWidget extends StatelessWidget {
                 trackColor: Colors.grey.shade300,
                 pointColorMapper: (ChartData data, _) => data.color,
                 cornerStyle: CornerStyle.bothCurve,
-                innerRadius: '80%',
+                innerRadius: '85%',
               ),
             ],
           ),
         ),
         const SizedBox(height: 4),
-        Text(
-          '${value.toInt()} g',
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        Text(
-          label,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        SizedBox(
+          width: 48,
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+          ),
         ),
       ],
     );
