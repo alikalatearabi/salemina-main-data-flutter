@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:marquee/marquee.dart';
+import 'conditional_marquee.dart';
 import 'radial_chart_widget.dart';
 
 class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
@@ -8,62 +9,89 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double maxHeight = 0.335877863 * screenHeight;
-    final double minHeight = 0.0814249364 * screenHeight;
+    final double maxHeight = maxExtent;
+    final double minHeight = minExtent;
     final double currentHeight = (maxHeight - shrinkOffset).clamp(minHeight, maxHeight);
 
-    if (shrinkOffset > 0) {
-      return Container(
-        color: Colors.white,
-        height: currentHeight,
-        child: Center(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  spreadRadius: 2,
-                  blurRadius: 10,
-                  offset: Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.0615384615),
-              child: _buildExpandedHeader(context, screenWidth),
-            ),
-          ),
-        ),
-      );
-    }
-    else {
-      return Container(
-        color: Colors.white,
-        height: currentHeight,
-        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.0615384615),
-        alignment: Alignment.centerRight,
-        child: Column(
-          children: [
-            SizedBox(
-              height: screenHeight * 0.0814249364,
-              child: _buildTopRow(context, screenWidth),
-            ),
-            SizedBox(
-              height: screenHeight * 0.1221374046,
-              child: _buildMiddleRow(context, screenWidth),
-            ),
-            SizedBox(
-              height: screenHeight * 0.1323155216,
-              child: _buildBottomRow(),
-            ),
-          ],
-        ),
-      );
+    if (shrinkOffset > 0 && shrinkOffset< MediaQuery.of(context).size.height*0.12722646310432569974554707379135) {
+      return _buildIntermediateHeader(context, screenWidth, currentHeight);
+    } else if (shrinkOffset>= 100) {
+      return _buildCollapsedHeader(context, screenWidth, currentHeight);
+    } else {
+      return _buildExpandedHeader(context, screenWidth, currentHeight);
     }
   }
+  Widget _buildExpandedHeader(BuildContext context, double screenWidth, double height) {
+    return Container(
+      color: Colors.white,
+      height: height,
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.0615384615),
+      child: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.0814249364,
+            child: _buildTopRow(context, screenWidth),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1221374046,
+            child: _buildMiddleRow(context, screenWidth),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1323155216,
+            child: _buildBottomRow(),
+          ),
+        ],
+      ),
+    );
+  }
 
-  Widget _buildExpandedHeader(BuildContext context, double screenWidth) {
+  Widget _buildIntermediateHeader(BuildContext context, double screenWidth, double height) {
+    return Container(
+      color: Colors.white,
+      height: height,
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.0615384615),
+      child: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.0814249364,
+            child: _buildTopRow(context, screenWidth),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1221374046,
+            child: _buildMiddleRow(context, screenWidth),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCollapsedHeader(BuildContext context, double screenWidth, double height) {
+    return Container(
+      color: Colors.white,
+      height: height,
+      child: Center(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                spreadRadius: 2,
+                blurRadius: 10,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.0615384615),
+            child: _buildExpandedHeaderContent(context, screenWidth),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExpandedHeaderContent(BuildContext context, double screenWidth) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -89,14 +117,15 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
               ),
             ),
             const Spacer(),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  "نام خوراکی در حالت طولانی",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                ConditionalMarquee(
+                  text: "نام خوراکی در حالت طولانی",
+                  maxWidth: MediaQuery.of(context).size.width * 0.48717948717948717948717948717949,
+                  textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.black),
+                  maxCharacters: 25,
                 ),
-
                 Text(
                   "خوشه محصول  ·  برند محصول",
                   style: TextStyle(color: Color(0xFF018A08), fontSize: 12),
@@ -178,11 +207,13 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              "نام خوراکی در حالت طولانی",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black),
+            ConditionalMarquee(
+              text: "نام خوراکی در حالت طولانی / نام خوراکی در حالت طولانی",
+              maxWidth: MediaQuery.of(context).size.width * 0.63076923076923076923076923076923,
+              textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black),
+              maxCharacters: 25,
             ),
             const Text(
               "خوشه محصول  ·  برند محصول",

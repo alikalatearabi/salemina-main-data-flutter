@@ -40,6 +40,9 @@ dependencies:
   barcode_scan2: ^4.5.0
   flutter_svg: ^2.0.17
   syncfusion_flutter_charts: ^28.2.9
+  marquee: ^2.3.0
+  syncfusion_flutter_sliders: ^28.2.9
+  flutter_xlider: ^3.5.0
 
 dev_dependencies:
   flutter_test:

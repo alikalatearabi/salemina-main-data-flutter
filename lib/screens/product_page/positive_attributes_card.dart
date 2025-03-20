@@ -55,7 +55,8 @@ class PositiveAttributesCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Icon(Icons.info_outline, color: Color(0xFF464E59), size: 18),
+                InkWell(
+                    child: Icon(Icons.info_outline, color: Color(0xFF464E59), size: 18)),
               ],
             ),
           ),

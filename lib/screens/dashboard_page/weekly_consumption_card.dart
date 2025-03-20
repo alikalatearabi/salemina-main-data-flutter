@@ -1,79 +1,78 @@
 import 'package:flutter/material.dart';
-
-import 'custom_circular_chart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class WeeklyConsumptionCard extends StatelessWidget {
-  final double consumed;
-  final double total;
-  final double recommendedConsumption;
-  final bool isComparisonEnabled;
+  final List<double> primaryValues;
+  final List<double>? secondaryValues;
+  final int highlightedIndex;
+  final bool isComparisonMode;
 
   const WeeklyConsumptionCard({
     super.key,
-    required this.consumed,
-    required this.total,
-    required this.recommendedConsumption,
-    required this.isComparisonEnabled,
+    required this.primaryValues,
+    this.secondaryValues,
+    required this.highlightedIndex,
+    this.isComparisonMode = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(color: Colors.grey.shade200, blurRadius: 6, spreadRadius: 1)],
-      ),
-      child: Column(
-        children: [
-          const Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              'کالری',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green),
-            ),
+    List<String> days = ['جمعه', 'شنبه۵', '۴شنبه', 'شنبه۳', "شنبه۲", 'شنبه۱', 'شنبه'];
+    return SfCartesianChart(
+      primaryXAxis: CategoryAxis(),
+      primaryYAxis: NumericAxis(isVisible: false),
+      series: <CartesianSeries<dynamic, dynamic>>[
+        if (isComparisonMode) ...[
+          ColumnSeries<ChartData, String>(
+            dataSource: List.generate(primaryValues.length, (index) {
+              return ChartData(
+                days[index],
+                primaryValues[index],
+                Colors.grey.shade400,
+              );
+            }),
+            xValueMapper: (ChartData data, _) => data.day,
+            yValueMapper: (ChartData data, _) => data.value,
+            pointColorMapper: (ChartData data, _) => data.color,
+            borderRadius: BorderRadius.circular(4),
           ),
-          const SizedBox(height: 8),
-          _buildCircularChart(),
-          const SizedBox(height: 8),
-          const Text( // متن ثابت هفتگی - قابل تغییر
-            'هفته سوم اردیبهشت ۱۴۰۳',
-            style: TextStyle(fontSize: 12, color: Colors.grey),
+          ColumnSeries<ChartData, String>(
+            dataSource: List.generate(secondaryValues?.length ?? 0, (index) {
+              return ChartData(
+                days[index],
+                secondaryValues![index],
+                index == highlightedIndex ? Colors.green : Colors.green.shade200,
+              );
+            }),
+            xValueMapper: (ChartData data, _) => data.day,
+            yValueMapper: (ChartData data, _) => data.value,
+            pointColorMapper: (ChartData data, _) => data.color,
+            borderRadius: BorderRadius.circular(4),
           ),
-          // می‌توانید در اینجا محتوای خاص هفتگی را اضافه کنید
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCircularChart() {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        SizedBox(
-          height: 200,
-          child: CustomCircularChart(
-            consumed: consumed,
-            total: total,
-            recommended: recommendedConsumption,
-            isComparisonEnabled: isComparisonEnabled,
+        ] else ...[
+          ColumnSeries<ChartData, String>(
+            dataSource: List.generate(primaryValues.length, (index) {
+              return ChartData(
+                days[index],
+                primaryValues[index],
+                index == highlightedIndex ? Colors.green : Colors.green.shade200, // Original green color logic
+              );
+            }),
+            xValueMapper: (ChartData data, _) => data.day,
+            yValueMapper: (ChartData data, _) => data.value,
+            pointColorMapper: (ChartData data, _) => data.color,
+            borderRadius: BorderRadius.circular(4),
           ),
-        ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              '${consumed.toInt()}',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              'از ${total.toInt()} کیلوکالری',
-              style: const TextStyle(fontSize: 14, color: Colors.grey),
-            ),
-          ],
-        ),
+        ]
       ],
     );
   }
+}
+
+class ChartData {
+  final String day;
+  final double value;
+  final Color color;
+
+  ChartData(this.day, this.value, this.color);
 }

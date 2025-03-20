@@ -1,16 +1,23 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'custom_circular_chart.dart';
 
-class DailyChart extends StatelessWidget {
-  const DailyChart({super.key});
+class DailyConsumptionCard extends StatelessWidget {
+  final double consumed;
+  final double total;
+  final double recommendedConsumption;
+  final bool isComparisonEnabled;
+
+  const DailyConsumptionCard({
+    super.key,
+    required this.consumed,
+    required this.total,
+    required this.recommendedConsumption,
+    required this.isComparisonEnabled,
+  });
 
   @override
   Widget build(BuildContext context) {
-    double consumed = 12555;
-    double total = 55555;
-    double recommendedConsumption = 10000;
-    bool isComparisonEnabled = false;
-
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -20,23 +27,25 @@ class DailyChart extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              'کالری مصرفی روزانه',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green),
-            ),
+          const Row(
+            children: [
+               Align(
+                alignment: Alignment.centerRight,
+                child: Icon(CupertinoIcons.info,
+                color: Colors.green,)
+              ),
+               Spacer(),
+               Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'کالری',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 8),
-          SizedBox(
-            height: 200,
-            child: CustomCircularChart(
-              consumed: consumed,
-              total: total,
-              recommended: recommendedConsumption,
-              isComparisonEnabled: isComparisonEnabled,
-            ),
-          ),
+          _buildCircularChart(),
           const SizedBox(height: 8),
           const Text(
             '۲۵ اردیبهشت ۱۴۰۳',
@@ -44,6 +53,36 @@ class DailyChart extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildCircularChart() {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        SizedBox(
+          height: 200,
+          child: CustomCircularChart(
+            consumed: consumed,
+            total: total,
+            recommended: recommendedConsumption,
+            isComparisonEnabled: isComparisonEnabled,
+          ),
+        ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '${consumed.toInt()}',
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              'از ${total.toInt()} کیلوکالری',
+              style: const TextStyle(fontSize: 14, color: Colors.grey),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

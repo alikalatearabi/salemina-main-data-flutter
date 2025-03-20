@@ -16,6 +16,17 @@ class ProductPage extends StatefulWidget {
 }
 
 class ProductPageState extends State<ProductPage> {
+
+  //
+  // List<String> imagePaths = [
+  //   'https://dkstatics-public.digikala.com/digikala-products/4948693.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90',
+  //   'https://dkstatics-public.digikala.com/digikala-products/116587879.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90',
+  //   'https://dkstatics-public.digikala.com/digikala-products/111074139.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90',
+  //   'https://dkstatics-public.digikala.com/digikala-products/111074139.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90',
+  //   'https://dkstatics-public.digikala.com/digikala-products/111074139.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90',
+  // ];
+
+
   List<FoodItemData> foodInfoItems = [
     FoodItemData(
       label: 'قند',
@@ -276,8 +287,34 @@ class ProductPageState extends State<ProductPage> {
                           ),
                         ],
                       ),
-
-
+                      SizedBox(height: 16),
+                      // SizedBox(
+                      //   height: 100,
+                      //   child: ListView.separated(
+                      //     scrollDirection: Axis.vertical,
+                      //     itemCount: imagePaths.length,
+                      //     separatorBuilder: (context, index) => SizedBox(width: 12),
+                      //     itemBuilder: (context, index) {
+                      //       return Container(
+                      //         width: 5,
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(8),
+                      //           color: Colors.grey.shade200,
+                      //         ),
+                      //         child: ClipRRect(
+                      //           borderRadius: BorderRadius.circular(8),
+                      //           child: Image.network(
+                      //             imagePaths[index],
+                      //             fit: BoxFit.cover,
+                      //             errorBuilder: (context, error, stackTrace) {
+                      //               return Center(child: Icon(Icons.error_outline));
+                      //             },
+                      //           ),
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   ),
                 )
