@@ -1,0 +1,2 @@
+D:/Salemina/salemina-main-data-flutter/android/app/.cxx/Debug/2a6lt2f5/x86/CMakeFiles/edit_cache.dir
+D:/Salemina/salemina-main-data-flutter/android/app/.cxx/Debug/2a6lt2f5/x86/CMakeFiles/rebuild_cache.dir
