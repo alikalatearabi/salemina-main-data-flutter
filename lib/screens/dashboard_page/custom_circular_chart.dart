@@ -1,7 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/animation.dart';
 
-class CustomCircularChart extends StatelessWidget {
+class CustomCircularChart extends StatefulWidget {
   final double consumed;
   final double total;
   final double recommended;
@@ -16,15 +17,68 @@ class CustomCircularChart extends StatelessWidget {
   });
 
   @override
+  _AnimatedCircularChartState createState() => _AnimatedCircularChartState();
+}
+
+class _AnimatedCircularChartState extends State<CustomCircularChart> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _consumedAnimation;
+  late Animation<double> _recommendedAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    );
+
+    _consumedAnimation = Tween<double>(begin: 0, end: widget.consumed).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+
+    _recommendedAnimation = Tween<double>(begin: 0, end: widget.recommended).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+
+    _controller.forward();
+  }
+
+  @override
+  void didUpdateWidget(covariant CustomCircularChart oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.consumed != widget.consumed || oldWidget.recommended != widget.recommended) {
+      _consumedAnimation = Tween<double>(begin: _consumedAnimation.value, end: widget.consumed).animate(
+        CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+      );
+      _recommendedAnimation = Tween<double>(begin: _recommendedAnimation.value, end: widget.recommended).animate(
+        CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+      );
+      _controller.forward(from: 0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size(MediaQuery.of(context).size.width* 0.46153846153846153846153846153846, MediaQuery.of(context).size.width* 0.46153846153846153846153846153846),
-      painter: CircularChartPainter(
-        consumed: consumed,
-        total: total,
-        recommended: recommended,
-        isComparisonEnabled: isComparisonEnabled,
-      ),
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return CustomPaint(
+          size: Size(MediaQuery.of(context).size.width * 0.4, MediaQuery.of(context).size.width * 0.4),
+          painter: CircularChartPainter(
+            consumed: _consumedAnimation.value,
+            total: widget.total,
+            recommended: _recommendedAnimation.value,
+            isComparisonEnabled: widget.isComparisonEnabled,
+          ),
+        );
+      },
     );
   }
 }
@@ -47,7 +101,7 @@ class CircularChartPainter extends CustomPainter {
     double strokeWidth = 18;
     double radius = size.width * 0.8 - strokeWidth;
     Offset center = Offset(size.width / 2, size.height / 2);
-    double startAngle = 3*pi / 4;
+    double startAngle = 3 * pi / 4;
     double fullSweepAngle = 3 * pi / 2;
 
     double consumedAngle = fullSweepAngle * (consumed / total);
@@ -113,5 +167,10 @@ class CircularChartPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant CircularChartPainter oldDelegate) {
+    return oldDelegate.consumed != consumed ||
+        oldDelegate.total != total ||
+        oldDelegate.recommended != recommended ||
+        oldDelegate.isComparisonEnabled != isComparisonEnabled;
+  }
 }

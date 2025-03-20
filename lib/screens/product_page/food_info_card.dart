@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
+import 'custom_indicator_bottom_sheet.dart';
 import 'food_item_data.dart';
 
 class FoodInfoCard extends StatelessWidget {
@@ -29,11 +29,11 @@ class FoodInfoCard extends StatelessWidget {
                 top: Radius.circular(20),
               ),
             ),
-            child: const Row(
+            child: Row(
               textDirection: TextDirection.rtl,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'شاخص‌های غذایی سازمان غذا و دارو',
                   style: TextStyle(
                     fontSize: 14,
@@ -42,7 +42,33 @@ class FoodInfoCard extends StatelessWidget {
                   ),
                   textDirection: TextDirection.rtl,
                 ),
-                Icon(Icons.info_outline, color: Color(0xFF464E59), size: 18),
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(16),
+                        ),
+                      ),
+                      builder: (BuildContext ctx) {
+                        return CustomSliderBottomSheet(
+                          title: 'عنوان شاخص مد نظر',
+                          description: 'توضیحات تکمیلی درباره شاخص مورد نظر...',
+                          minValue: 0,
+                          maxValue: 100,
+                          initialValue: 50,
+                          onValueChanged: (val) {
+                            // هر کاری که لازم است هنگام تغییر مقدار اسلایدر انجام دهید
+                            debugPrint('مقدار در حال تغییر: $val');
+                          },
+                        );
+                      },
+                    );
+                  },
+                  child: const Icon(Icons.info_outline, color: Color(0xFF464E59), size: 18),
+                ),
               ],
             ),
           ),

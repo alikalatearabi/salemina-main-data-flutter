@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../dashboard_page/dashboard_page.dart';
+
 class CustomBottomNavigationBar extends StatelessWidget {
   final void Function()? onHomePressed;
-  final void Function()? onDashboardPressed;
+  final void Function()? onDashboardPressed ;
   final void Function()? onSearchPressed;
   final void Function()? onProfilePressed;
   final void Function()? onScanPressed;
@@ -52,7 +54,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
               _buildNavItem(
                 assetPath: 'assets/icons/dashboard.png',
                 label: 'داشبورد',
-                onPressed: onDashboardPressed,
+                onPressed: () {
+                  print("object");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DashboardPage()),
+                  );
+                },
                 isSelected: selectedPage == 'dashboard',
               ),
               _buildScanButton(onPressed: onScanPressed),

@@ -74,7 +74,7 @@ class HomeHeaderWidget extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 210,
+              height: 180,
               child: Center(
                 child: Container(
                   padding: const EdgeInsets.only(bottom: 10),
