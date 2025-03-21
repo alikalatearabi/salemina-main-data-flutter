@@ -4,6 +4,7 @@ import 'package:main_app/screens/product_page/calorie_analysis_card.dart';
 import 'package:main_app/screens/product_page/negative_attributes_card.dart';
 import 'package:main_app/screens/product_page/positive_attributes_card.dart';
 import 'package:main_app/screens/product_page/bottom_bar.dart';
+import 'package:main_app/widgets/leading_ellipsis_text.dart';
 import 'food_info_card.dart';
 import 'food_item_data.dart';
 import 'product_header.dart';
@@ -16,6 +17,17 @@ class ProductPage extends StatefulWidget {
 }
 
 class ProductPageState extends State<ProductPage> {
+
+  //
+  // List<String> imagePaths = [
+  //   'https://dkstatics-public.digikala.com/digikala-products/4948693.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90',
+  //   'https://dkstatics-public.digikala.com/digikala-products/116587879.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90',
+  //   'https://dkstatics-public.digikala.com/digikala-products/111074139.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90',
+  //   'https://dkstatics-public.digikala.com/digikala-products/111074139.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90',
+  //   'https://dkstatics-public.digikala.com/digikala-products/111074139.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/quality,q_90',
+  // ];
+
+
   List<FoodItemData> foodInfoItems = [
     FoodItemData(
       label: 'قند',
@@ -276,8 +288,102 @@ class ProductPageState extends State<ProductPage> {
                           ),
                         ],
                       ),
+                      SizedBox(height: 16),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height*0.65128205128205128205128205128205,
+                          child: ListView(
+                            padding: const EdgeInsets.all(8),
+                            children: <Widget>[
+                              Container(
+                                child: Row(
+                                  textDirection: TextDirection.rtl,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.asset(
+                                        'assets/milk.png',
+                                        width: MediaQuery.of(context).size.width*0.18461538461538461538461538461538,
+                                        height: MediaQuery.of(context).size.width*0.18461538461538461538461538461538,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8,),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          child: LeadingEllipsisText(
+                                            text: 'این یک متن بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار بسیار طولانی است که باید از چپ خلاصه شود.',
+                                            style: TextStyle(fontSize: 16),
+                                          ),
+                                          width:200 ,
+                                        ),
+                                        SizedBox(height: 8,),
+                                        Row(
+                                          textDirection: TextDirection.rtl,
+                                          children: [
+                                            Icon(Icons.circle,
+                                            size: 8,
+                                            color: Color(0XFF464E59),),
+                                            SizedBox(width: 4,),
+                                            SizedBox(
+                                              width: 100,
+                                              child: Text("نام محصول در حالت خیلی خیلی طولانی",
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                color: Colors.amber[500],
+                                child: const Center(child: Text('Entry B')),
+                              ),
+                              Container(
+                                color: Colors.amber[100],
+                                child: const Center(child: Text('Entry C')),
+                              ),
 
-
+                            ],
+                          ),
+                      ),
+                      // SizedBox(
+                      //   height: 100,
+                      //   child: ListView.separated(
+                      //     scrollDirection: Axis.vertical,
+                      //     itemCount: imagePaths.length,
+                      //     separatorBuilder: (context, index) => SizedBox(width: 12),
+                      //     itemBuilder: (context, index) {
+                      //       return Container(
+                      //         width: 5,
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(8),
+                      //           color: Colors.grey.shade200,
+                      //         ),
+                      //         child: ClipRRect(
+                      //           borderRadius: BorderRadius.circular(8),
+                      //           child: Image.network(
+                      //             imagePaths[index],
+                      //             fit: BoxFit.cover,
+                      //             errorBuilder: (context, error, stackTrace) {
+                      //               return Center(child: Icon(Icons.error_outline));
+                      //             },
+                      //           ),
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   ),
                 )
