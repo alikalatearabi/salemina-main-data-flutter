@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
-class CustomSliderBottomSheet extends StatefulWidget {
+class CustomIndicatorBottomSheet extends StatefulWidget {
   final String title;
   final String description;
   final double minValue;
@@ -9,7 +9,7 @@ class CustomSliderBottomSheet extends StatefulWidget {
   final double initialValue;
   final ValueChanged<double>? onValueChanged;
 
-  const CustomSliderBottomSheet({
+  const CustomIndicatorBottomSheet({
     Key? key,
     required this.title,
     required this.description,
@@ -20,10 +20,10 @@ class CustomSliderBottomSheet extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomSliderBottomSheet> createState() => _CustomSliderBottomSheetState();
+  State<CustomIndicatorBottomSheet> createState() => _CustomIndicatorBottomSheetState();
 }
 
-class _CustomSliderBottomSheetState extends State<CustomSliderBottomSheet> {
+class _CustomIndicatorBottomSheetState extends State<CustomIndicatorBottomSheet> {
   late double _currentValue;
 
   @override

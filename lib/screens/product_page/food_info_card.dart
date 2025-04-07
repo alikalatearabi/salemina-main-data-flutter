@@ -53,7 +53,7 @@ class FoodInfoCard extends StatelessWidget {
                         ),
                       ),
                       builder: (BuildContext ctx) {
-                        return CustomSliderBottomSheet(
+                        return CustomIndicatorBottomSheet(
                           title: 'عنوان شاخص مد نظر',
                           description: 'توضیحات تکمیلی درباره شاخص مورد نظر...',
                           minValue: 0,

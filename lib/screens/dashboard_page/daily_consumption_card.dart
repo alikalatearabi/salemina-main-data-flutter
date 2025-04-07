@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../product_page/custom_indicator_bottom_sheet.dart';
 import 'custom_circular_chart.dart';
 
 class DailyConsumptionCard extends StatelessWidget {
@@ -27,21 +28,48 @@ class DailyConsumptionCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Row(
+          Row(
             children: [
                Align(
                 alignment: Alignment.centerRight,
-                child: Icon(CupertinoIcons.info,
-                color: Colors.green,)
+                child: IconButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.elliptical(600, 50),
+                          ),
+                        ),
+                        builder: (BuildContext ctx) {
+                          return CustomIndicatorBottomSheet(
+                            title: 'عنوان شاخص مد نظر',
+                            description: 'توضیحات تکمیلی درباره شاخص مورد نظر...',
+                            minValue: 0,
+                            maxValue: 100,
+                            initialValue: 50,
+                            onValueChanged: (val) {
+                              debugPrint('مقدار در حال تغییر: $val');
+                            },
+                          );
+                        },
+                      );
+                    },
+                    icon: Icon(CupertinoIcons.info,
+                  color: Colors.green,))
               ),
                Spacer(),
-               Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'کالری',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green),
-                ),
-              ),
+               Padding(
+                 padding: const EdgeInsets.only(right: 8.0),
+                 child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'کالری',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green),
+                  ),
+                               ),
+               ),
             ],
           ),
           const SizedBox(height: 8),
