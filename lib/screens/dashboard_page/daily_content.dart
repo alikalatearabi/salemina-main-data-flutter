@@ -9,30 +9,31 @@ class DailyContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+
       alignment: Alignment.center,
-      padding: const EdgeInsets.all(15),
+      padding:  EdgeInsets.all(MediaQuery.of(context).size.height*0.03053435114503816793893129770992),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildCalorieCard(context),
               SizedBox(width: 8,),
               _buildFattyAcidCard(context),
             ],
           ),
-          SizedBox(height: 8,),
+
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildFatCard(context),
               SizedBox(width: 8,),
               _buildSaltCard( context),
             ],
           ),
-          SizedBox(height: 8,),
+
           _buildSugarCard(context),
         ],
       ),
@@ -49,9 +50,9 @@ class DailyContent extends StatelessWidget {
         );
       },
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.27,
+        height: MediaQuery.of(context).size.height * 0.26,
         width: MediaQuery.of(context).size.width * 0.41,
-        padding: const EdgeInsets.all(12),
+        padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
         decoration: _boxDecoration(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -65,6 +66,7 @@ class DailyContent extends StatelessWidget {
             const SizedBox(height: 4),
             const Text(
               'باقی مانده مصرف مجاز 555 گرم',
+              textDirection: TextDirection.rtl,
               style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
             ),
             Spacer(),
@@ -72,8 +74,8 @@ class DailyContent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.20512820512820512820512820512821,
-                    height: MediaQuery.of(context).size.width * 0.20512820512820512820512820512821,
+                    width: MediaQuery.of(context).size.width * 0.20,
+                    height: MediaQuery.of(context).size.width * 0.20,
                     child: _buildPieChart(Colors.green[800]!, 100, 555)
                 ),
               ],
@@ -86,9 +88,9 @@ class DailyContent extends StatelessWidget {
 
   Widget _buildFattyAcidCard(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.27,
+      height: MediaQuery.of(context).size.height * 0.26,
       width: MediaQuery.of(context).size.width * 0.41,
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
       decoration: _boxDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -102,6 +104,7 @@ class DailyContent extends StatelessWidget {
           const SizedBox(height: 4),
           const Text(
             'باقی مانده مصرف مجاز 555 گرم',
+            textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
           ),
           Spacer(),
@@ -109,8 +112,8 @@ class DailyContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.20512820512820512820512820512821,
-                  height: MediaQuery.of(context).size.width * 0.20512820512820512820512820512821,
+                  width: MediaQuery.of(context).size.width * 0.20,
+                  height: MediaQuery.of(context).size.width * 0.20,
                   child: _buildPieChart(Colors.purple[800]!, 350, 555)
               ),
             ],
@@ -122,9 +125,9 @@ class DailyContent extends StatelessWidget {
 
   Widget _buildFatCard(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.27,
+      height: MediaQuery.of(context).size.height * 0.26,
       width: MediaQuery.of(context).size.width * 0.41,
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
       decoration: _boxDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -138,6 +141,7 @@ class DailyContent extends StatelessWidget {
           const SizedBox(height: 4),
           const Text(
             'باقی مانده مصرف مجاز 555 گرم',
+            textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
           ),
           Spacer(),
@@ -145,8 +149,8 @@ class DailyContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.20512820512820512820512820512821,
-                  height: MediaQuery.of(context).size.width * 0.20512820512820512820512820512821,
+                  width: MediaQuery.of(context).size.width * 0.20,
+                  height: MediaQuery.of(context).size.width * 0.20,
                   child: _buildPieChart(Colors.orange[800]!, 200, 555)
               ),
             ],
@@ -158,9 +162,9 @@ class DailyContent extends StatelessWidget {
 
   Widget _buildSaltCard(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.27,
+      height: MediaQuery.of(context).size.height * 0.26,
       width: MediaQuery.of(context).size.width * 0.41,
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
       decoration: _boxDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -174,6 +178,7 @@ class DailyContent extends StatelessWidget {
           const SizedBox(height: 4),
           const Text(
             'باقی مانده مصرف مجاز 555 گرم',
+            textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
           ),
           Spacer(),
@@ -181,8 +186,8 @@ class DailyContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.20512820512820512820512820512821,
-                  height: MediaQuery.of(context).size.width * 0.20512820512820512820512820512821,
+                  width: MediaQuery.of(context).size.width * 0.20,
+                  height: MediaQuery.of(context).size.width * 0.20,
                   child: _buildPieChart(Colors.blue[800]!, 400, 555)
               ),
             ],
@@ -194,11 +199,11 @@ class DailyContent extends StatelessWidget {
 
   Widget _buildSugarCard(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.15,
-      width: MediaQuery.of(context).size.width * 0.84,
-      padding: const EdgeInsets.all(12),
+      height: MediaQuery.of(context).size.height * 0.14,
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
       decoration: _boxDecoration(),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         textDirection: TextDirection.rtl,
         children: [
           const Column(
@@ -214,7 +219,8 @@ class DailyContent extends StatelessWidget {
               SizedBox(height: 4),
               Text(
                 'باقی مانده مصرف مجاز 555 گرم',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
+                textDirection: TextDirection.rtl,
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381,)),
               ),
             ],
           ),

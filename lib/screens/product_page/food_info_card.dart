@@ -49,7 +49,7 @@ class FoodInfoCard extends StatelessWidget {
                       isScrollControlled: true,
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(16),
+                          top: Radius.elliptical(600, 50),
                         ),
                       ),
                       builder: (BuildContext ctx) {
@@ -60,7 +60,6 @@ class FoodInfoCard extends StatelessWidget {
                           maxValue: 100,
                           initialValue: 50,
                           onValueChanged: (val) {
-                            // هر کاری که لازم است هنگام تغییر مقدار اسلایدر انجام دهید
                             debugPrint('مقدار در حال تغییر: $val');
                           },
                         );

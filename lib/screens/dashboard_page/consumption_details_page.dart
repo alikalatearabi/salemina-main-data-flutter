@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:main_app/screens/dashboard_page/recent_search.dart';
+import 'package:main_app/screens/dashboard_page/recent_search_item.dart';
 import 'package:main_app/screens/dashboard_page/weekly_consumption_card.dart';
 import 'package:main_app/screens/dashboard_page/yearly_consumption_card.dart';
+import '../home_page/full_recent_list_screen.dart';
 import 'daily_consumption_card.dart';
 import 'monthly_consumption_card.dart';
 
@@ -33,11 +36,34 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
   List<double> yearlyInitialValues = List.generate(365, (index) => index * index- 10);
   List<double> yearlyCompareValues = List.generate(365, (index) => index * -1*index*index + 1);
 
+
+  final List<RecentSearch> recentProducts = [
+    RecentSearch(
+      imagePath: 'assets/milk.png',
+      name: 'نام محصول در حالت خیلی طولانی ...',
+      calories: '5555 کالری',
+      weight: '145 گرم',
+    ),
+    RecentSearch(
+      imagePath: 'assets/milk2.png',
+      name: 'نام محصول در حالت خیلی طولانی ...',
+      calories: '5555 کالری',
+      weight: '145 گرم',
+    ),
+    RecentSearch(
+      imagePath: 'assets/milk3.png',
+      name: 'نام محصول در حالت خیلی طولانی ...',
+      calories: '5555 کالری',
+      weight: '145 گرم',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        toolbarHeight: MediaQuery.of(context).size.height * 0.08,
         backgroundColor: Colors.white,
         elevation: 0,
         title: const Align(
@@ -47,32 +73,91 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_forward_ios, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
+
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _buildToggleButtons(periods, selectedPeriodIndex, (index) {
-              setState(() {
-                selectedPeriodIndex = index;
-              });
-            }),
-            const SizedBox(height: 16),
-            _buildConsumptionCard(),
-            const SizedBox(height: 16),
-            _buildComparisonToggle(),
-            const SizedBox(height: 16),
-            _buildToggleButtons(categories, selectedCategoryIndex, (index) {
-              setState(() {
-                selectedCategoryIndex = index;
-              });
-            }),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _buildToggleButtons(periods, selectedPeriodIndex, (index) {
+                setState(() {
+                  selectedPeriodIndex = index;
+                });
+              }),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: _buildConsumptionCard(),
+              ),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: _buildComparisonToggle(),
+              ),
+              const SizedBox(height: 16),
+              _buildToggleButtons(categories, selectedCategoryIndex, (index) {
+                setState(() {
+                  selectedCategoryIndex = index;
+                });
+              }),
+        
+              Container(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                          },
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FullRecentListScreen(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              "مشاهده همه",
+                              style: TextStyle(
+                                color: Color(0xFF018A08),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Text(
+                          "جستجوهای اخیر",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: recentProducts.length,
+                      itemBuilder: (context, index) {
+                        return RecentSearchItem(
+                          product: recentProducts[index],
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -113,7 +198,9 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
 
   Widget _buildToggleButtons(List<String> items, int selectedIndex, Function(int) onSelect) {
     return Container(
-      height: 40,
+      alignment: Alignment.center,
+      width: MediaQuery.of(context).size.width*0.87692307692307692307692307692308,
+      height: MediaQuery.of(context).size.height*0.05089058524173027989821882951654,
       decoration: BoxDecoration(
         color: Colors.grey[100],
         borderRadius: BorderRadius.circular(8),
@@ -136,8 +223,8 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
   Widget _buildToggleButton(String text, bool isSelected) {
     return Container(
       alignment: Alignment.center,
-      height: 36,
-      width: 70,
+      height: MediaQuery.of(context).size.height * 0.04,
+      width: MediaQuery.of(context).size.width * 0.21,
       decoration: BoxDecoration(
         color: isSelected ? Colors.white : Colors.transparent,
         borderRadius: BorderRadius.circular(8),
@@ -162,10 +249,14 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
       },
       child: Container(
         width: double.infinity,
-        height: 50,
+        height: MediaQuery.of(context).size.height*0.06106870229007633587786259541985,
         decoration: BoxDecoration(
-          color: Colors.green.shade100,
+          color: isComparisonEnabled?Color(0xFFD6ECD8) : Colors.white,
           borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isComparisonEnabled ? Color(0xFFD6ECD8) : Colors.grey,
+            width: 1.5,
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -182,7 +273,7 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
                   isComparisonEnabled = value;
                 });
               },
-              activeColor: Colors.green,
+              activeColor: Color(0xFF018A08),
             ),
           ],
         ),

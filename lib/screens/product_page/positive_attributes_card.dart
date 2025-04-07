@@ -28,11 +28,11 @@ class PositiveAttributesCard extends StatelessWidget {
                 top: Radius.circular(20),
               ),
             ),
-            child: const Row(
+            child: Row(
               textDirection: TextDirection.rtl,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
+                const Row(
                   textDirection: TextDirection.rtl,
                   children: [
                     Text(
@@ -56,7 +56,8 @@ class PositiveAttributesCard extends StatelessWidget {
                   ],
                 ),
                 InkWell(
-                    child: Icon(Icons.info_outline, color: Color(0xFF464E59), size: 18)),
+
+                    child: const Icon(Icons.info_outline, color: Color(0xFF464E59), size: 18)),
               ],
             ),
           ),

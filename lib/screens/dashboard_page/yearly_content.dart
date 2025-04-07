@@ -10,13 +10,13 @@ class YearlyContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         alignment: Alignment.center,
-        padding: const EdgeInsets.all(15),
+        padding:  EdgeInsets.all(MediaQuery.of(context).size.height*0.03053435114503816793893129770992),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildCalorieCard(context),
                 SizedBox(width: 8,),
@@ -25,7 +25,7 @@ class YearlyContent extends StatelessWidget {
             ),
             SizedBox(height: 8,),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildFatCard(context),
                 SizedBox(width: 8,),
@@ -41,9 +41,9 @@ class YearlyContent extends StatelessWidget {
 
   Widget _buildCalorieCard(BuildContext context) {
     return Container(
-      height:MediaQuery.of(context).size.height * 0.27,
+      height:MediaQuery.of(context).size.height * 0.26,
       width: MediaQuery.of(context).size.width *0.41,
-      padding: const EdgeInsets.all(12),
+      padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
       decoration: _boxDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -57,6 +57,7 @@ class YearlyContent extends StatelessWidget {
           const SizedBox(height: 4),
           const Text(
             'باقی مانده مصرف مجاز 555 گرم',
+            textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
           ),
           Spacer(),
@@ -73,9 +74,9 @@ class YearlyContent extends StatelessWidget {
   Widget _buildFattyAcidCard(BuildContext context) {
     return Container(
 
-      height:MediaQuery.of(context).size.height * 0.27,
+      height:MediaQuery.of(context).size.height * 0.26,
       width: MediaQuery.of(context).size.width *0.41,
-      padding: const EdgeInsets.all(12),
+      padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
       decoration: _boxDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -89,6 +90,7 @@ class YearlyContent extends StatelessWidget {
           const SizedBox(height: 4),
           const Text(
             'باقی مانده مصرف مجاز 555 گرم',
+            textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
           ),
           Spacer(),
@@ -105,9 +107,9 @@ class YearlyContent extends StatelessWidget {
   Widget _buildFatCard(BuildContext context) {
     return Container(
 
-      height:MediaQuery.of(context).size.height * 0.27 ,
+      height:MediaQuery.of(context).size.height * 0.26,
       width: MediaQuery.of(context).size.width *0.41,
-      padding: const EdgeInsets.all(12),
+      padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
       decoration: _boxDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -121,6 +123,7 @@ class YearlyContent extends StatelessWidget {
           const SizedBox(height: 4),
           const Text(
             'باقی مانده مصرف مجاز 555 گرم',
+            textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
           ),
           Spacer(),
@@ -137,9 +140,9 @@ class YearlyContent extends StatelessWidget {
   Widget _buildSaltCard(BuildContext context) {
     return Container(
 
-      height:MediaQuery.of(context).size.height * 0.27 ,
+      height:MediaQuery.of(context).size.height * 0.26,
       width: MediaQuery.of(context).size.width *0.41,
-      padding: const EdgeInsets.all(12),
+      padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
       decoration: _boxDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -153,6 +156,7 @@ class YearlyContent extends StatelessWidget {
           const SizedBox(height: 4),
           const Text(
             'باقی مانده مصرف مجاز 555 گرم',
+            textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
           ),
           Spacer(),
@@ -168,9 +172,8 @@ class YearlyContent extends StatelessWidget {
 
   Widget _buildSugarCard(BuildContext context) {
     return Container(
-      height:MediaQuery.of(context).size.height * 0.15,
-      width: MediaQuery.of(context).size.width *0.84,
-      padding: const EdgeInsets.all(12),
+      height:MediaQuery.of(context).size.height * 0.13,
+      padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.03),
       decoration: _boxDecoration(),
       child: Row(
         textDirection: TextDirection.rtl,
@@ -188,6 +191,7 @@ class YearlyContent extends StatelessWidget {
               SizedBox(height: 4),
               Text(
                 'باقی مانده مصرف مجاز 555 گرم',
+                textDirection: TextDirection.rtl,
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
               ),
             ],
