@@ -66,6 +66,7 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
         toolbarHeight: MediaQuery.of(context).size.height * 0.08,
         backgroundColor: Colors.white,
         elevation: 0,
+        surfaceTintColor: Colors.white,
         title: const Align(
           alignment: Alignment.centerRight,
           child: Text(
