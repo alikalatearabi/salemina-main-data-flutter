@@ -2,12 +2,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/home_page/utils.dart';
 
-import 'custom_painters.dart';
 
-class HomeHeaderWidget extends StatelessWidget {
+class ProfileHeaderWidget extends StatelessWidget {
   final double screenHeight;
 
-  const HomeHeaderWidget({
+  const ProfileHeaderWidget({
     super.key,
     required this.screenHeight,
   });
@@ -17,9 +16,10 @@ class HomeHeaderWidget extends StatelessWidget {
     return ClipPath(
       clipper: BottomArcClipper(),
       child: Container(
-        height: screenHeight * 0.5,
+        height: screenHeight * 0.22,
         decoration: const BoxDecoration(
           image: DecorationImage(
+            alignment: Alignment.center,
             image: AssetImage('assets/home_back.png'),
             fit: BoxFit.cover,
           ),
@@ -35,7 +35,7 @@ class HomeHeaderWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'خانه',
+                      'پروفایل',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -44,7 +44,6 @@ class HomeHeaderWidget extends StatelessWidget {
                     ),
                     OutlinedButton(
                       onPressed: () {
-
                       },
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -57,70 +56,13 @@ class HomeHeaderWidget extends StatelessWidget {
                         'خرید اشتراک',
                         style: TextStyle(
                           color: Colors.white,
+                          fontWeight: FontWeight.w600,
                           fontSize: 12,
-                          fontWeight: FontWeight.w600
                         ),
                       ),
                     ),
                   ],
                 ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Center(
-              child: SizedBox(
-                width: 150,
-                height: 150,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    CustomPaint(
-                      size: const Size(150, 150),
-                      painter: HalfCirclePainter(),
-                    ),
-                    CustomPaint(
-                      size: const Size(150, 150),
-                      painter: HalfCircleFilledPainter(
-                        consumedCalories: 555,
-                        totalCalories: 2000,
-                      ),
-                    ),
-                    const Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(height:45),
-                        Text(
-                          '555',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'از ۲۰۰۰ کیلو کالری',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  buildHealthFactor(context,'چربی', 200, 300),
-                  buildHealthFactor(context,'اسید چرب', 50, 100),
-                  buildHealthFactor(context,'قند', 80, 150),
-                  buildHealthFactor(context,'نمک', 10, 30),
-                ],
               ),
             ),
           ],

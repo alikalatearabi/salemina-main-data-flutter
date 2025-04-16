@@ -26,7 +26,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           ),
         ],
       ),
-      height: 70,
+      height: MediaQuery.of(context).size.height*0.09287531806615776081424936386768,
       child: Row(
         children: [
           _NavigationItem(

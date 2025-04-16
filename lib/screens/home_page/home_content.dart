@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:main_app/screens/home_page/user_health_state.dart';
 import 'package:main_app/screens/home_page/utils.dart';
 import 'package:main_app/screens/home_page/water_tracker_widget.dart';
 
+import '../search_page/cluster_ranking_page.dart';
 import 'action_button_with_modal.dart';
 import 'health_helpers.dart';
 import 'home_header_widget.dart';
@@ -22,9 +24,9 @@ class HomeContent extends StatelessWidget {
               children: [
                 HomeHeaderWidget(screenHeight: MediaQuery.of(context).size.height),
                 Positioned(
-                  top: MediaQuery.of(context).size.height * 0.51 - 60,
-                  left: MediaQuery.of(context).size.width * 0.2,
-                  right: MediaQuery.of(context).size.width * 0.2,
+                  top: MediaQuery.of(context).size.height * 0.51 - 70,
+                  left: MediaQuery.of(context).size.width * 0.25,
+                  right: MediaQuery.of(context).size.width * 0.25,
                   child: ActionButtonWithModal(
                     label: 'مصرف وعده غذایی',
                     icon: Icons.add,
@@ -39,7 +41,6 @@ class HomeContent extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.6,
               child: Padding(
                 padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
                 child: Column(
@@ -48,8 +49,29 @@ class HomeContent extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        buildInfoBox(context, 'رتبه بندی خوشه ها', Image.asset('assets/icons/sorting.png', width: 80, height: 80)),
-                        buildInfoBox(context, 'مقایسه محصولات', Image.asset('assets/icons/compare.png', width: 80, height: 80)),
+                        InkWell(
+                          onTap:(){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ClusterRankingPage()),
+                            );
+        
+                          },
+                          child: buildInfoBox(context, 'رتبه بندی خوشه ها',
+                            SvgPicture.asset(
+                              'assets/icons/category.svg',
+                              width: 56,
+                              height: 56,
+                            ),
+                          ),
+                        ),
+                        buildInfoBox(context, 'مقایسه محصولات',
+                          SvgPicture.asset(
+                            'assets/icons/compare.svg',
+                            width: 56,
+                            height: 56,
+                          ),
+                        ),
                       ],
                     ),
                     HealthStatusWidget(
@@ -62,6 +84,7 @@ class HomeContent extends StatelessWidget {
                       totalGlasses: 9,
                       onGlassTap: (glass) {},
                     ),
+                    SizedBox(height: 6,)
                   ],
                 ),
               ),

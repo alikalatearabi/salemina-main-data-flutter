@@ -36,7 +36,7 @@ Widget buildInfoBox(BuildContext context, String text, Widget icon) {
 }
 
 // Helper method to build a health factor widget
-Widget buildHealthFactor(String name, int consumed, int total) {
+Widget buildHealthFactor(BuildContext context,String name, int consumed, int total) {
   return Directionality(
     textDirection: TextDirection.rtl,
     child: Column(
@@ -46,14 +46,14 @@ Widget buildHealthFactor(String name, int consumed, int total) {
         Text(
           name,
           style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
             color: Colors.white,
           ),
         ),
         const SizedBox(height: 3),
         Container(
-          width: 60,
+          width: MediaQuery.of(context).size.width*0.18846153846153846153846153846154,
           height: 8,
           decoration: BoxDecoration(
             color: Colors.transparent,
@@ -73,7 +73,7 @@ Widget buildHealthFactor(String name, int consumed, int total) {
         Text(
           '$consumed گرم',
           style: const TextStyle(
-            fontSize: 14,
+            fontSize: 12,
             color: Colors.white,
           ),
         ),
