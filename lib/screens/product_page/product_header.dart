@@ -6,7 +6,6 @@ import 'radial_chart_widget.dart';
 class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     final double maxHeight = maxExtent;
     final double minHeight = minExtent;
@@ -191,10 +190,15 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
         ),
         const Spacer(),
-        SvgPicture.asset(
-          'assets/icons/arrow-right.svg',
-          width: 20,
-          height: 20,
+        InkWell(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: SvgPicture.asset(
+            'assets/icons/arrow-right.svg',
+            width: 20,
+            height: 20,
+          ),
         ),
       ],
     );
