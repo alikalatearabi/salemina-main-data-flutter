@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:main_app/screens/home_page/water_tracker_widget.dart';
+import 'package:main_app/screens/profile_page/edit_personal_info.dart';
 import 'package:main_app/screens/profile_page/profile_header_widget.dart';
 
 
@@ -44,16 +45,27 @@ class ProfilePage extends StatelessWidget {
                         Align(
                           alignment: Alignment.bottomRight,
                           child: Container(
-                            width: 26,
-                            height: 26,
+                            width: 30,
+                            height: 30,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: Color(0xFF018A08),
                             ),
-                            child: SvgPicture.asset(
-                              'assets/icons/edit_profile.svg',
-                              width: 24,
-                              height: 24,
+                            child: InkWell(
+                              onTap: (){
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) => const EditPersonalInfo(),
+                                );
+
+                              },
+                              child: SvgPicture.asset(
+                                'assets/icons/edit_profile.svg',
+                                width: 30,
+                                height: 30,
+                              ),
                             ),
                           ),
                         ),
