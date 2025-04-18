@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:main_app/screens/dashboard_page/recent_search.dart';
-import 'package:main_app/screens/dashboard_page/recent_search_item.dart';
+import 'package:main_app/widgets/one_attribute_list.dart';
+import 'package:main_app/widgets/one_attribute_list_item.dart';
 import 'package:main_app/screens/dashboard_page/weekly_consumption_card.dart';
 import 'package:main_app/screens/dashboard_page/yearly_consumption_card.dart';
-import '../home_page/full_recent_list_screen.dart';
+import 'recent_search_screen.dart';
 import 'daily_consumption_card.dart';
 import 'monthly_consumption_card.dart';
 
@@ -37,24 +37,27 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
   List<double> yearlyCompareValues = List.generate(365, (index) => index * -1*index*index + 1);
 
 
-  final List<RecentSearch> recentProducts = [
-    RecentSearch(
-      imagePath: 'assets/milk.png',
-      name: 'نام محصول در حالت خیلی طولانی ...',
-      calories: '5555 کالری',
-      weight: '145 گرم',
+  final List<OneAttributeList> recentProducts = [
+    OneAttributeList(
+        imagePath: 'assets/milk.png',
+        name: 'نام محصول در حالت خیلی طولانی ...',
+        indicator: 'قند',
+        weight: '145 گرم',
+        value: '5555 گرم'
     ),
-    RecentSearch(
-      imagePath: 'assets/milk2.png',
-      name: 'نام محصول در حالت خیلی طولانی ...',
-      calories: '5555 کالری',
-      weight: '145 گرم',
+    OneAttributeList(
+        imagePath: 'assets/milk2.png',
+        name: 'نام محصول در حالت خیلی طولانی ...',
+        indicator: 'نمک',
+        weight: '145 گرم',
+        value: '5555 گرم'
     ),
-    RecentSearch(
-      imagePath: 'assets/milk3.png',
-      name: 'نام محصول در حالت خیلی طولانی ...',
-      calories: '5555 کالری',
-      weight: '145 گرم',
+    OneAttributeList(
+        imagePath: 'assets/milk3.png',
+        name: 'نام محصول در حالت خیلی طولانی ...',
+        indicator: 'اسید چرب',
+        weight: '145 گرم',
+        value: '5555 گرم'
     ),
   ];
 
@@ -119,7 +122,7 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => FullRecentListScreen(),
+                                  builder: (context) => RecentSearchScreen(),
                                 ),
                               );
                             },
@@ -149,7 +152,7 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
                       shrinkWrap: true,
                       itemCount: recentProducts.length,
                       itemBuilder: (context, index) {
-                        return RecentSearchItem(
+                        return OneAttributeListItem(
                           product: recentProducts[index],
                         );
                       },

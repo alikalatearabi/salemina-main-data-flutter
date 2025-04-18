@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'category_list_screen.dart'; // فایل صفحه دوم
 
 class ClusterRankingPage extends StatelessWidget {
   final List<String> recentSearches = [
@@ -7,14 +8,54 @@ class ClusterRankingPage extends StatelessWidget {
   ];
 
   final List<Map<String, dynamic>> categories = [
-    {'title': 'نان ها', 'items': 34, 'image': 'assets/k2.png'},
-    {'title': 'فست فود ها', 'items': 55, 'image': 'assets/k1.png'},
-    {'title': 'ادویه جات', 'items': 41, 'image': 'assets/k4.png'},
-    {'title': 'پلو ها', 'items': 56, 'image': 'assets/k3.png'},
-    {'title': 'حبوبات', 'items': 33, 'image': 'assets/k5.png'},
-    {'title': 'روغن ها', 'items': 27, 'image': 'assets/k6.png'},
-    {'title': 'چاشنی‌ها', 'items': 12, 'image': 'assets/k7.png'},
-    {'title': 'سبزیجات', 'items': 18, 'image': 'assets/k8.png'},
+    {
+      'title': 'نان ها',
+      'items': 34,
+      'image': 'assets/k2.png',
+      'list': ['نان سنگک', 'نان بربری', 'نان تافتون']
+    },
+    {
+      'title': 'فست فود ها',
+      'items': 55,
+      'image': 'assets/k1.png',
+      'list': ['پیتزا', 'همبرگر', 'هات داگ']
+    },
+    {
+      'title': 'ادویه جات',
+      'items': 41,
+      'image': 'assets/k4.png',
+      'list': ['زردچوبه', 'فلفل سیاه', 'دارچین']
+    },
+    {
+      'title': 'پلو ها',
+      'items': 56,
+      'image': 'assets/k3.png',
+      'list': ['چلوکباب', 'زرشک‌پلو', 'باقالی‌پلو']
+    },
+    {
+      'title': 'حبوبات',
+      'items': 33,
+      'image': 'assets/k5.png',
+      'list': ['لوبیا', 'عدس', 'نخود']
+    },
+    {
+      'title': 'روغن ها',
+      'items': 27,
+      'image': 'assets/k6.png',
+      'list': ['روغن زیتون', 'روغن کنجد', 'روغن آفتابگردان']
+    },
+    {
+      'title': 'چاشنی‌ها',
+      'items': 12,
+      'image': 'assets/k7.png',
+      'list': ['سرکه', 'سس مایونز', 'آبلیمو']
+    },
+    {
+      'title': 'سبزیجات',
+      'items': 18,
+      'image': 'assets/k8.png',
+      'list': ['کاهو', 'گوجه', 'خیار']
+    },
   ];
 
   @override
@@ -41,7 +82,7 @@ class ClusterRankingPage extends StatelessWidget {
         ),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.only(right: 24.0,left: 24,bottom: 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -55,7 +96,7 @@ class ClusterRankingPage extends StatelessWidget {
                           prefixIcon: Icon(Icons.search),
                           suffixIcon: SvgPicture.asset(
                             'assets/icons/scan.svg',
-                            color:Color(0xFF464E59),
+                            color: Color(0xFF464E59),
                           ),
                           suffixIconConstraints: BoxConstraints(
                             maxHeight: 24,
@@ -74,8 +115,7 @@ class ClusterRankingPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding:
-                          EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 16),
                         ),
                         cursorColor: Colors.black,
                       ),
@@ -95,7 +135,7 @@ class ClusterRankingPage extends StatelessWidget {
                               'assets/icons/bins.svg',
                               width: 24,
                               height: 24,
-                              color:Color(0xFFF2506E),
+                              color: Color(0xFFF2506E),
                             ),
                             SizedBox(width: 4),
                             Text('جستجوهای اخیر',
@@ -108,10 +148,11 @@ class ClusterRankingPage extends StatelessWidget {
                           child: Row(
                             children: recentSearches.map((text) {
                               return Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                padding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
                                 child: Container(
-                                  padding:
-                                  EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
                                   decoration: BoxDecoration(
                                     color: Color(0xFFEEEFF1),
                                     borderRadius: BorderRadius.circular(8),
@@ -127,7 +168,8 @@ class ClusterRankingPage extends StatelessWidget {
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: categories.length,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate:
+                          SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             crossAxisSpacing: 12,
                             mainAxisSpacing: 12,
@@ -135,35 +177,50 @@ class ClusterRankingPage extends StatelessWidget {
                           ),
                           itemBuilder: (context, index) {
                             final category = categories[index];
-                            return Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                image: DecorationImage(
-                                  image: AssetImage(category['image']),
-                                  fit: BoxFit.cover,
-                                  colorFilter: ColorFilter.mode(
-                                      Colors.black.withOpacity(0.4), BlendMode.darken),
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CategoryListScreen(
+                                      title: category['title'],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  image: DecorationImage(
+                                    image: AssetImage(category['image']),
+                                    fit: BoxFit.cover,
+                                    colorFilter: ColorFilter.mode(
+                                      Colors.black.withOpacity(0.4),
+                                      BlendMode.darken,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              padding: EdgeInsets.all(12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    category['title'],
-                                    style: TextStyle(
+                                padding: EdgeInsets.all(12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      category['title'],
+                                      style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(height: 4),
-                                  Text(
-                                    '${category['items']} مورد',
-                                    style:
-                                    TextStyle(color: Colors.white70, fontSize: 12),
-                                  ),
-                                ],
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      '${category['items']} مورد',
+                                      style: TextStyle(
+                                          color: Colors.white70, fontSize: 12),
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           },

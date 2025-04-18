@@ -20,6 +20,13 @@ class _ProductScannerScreenState extends State<ProductScannerScreen> {
     controller.dispose();
     super.dispose();
   }
+
+  @override
+  void initState() {
+    super.initState();
+    controller.start();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,11 +51,15 @@ class _ProductScannerScreenState extends State<ProductScannerScreen> {
         children: [
           MobileScanner(
             controller: controller,
-            onDetect: (capture) {
+            onDetect: (capture) async {
               final barcode = capture.barcodes.first;
               if (barcode.rawValue != null && mounted) {
+                String code = barcode.rawValue!;
+
+                await controller.stop();
+
                 setState(() {
-                  scannedCode = barcode.rawValue!;
+                  scannedCode = code;
                 });
               }
             },

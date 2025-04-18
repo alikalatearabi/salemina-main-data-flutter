@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:main_app/screens/dashboard_page/recent_search.dart';
-class RecentSearchItem extends StatelessWidget {
-  final RecentSearch product;
+import 'package:main_app/widgets/one_attribute_list.dart';
+class OneAttributeListItem extends StatelessWidget {
+  final OneAttributeList product;
 
-  const RecentSearchItem({super.key, required this.product});
+  const OneAttributeListItem({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +40,14 @@ class RecentSearchItem extends StatelessWidget {
               Row(
                 textDirection: TextDirection.rtl,
                 children: [
-                  SvgPicture.asset(
-                    'assets/icons/fire 2.svg',
-                    width: 16,
-                    height: 16,
-                  ),
-                  const SizedBox(width: 2),
-                  Text(product.calories,
-                    style: const TextStyle(fontSize: 12),
+                  product.icon,
+                  const SizedBox(width: 4),
+                  Text(product.value,
+                    textDirection: TextDirection.rtl,
+                    style: TextStyle(
+                      color: product.color,
+                      fontSize: 12,
+                    ),
                   ),
                   const SizedBox(width: 8),
                   Text("در هر ${product.weight}",

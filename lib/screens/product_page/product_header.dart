@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:main_app/screens/home_page/home_page.dart';
 import 'conditional_marquee.dart';
 import 'radial_chart_widget.dart';
 
@@ -141,10 +142,19 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
               ),
             ),
             SizedBox(width: screenWidth * 0.02564),
-            SvgPicture.asset(
-              'assets/icons/arrow-right.svg',
-              width: 20,
-              height: 20,
+            InkWell(
+              onTap: (){
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                      (route) => false,
+                );
+              },
+              child: SvgPicture.asset(
+                'assets/icons/arrow-right.svg',
+                width: 20,
+                height: 20,
+              ),
             ),
           ],
         ),
@@ -192,7 +202,11 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
         const Spacer(),
         InkWell(
           onTap: () {
-            Navigator.of(context).pop();
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+                  (route) => false,
+            );
           },
           child: SvgPicture.asset(
             'assets/icons/arrow-right.svg',
@@ -225,7 +239,9 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
             Row(
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF018A08).withOpacity(0.16),
                     elevation: 0,

@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
 
-import '../dashboard_page/recent_search.dart';
-import '../dashboard_page/recent_search_item.dart';
+import '../../widgets/one_attribute_list.dart';
+import '../../widgets/one_attribute_list_item.dart';
 
-class FullRecentListScreen extends StatelessWidget {
+class RecentSearchScreen extends StatelessWidget {
 
-  FullRecentListScreen({super.key,});
-  final List<RecentSearch> recentProducts = [
-    RecentSearch(
+  RecentSearchScreen({super.key,});
+  final List<OneAttributeList> recentProducts = [
+    OneAttributeList(
       imagePath: 'assets/milk.png',
       name: 'نام محصول در حالت خیلی طولانی ...',
-      calories: '5555 کالری',
-      weight: '145 گرم',
+      indicator: 'کالری',
+      weight: '145',
+      value: '5555 گرم'
     ),
-    RecentSearch(
+    OneAttributeList(
       imagePath: 'assets/milk2.png',
       name: 'نام محصول در حالت خیلی طولانی ...',
-      calories: '5555 کالری',
+      indicator: 'کالری',
       weight: '145 گرم',
+      value: '5555 گرم'
     ),
-    RecentSearch(
+    OneAttributeList(
       imagePath: 'assets/milk3.png',
       name: 'نام محصول در حالت خیلی طولانی ...',
-      calories: '5555 کالری',
+      indicator: 'کالری',
       weight: '145 گرم',
+      value: '5555 گرم'
     ),
   ];
 
@@ -50,7 +53,7 @@ class FullRecentListScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         itemCount: recentProducts.length,
         itemBuilder: (context, index) {
-          return RecentSearchItem(
+          return OneAttributeListItem(
             product: recentProducts[index],
           );
         },

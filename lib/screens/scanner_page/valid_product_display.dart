@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/scanner_page/product_detail.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
-
-import '../home_page/barcode_scanner_screen.dart';
 import '../product_page/product_page.dart';
 
 class ValidProductDisplay extends StatefulWidget {
