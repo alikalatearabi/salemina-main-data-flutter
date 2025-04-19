@@ -8,29 +8,25 @@ class WeeklyContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-        padding:  EdgeInsets.all(MediaQuery.of(context).size.height*0.03053435114503816793893129770992),
+        padding:  EdgeInsets.all(24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildCalorieCard(context),
-              SizedBox(width: 8,),
               _buildFattyAcidCard(context),
             ],
           ),
-          SizedBox(height: 8,),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildFatCard(context),
-              SizedBox(width: 8,),
               _buildSaltCard( context),
             ],
           ),
-          SizedBox(height: 8,),
           _buildSugarCard(context),
       ],
       )
@@ -41,9 +37,10 @@ class WeeklyContent extends StatelessWidget {
     return Container(
       height:MediaQuery.of(context).size.height * 0.26,
       width: MediaQuery.of(context).size.width *0.41,
-      padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
+      padding:  EdgeInsets.all(16),
       decoration: _boxDecoration(),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           const Text('کالری', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -58,10 +55,7 @@ class WeeklyContent extends StatelessWidget {
             textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
           ),
-          Spacer(),
-          SizedBox(
-              width: MediaQuery.of(context).size.width * 0.33589743589743589743589743589744,
-              height: MediaQuery.of(context).size.height * 0.10178117048346055979643765903308,
+          Expanded(
               child: _buildChart(Colors.green[800]!)
           ),
         ],
@@ -74,9 +68,10 @@ class WeeklyContent extends StatelessWidget {
 
       height:MediaQuery.of(context).size.height * 0.26,
       width: MediaQuery.of(context).size.width *0.41,
-      padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
+      padding:  EdgeInsets.all(16),
       decoration: _boxDecoration(),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           const Text('اسید چرب', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -91,10 +86,7 @@ class WeeklyContent extends StatelessWidget {
             textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
           ),
-          Spacer(),
-          SizedBox(
-              width: MediaQuery.of(context).size.width * 0.33589743589743589743589743589744,
-              height: MediaQuery.of(context).size.height * 0.10178117048346055979643765903308,
+          Expanded(
               child: _buildChart(Colors.purple[800]!)
           ),
         ],
@@ -107,9 +99,10 @@ class WeeklyContent extends StatelessWidget {
 
       height:MediaQuery.of(context).size.height * 0.26 ,
       width: MediaQuery.of(context).size.width *0.41,
-      padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
+      padding:  EdgeInsets.all(16),
       decoration: _boxDecoration(),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           const Text('چربی', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -124,12 +117,7 @@ class WeeklyContent extends StatelessWidget {
             textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
           ),
-          Spacer(),
-          SizedBox(
-              width: MediaQuery.of(context).size.width * 0.33589743589743589743589743589744,
-              height: MediaQuery.of(context).size.height * 0.10178117048346055979643765903308,
-              child: _buildChart(Colors.orange[800]!)
-          ),
+          Expanded(child: _buildChart(Colors.orange[800]!))
         ],
       ),
     );
@@ -140,9 +128,10 @@ class WeeklyContent extends StatelessWidget {
 
       height:MediaQuery.of(context).size.height * 0.26 ,
       width: MediaQuery.of(context).size.width *0.41,
-      padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
+      padding:  EdgeInsets.all(16),
       decoration: _boxDecoration(),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           const Text('نمک', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -157,12 +146,7 @@ class WeeklyContent extends StatelessWidget {
             textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
           ),
-          Spacer(),
-          SizedBox(
-              width: MediaQuery.of(context).size.width * 0.33589743589743589743589743589744,
-              height: MediaQuery.of(context).size.height * 0.10178117048346055979643765903308,
-              child: _buildChart(Colors.blue[800]!)
-          ),
+          Expanded(child: _buildChart(Colors.blue[800]!))
         ],
       ),
     );
@@ -170,8 +154,9 @@ class WeeklyContent extends StatelessWidget {
 
   Widget _buildSugarCard(BuildContext context) {
     return Container(
-      height:MediaQuery.of(context).size.height * 0.13,
-      padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.03),
+      height:MediaQuery.of(context).size.height * 0.16,
+      width: MediaQuery.of(context).size.width * 0.88,
+      padding:  EdgeInsets.all(16),
       decoration: _boxDecoration(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -195,12 +180,8 @@ class WeeklyContent extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(width: 8),
-          SizedBox(
-              width: MediaQuery.of(context).size.width * 0.33589743589743589743589743589744,
-              height: MediaQuery.of(context).size.height * 0.10178117048346055979643765903308,
-              child: _buildChart(Colors.red[800]!)
-          ),
+          Spacer(),
+          Expanded(child: _buildChart(Colors.red[800]!))
         ],
       ),
     );

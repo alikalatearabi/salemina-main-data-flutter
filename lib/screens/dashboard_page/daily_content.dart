@@ -9,27 +9,24 @@ class DailyContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-
       alignment: Alignment.center,
-      padding:  EdgeInsets.all(MediaQuery.of(context).size.height*0.03053435114503816793893129770992),
+      padding:  EdgeInsets.all(24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildCalorieCard(context),
-              SizedBox(width: 8,),
               _buildFattyAcidCard(context),
             ],
           ),
 
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildFatCard(context),
-              SizedBox(width: 8,),
               _buildSaltCard( context),
             ],
           ),
@@ -52,9 +49,10 @@ class DailyContent extends StatelessWidget {
       child: Container(
         height: MediaQuery.of(context).size.height * 0.26,
         width: MediaQuery.of(context).size.width * 0.41,
-        padding:  EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
+        padding:  EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             const Text('کالری', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -69,16 +67,12 @@ class DailyContent extends StatelessWidget {
               textDirection: TextDirection.rtl,
               style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
             ),
-            Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.20,
-                    height: MediaQuery.of(context).size.width * 0.20,
-                    child: _buildPieChart(Colors.green[800]!, 100, 555)
-                ),
-              ],
+            SizedBox(height: 10,),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(0.0),
+                child:  _buildPieChart(Colors.green[800]!, 100, 555)
+              ),
             ),
           ],
         ),
@@ -90,9 +84,10 @@ class DailyContent extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height * 0.26,
       width: MediaQuery.of(context).size.width * 0.41,
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
+      padding: EdgeInsets.all(16),
       decoration: _boxDecoration(),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           const Text('اسید چرب', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -107,29 +102,25 @@ class DailyContent extends StatelessWidget {
             textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
           ),
-          Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.20,
-                  height: MediaQuery.of(context).size.width * 0.20,
-                  child: _buildPieChart(Colors.purple[800]!, 350, 555)
-              ),
-            ],
+          const SizedBox(height: 10),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: _buildPieChart(Colors.purple[800]!, 350, 555),
+            ),
           ),
         ],
       ),
     );
   }
-
   Widget _buildFatCard(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.26,
       width: MediaQuery.of(context).size.width * 0.41,
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
+      padding: EdgeInsets.all(16),
       decoration: _boxDecoration(),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           const Text('چربی', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -144,16 +135,12 @@ class DailyContent extends StatelessWidget {
             textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
           ),
-          Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.20,
-                  height: MediaQuery.of(context).size.width * 0.20,
-                  child: _buildPieChart(Colors.orange[800]!, 200, 555)
-              ),
-            ],
+          const SizedBox(height: 10),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: _buildPieChart(Colors.orange[800]!, 200, 555),
+            ),
           ),
         ],
       ),
@@ -164,9 +151,10 @@ class DailyContent extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height * 0.26,
       width: MediaQuery.of(context).size.width * 0.41,
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
+      padding: EdgeInsets.all(16),
       decoration: _boxDecoration(),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           const Text('نمک', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -181,26 +169,24 @@ class DailyContent extends StatelessWidget {
             textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF657381)),
           ),
-          Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.20,
-                  height: MediaQuery.of(context).size.width * 0.20,
-                  child: _buildPieChart(Colors.blue[800]!, 400, 555)
-              ),
-            ],
+          const SizedBox(height: 10),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: _buildPieChart(Colors.blue[800]!, 400, 555),
+            ),
           ),
         ],
       ),
     );
   }
 
+
   Widget _buildSugarCard(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.14,
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.041),
+      height: MediaQuery.of(context).size.height * 0.16,
+      width: MediaQuery.of(context).size.width * 0.88,
+      padding: EdgeInsets.all(16),
       decoration: _boxDecoration(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -224,13 +210,9 @@ class DailyContent extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(width: 8),
+          Spacer(),
           Expanded(
-            child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.20512820512820512820512820512821,
-                height: MediaQuery.of(context).size.width * 0.20512820512820512820512820512821,
-                child: _buildPieChart(Colors.red[800]!, 339, 555)
-            ),
+            child: _buildPieChart(Colors.red[800]!, 339, 555)
           ),
         ],
       ),
