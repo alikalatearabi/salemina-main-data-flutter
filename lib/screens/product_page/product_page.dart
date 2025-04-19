@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:main_app/screens/product_page/alternative_product_screen.dart';
 import 'package:main_app/screens/product_page/calorie_analysis_card.dart';
 import 'package:main_app/screens/product_page/negative_attributes_card.dart';
 import 'package:main_app/screens/product_page/positive_attributes_card.dart';
@@ -299,7 +300,12 @@ class ProductPageState extends State<ProductPage> {
                         children: [
                           InkWell(
                             onTap: () {
-
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AlternativeProductScreen(),
+                                ),
+                              );
                             },
                             child: const Text(
                               "مشاهده همه",

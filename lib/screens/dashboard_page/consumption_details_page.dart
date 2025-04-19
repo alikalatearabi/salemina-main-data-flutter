@@ -33,9 +33,8 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
   List<double> monthlyInitialValues = List.generate(30, (index) => index * 2.5 + 5);
   List<double> monthlyCompareValues = List.generate(30, (index) => index * 2 + 8);
 
-  List<double> yearlyInitialValues = List.generate(365, (index) => index * index- 10);
-  List<double> yearlyCompareValues = List.generate(365, (index) => index * -1*index*index + 1);
-
+  List<double> yearlyInitialValues = List.generate(365, (index) => index * index - 10);
+  List<double> yearlyCompareValues = List.generate(365, (index) => index * -1 * index * index + 1);
 
   final List<OneAttributeList> recentProducts = [
     OneAttributeList(
@@ -43,22 +42,19 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
         name: 'نام محصول در حالت خیلی طولانی ...',
         indicator: 'قند',
         weight: '145 گرم',
-        value: '5555 گرم'
-    ),
+        value: '5555 گرم'),
     OneAttributeList(
         imagePath: 'assets/milk2.png',
         name: 'نام محصول در حالت خیلی طولانی ...',
         indicator: 'نمک',
         weight: '145 گرم',
-        value: '5555 گرم'
-    ),
+        value: '5555 گرم'),
     OneAttributeList(
         imagePath: 'assets/milk3.png',
         name: 'نام محصول در حالت خیلی طولانی ...',
         indicator: 'اسید چرب',
         weight: '145 گرم',
-        value: '5555 گرم'
-    ),
+        value: '5555 گرم'),
   ];
 
   @override
@@ -77,7 +73,6 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
-
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -106,7 +101,6 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
                   selectedCategoryIndex = index;
                 });
               }),
-        
               Container(
                 padding: const EdgeInsets.all(24),
                 child: Column(
@@ -116,23 +110,19 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
                       children: [
                         InkWell(
                           onTap: () {
-                          },
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => RecentSearchScreen(),
-                                ),
-                              );
-                            },
-                            child: const Text(
-                              "مشاهده همه",
-                              style: TextStyle(
-                                color: Color(0xFF018A08),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RecentSearchScreen(),
                               ),
+                            );
+                          },
+                          child: const Text(
+                            "مشاهده همه",
+                            style: TextStyle(
+                              color: Color(0xFF018A08),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
                             ),
                           ),
                         ),
@@ -199,12 +189,13 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
     }
   }
 
-
   Widget _buildToggleButtons(List<String> items, int selectedIndex, Function(int) onSelect) {
+    final isThreeItems = items.length == 3;
+
     return Container(
       alignment: Alignment.center,
-      width: MediaQuery.of(context).size.width*0.87692307692307692307692307692308,
-      height: MediaQuery.of(context).size.height*0.05089058524173027989821882951654,
+      width: MediaQuery.of(context).size.width * 0.88,
+      height: MediaQuery.of(context).size.height * 0.05,
       decoration: BoxDecoration(
         color: Colors.grey[100],
         borderRadius: BorderRadius.circular(8),
@@ -219,16 +210,22 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
         borderColor: Colors.transparent,
         selectedBorderColor: Colors.transparent,
         renderBorder: false,
-        children: items.map((text) => _buildToggleButton(text, text == items[selectedIndex])).toList(),
+        children: items
+            .map((text) => _buildToggleButton(text, text == items[selectedIndex], isThreeItems))
+            .toList(),
       ),
     );
   }
 
-  Widget _buildToggleButton(String text, bool isSelected) {
+  Widget _buildToggleButton(String text, bool isSelected, bool isThreeItems) {
+    double width = isThreeItems
+        ? MediaQuery.of(context).size.width * 0.285
+        : MediaQuery.of(context).size.width * 0.21;
+
     return Container(
       alignment: Alignment.center,
       height: MediaQuery.of(context).size.height * 0.04,
-      width: MediaQuery.of(context).size.width * 0.21,
+      width: width,
       decoration: BoxDecoration(
         color: isSelected ? Colors.white : Colors.transparent,
         borderRadius: BorderRadius.circular(8),
@@ -238,11 +235,10 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
       ),
       child: Text(
         text,
-        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black),
+        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black),
       ),
     );
   }
-
 
   Widget _buildComparisonToggle() {
     return GestureDetector(
@@ -253,9 +249,9 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
       },
       child: Container(
         width: double.infinity,
-        height: MediaQuery.of(context).size.height*0.06106870229007633587786259541985,
+        height: MediaQuery.of(context).size.height * 0.061,
         decoration: BoxDecoration(
-          color: isComparisonEnabled?Color(0xFFD6ECD8) : Colors.white,
+          color: isComparisonEnabled ? Color(0xFFD6ECD8) : Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isComparisonEnabled ? Color(0xFFD6ECD8) : Colors.grey,

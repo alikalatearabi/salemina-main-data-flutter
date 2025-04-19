@@ -78,7 +78,7 @@ class _EditPersonalInfoState extends State<EditPersonalInfo> {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: AssetImage('assets/gender_man_active.png'),
+                          image: AssetImage('assets/profile_avatar.png'),
                         ),
                         border: Border.fromBorderSide(
                           BorderSide(color: Color(0xFF018A08), width: 3),

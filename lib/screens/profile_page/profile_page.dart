@@ -38,7 +38,7 @@ class ProfilePage extends StatelessWidget {
                             ),
                             image: const DecorationImage(
                               fit: BoxFit.cover,
-                              image: AssetImage('assets/gender_man_active.png'),
+                              image: AssetImage('assets/profile_avatar.png'),
                             ),
                           ),
                         ),
