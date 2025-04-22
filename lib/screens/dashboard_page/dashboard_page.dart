@@ -87,15 +87,15 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget _getContentForSelectedIndex() {
     switch (_selectedIndex) {
       case 3:
-        return const DailyContent();
+        return  DailyContent();
       case 2:
-        return const WeeklyContent();
+        return  WeeklyContent();
       case 1:
-        return const MonthlyContent();
+        return  MonthlyContent();
       case 0:
-        return const YearlyContent();
+        return  YearlyContent();
       default:
-        return const WeeklyContent();
+        return  DailyContent();
     }
   }
 

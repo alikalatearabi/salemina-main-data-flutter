@@ -4,6 +4,7 @@ import '../product_page/custom_indicator_bottom_sheet.dart';
 import 'custom_circular_chart.dart';
 
 class DailyConsumptionCard extends StatelessWidget {
+  final String title;
   final double consumed;
   final double total;
   final double recommendedConsumption;
@@ -11,6 +12,7 @@ class DailyConsumptionCard extends StatelessWidget {
 
   const DailyConsumptionCard({
     super.key,
+    required this.title,
     required this.consumed,
     required this.total,
     required this.recommendedConsumption,
@@ -65,10 +67,10 @@ class DailyConsumptionCard extends StatelessWidget {
                  child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'کالری',
+                    title,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green),
                   ),
-                               ),
+                 ),
                ),
             ],
           ),
@@ -77,6 +79,7 @@ class DailyConsumptionCard extends StatelessWidget {
           const SizedBox(height: 8),
           const Text(
             '۲۵ اردیبهشت ۱۴۰۳',
+            textDirection: TextDirection.rtl,
             style: TextStyle(fontSize: 12, color: Colors.grey),
           ),
         ],

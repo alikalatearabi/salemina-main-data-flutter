@@ -5,6 +5,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../product_page/custom_indicator_bottom_sheet.dart';
 
 class MonthlyConsumptionChart extends StatelessWidget {
+  final String title;
   final List<double> primaryValues;
   final List<double>? secondaryValues;
   final bool isComparisonMode;
@@ -13,7 +14,7 @@ class MonthlyConsumptionChart extends StatelessWidget {
     super.key,
     required this.primaryValues,
     this.secondaryValues,
-    this.isComparisonMode = false,
+    this.isComparisonMode = false, required this.title,
   });
 
   @override
@@ -65,7 +66,7 @@ class MonthlyConsumptionChart extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'کالری',
+                    title,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green),
                   ),
                 ),

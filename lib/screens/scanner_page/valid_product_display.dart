@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/scanner_page/product_detail.dart';
+import '../product_page/adding_meal.dart';
 import '../product_page/product_page.dart';
 
 class ValidProductDisplay extends StatefulWidget {
@@ -58,7 +59,20 @@ class _ValidProductDisplayState extends State<ValidProductDisplay> {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => DraggableScrollableSheet(
+                  expand: false,
+                  initialChildSize: 0.8,
+                  minChildSize: 0.4,
+                  maxChildSize: 0.95,
+                  builder: (context, scrollController) {
+                    return AddingMeal();
+                  },
+                ),
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF018A08),

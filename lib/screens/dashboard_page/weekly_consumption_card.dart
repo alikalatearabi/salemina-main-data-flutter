@@ -5,6 +5,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../product_page/custom_indicator_bottom_sheet.dart';
 
 class WeeklyConsumptionCard extends StatelessWidget {
+  final String title;
   final List<double> primaryValues;
   final List<double>? secondaryValues;
   final int highlightedIndex;
@@ -16,6 +17,7 @@ class WeeklyConsumptionCard extends StatelessWidget {
     this.secondaryValues,
     required this.highlightedIndex,
     this.isComparisonMode = false,
+    required this.title,
   });
 
   @override
@@ -67,7 +69,7 @@ class WeeklyConsumptionCard extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'کالری',
+                    title,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.green),
                   ),
                 ),

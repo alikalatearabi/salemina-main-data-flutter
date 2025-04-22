@@ -3,12 +3,21 @@ import 'package:main_app/widgets/one_attribute_list.dart';
 import 'package:main_app/widgets/one_attribute_list_item.dart';
 import 'package:main_app/screens/dashboard_page/weekly_consumption_card.dart';
 import 'package:main_app/screens/dashboard_page/yearly_consumption_card.dart';
+import 'package:main_app/screens/dashboard_page/monthly_consumption_card.dart';
+import 'package:main_app/screens/dashboard_page/daily_consumption_card.dart';
 import 'recent_search_screen.dart';
-import 'daily_consumption_card.dart';
-import 'monthly_consumption_card.dart';
 
 class ConsumptionDetailsPage extends StatefulWidget {
-  const ConsumptionDetailsPage({super.key});
+  final String title;
+  final List<double> primaryValues;
+  final List<double> recommendedValues;
+
+  const ConsumptionDetailsPage({
+    Key? key,
+    required this.title,
+    required this.primaryValues,
+    required this.recommendedValues,
+  }) : super(key: key);
 
   @override
   State<ConsumptionDetailsPage> createState() => _ConsumptionDetailsPageState();
@@ -17,44 +26,49 @@ class ConsumptionDetailsPage extends StatefulWidget {
 class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
   bool isComparisonEnabled = false;
   int selectedCategoryIndex = 0;
-  int selectedPeriodIndex = 3;
-
-  final double consumed = 12555;
-  final double total = 55555;
-  final double recommendedConsumption = 10000;
+  int selectedPeriodIndex = 3; // default to Daily
 
   final List<String> categories = ['سالم', 'متوسط', 'ناسالم'];
   final List<String> periods = ['سالانه', 'ماهانه', 'هفتگی', 'روزانه'];
 
-  List<double> weeklyInitialValues = [10, 20, 15, 25, 18, 12, 22];
-  List<double> weeklyCompareValues = [8, 18, 12, 22, 15, 10, 20];
-  int currentDayIndex = 2;
+  // Slices based on the full 365-item lists:
+  List<double> get dailyPrimary =>
+      [widget.primaryValues.last];
+  List<double> get dailyRecommended =>
+      [widget.recommendedValues.last];
 
-  List<double> monthlyInitialValues = List.generate(30, (index) => index * 2.5 + 5);
-  List<double> monthlyCompareValues = List.generate(30, (index) => index * 2 + 8);
+  List<double> get weeklyPrimary =>
+      widget.primaryValues.sublist(widget.primaryValues.length - 7);
+  List<double> get weeklyRecommended =>
+      widget.recommendedValues.sublist(widget.recommendedValues.length - 7);
 
-  List<double> yearlyInitialValues = List.generate(365, (index) => index * index - 10);
-  List<double> yearlyCompareValues = List.generate(365, (index) => index * -1 * index * index + 1);
+  List<double> get monthlyPrimary =>
+      widget.primaryValues.sublist(widget.primaryValues.length - 30);
+  List<double> get monthlyRecommended =>
+      widget.recommendedValues.sublist(widget.recommendedValues.length - 30);
 
   final List<OneAttributeList> recentProducts = [
     OneAttributeList(
-        imagePath: 'assets/milk.png',
-        name: 'نام محصول در حالت خیلی طولانی ...',
-        indicator: 'قند',
-        weight: '145 گرم',
-        value: '5555 گرم'),
+      imagePath: 'assets/milk.png',
+      name: 'نام محصول در حالت خیلی طولانی ...',
+      indicator: 'قند',
+      weight: '145 گرم',
+      value: '5555 گرم',
+    ),
     OneAttributeList(
-        imagePath: 'assets/milk2.png',
-        name: 'نام محصول در حالت خیلی طولانی ...',
-        indicator: 'نمک',
-        weight: '145 گرم',
-        value: '5555 گرم'),
+      imagePath: 'assets/milk2.png',
+      name: 'نام محصول در حالت خیلی طولانی ...',
+      indicator: 'نمک',
+      weight: '145 گرم',
+      value: '5555 گرم',
+    ),
     OneAttributeList(
-        imagePath: 'assets/milk3.png',
-        name: 'نام محصول در حالت خیلی طولانی ...',
-        indicator: 'اسید چرب',
-        weight: '145 گرم',
-        value: '5555 گرم'),
+      imagePath: 'assets/milk3.png',
+      name: 'نام محصول در حالت خیلی طولانی ...',
+      indicator: 'اسید چرب',
+      weight: '145 گرم',
+      value: '5555 گرم',
+    ),
   ];
 
   @override
@@ -66,17 +80,20 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         surfaceTintColor: Colors.white,
-        title: const Align(
+        title: Align(
           alignment: Alignment.centerRight,
           child: Text(
-            'جزئیات مصرف',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            widget.title,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+          padding: EdgeInsets.zero,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -138,7 +155,7 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
                     ),
                     const SizedBox(height: 16),
                     ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: recentProducts.length,
                       itemBuilder: (context, index) {
@@ -159,37 +176,46 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
 
   Widget _buildConsumptionCard() {
     switch (selectedPeriodIndex) {
-      case 0:
+      case 0: // Yearly
         return YearlyConsumptionChart(
-          primaryValues: yearlyInitialValues,
-          secondaryValues: isComparisonEnabled ? yearlyCompareValues : null,
+          primaryValues: widget.primaryValues,
+          secondaryValues:
+          isComparisonEnabled ? widget.recommendedValues : null,
           isComparisonMode: isComparisonEnabled,
+            title: widget.title,
         );
-      case 1:
+      case 1: // Monthly
         return MonthlyConsumptionChart(
-          primaryValues: monthlyInitialValues,
-          secondaryValues: isComparisonEnabled ? monthlyCompareValues : null,
+          primaryValues: monthlyPrimary,
+          secondaryValues:
+          isComparisonEnabled ? monthlyRecommended : null,
           isComparisonMode: isComparisonEnabled,
+            title: widget.title,
         );
-      case 2:
+      case 2: // Weekly
         return WeeklyConsumptionCard(
-          primaryValues: weeklyInitialValues,
-          secondaryValues: isComparisonEnabled ? weeklyCompareValues : null,
-          highlightedIndex: currentDayIndex,
-          isComparisonMode: isComparisonEnabled,
+          primaryValues: weeklyPrimary,
+          secondaryValues:
+          isComparisonEnabled ? weeklyRecommended : null,
+          highlightedIndex: weeklyPrimary.length - 1,
+          isComparisonMode: isComparisonEnabled, title: widget.title,
         );
-      case 3:
+      case 3: // Daily
       default:
         return DailyConsumptionCard(
-          consumed: consumed,
-          total: total,
-          recommendedConsumption: recommendedConsumption,
-          isComparisonEnabled: isComparisonEnabled,
+          consumed: dailyPrimary.last,
+          total: dailyPrimary.last + dailyRecommended.last,
+          recommendedConsumption: dailyRecommended.last,
+          isComparisonEnabled: isComparisonEnabled, title: widget.title,
         );
     }
   }
 
-  Widget _buildToggleButtons(List<String> items, int selectedIndex, Function(int) onSelect) {
+  Widget _buildToggleButtons(
+      List<String> items,
+      int selectedIndex,
+      Function(int) onSelect,
+      ) {
     final isThreeItems = items.length == 3;
 
     return Container(
@@ -202,8 +228,9 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
       ),
       child: ToggleButtons(
         borderRadius: BorderRadius.circular(8),
-        isSelected: List.generate(items.length, (index) => index == selectedIndex),
-        onPressed: (index) => onSelect(index),
+        isSelected:
+        List.generate(items.length, (i) => i == selectedIndex),
+        onPressed: onSelect,
         fillColor: Colors.white,
         selectedColor: Colors.black,
         color: Colors.black,
@@ -211,13 +238,18 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
         selectedBorderColor: Colors.transparent,
         renderBorder: false,
         children: items
-            .map((text) => _buildToggleButton(text, text == items[selectedIndex], isThreeItems))
+            .map((text) =>
+            _buildToggleButton(text, text == items[selectedIndex], isThreeItems))
             .toList(),
       ),
     );
   }
 
-  Widget _buildToggleButton(String text, bool isSelected, bool isThreeItems) {
+  Widget _buildToggleButton(
+      String text,
+      bool isSelected,
+      bool isThreeItems,
+      ) {
     double width = isThreeItems
         ? MediaQuery.of(context).size.width * 0.285
         : MediaQuery.of(context).size.width * 0.21;
@@ -235,7 +267,11 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
       ),
       child: Text(
         text,
-        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black),
+        style: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
       ),
     );
   }
@@ -251,10 +287,14 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
         width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.061,
         decoration: BoxDecoration(
-          color: isComparisonEnabled ? Color(0xFFD6ECD8) : Colors.white,
+          color: isComparisonEnabled
+              ? const Color(0xFFD6ECD8)
+              : Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isComparisonEnabled ? Color(0xFFD6ECD8) : Colors.grey,
+            color: isComparisonEnabled
+                ? const Color(0xFFD6ECD8)
+                : Colors.grey,
             width: 1.5,
           ),
         ),
@@ -263,7 +303,11 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
           children: [
             const Text(
               'مقایسه مصرف پیشنهاد های سالمینا',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
             const SizedBox(width: 8),
             Switch(
@@ -273,19 +317,11 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
                   isComparisonEnabled = value;
                 });
               },
-              activeColor: Color(0xFF018A08),
+              activeColor: const Color(0xFF018A08),
             ),
           ],
         ),
       ),
     );
   }
-}
-
-class ConsumptionData {
-  final String label;
-  final double value;
-  final Color color;
-
-  ConsumptionData(this.label, this.value, this.color);
 }
