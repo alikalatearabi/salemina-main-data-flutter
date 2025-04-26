@@ -19,8 +19,8 @@ class RadialChartWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          width: 60,
-          height: 60,
+          width: MediaQuery.of(context).size.width*0.17,
+          height: MediaQuery.of(context).size.height*0.1,
           child: SfCircularChart(
             margin: EdgeInsets.zero,
             annotations: <CircularChartAnnotation>[

@@ -5,22 +5,45 @@ import 'conditional_marquee.dart';
 import 'radial_chart_widget.dart';
 
 class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final double productRate;
+  final int rateCount;
+  final String productBrand;
+  final String productName;
+  final String productCluster;
+
+  ProductHeaderDelegate({required this.productBrand,
+    required this.productName,
+    required this.productCluster,
+    required this.productRate,
+    required this.rateCount});
+
+  final GlobalKey _radialChartWidgetKey = GlobalKey();
+  double _radialChartWidgetHeight = 0;
+
+  void _measureWidget() {
+    if (_radialChartWidgetKey.currentContext == null) return;
+
+    final RenderBox renderBox = _radialChartWidgetKey.currentContext!.findRenderObject() as RenderBox;
+    _radialChartWidgetHeight = renderBox.size.height;
+  }
+
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => _measureWidget());
     final double screenWidth = MediaQuery.of(context).size.width;
     final double maxHeight = maxExtent;
     final double minHeight = minExtent;
     final double currentHeight = (maxHeight - shrinkOffset).clamp(minHeight, maxHeight);
 
-    if (shrinkOffset > 0 && shrinkOffset< MediaQuery.of(context).size.height*0.12722646310432569974554707379135) {
-      return _buildIntermediateHeader(context, screenWidth, currentHeight);
-    } else if (shrinkOffset>= 100) {
+    if (shrinkOffset > 0 && shrinkOffset< _radialChartWidgetHeight) {
+      return _buildIntermediateHeader(context, screenWidth, currentHeight,productRate);
+    } else if (shrinkOffset > _radialChartWidgetHeight) {
       return _buildCollapsedHeader(context, screenWidth, currentHeight);
     } else {
-      return _buildExpandedHeader(context, screenWidth, currentHeight);
+      return _buildExpandedHeader(context, screenWidth, currentHeight,productRate);
     }
   }
-  Widget _buildExpandedHeader(BuildContext context, double screenWidth, double height) {
+  Widget _buildExpandedHeader(BuildContext context, double screenWidth, double height,double productRate) {
     return Container(
       color: Colors.white,
       height: height,
@@ -33,7 +56,7 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1221374046,
-            child: _buildMiddleRow(context, screenWidth),
+            child: _buildMiddleRow(context, screenWidth,productRate),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1323155216,
@@ -44,7 +67,7 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
     );
   }
 
-  Widget _buildIntermediateHeader(BuildContext context, double screenWidth, double height) {
+  Widget _buildIntermediateHeader(BuildContext context, double screenWidth, double height,starIndex) {
     return Container(
       color: Colors.white,
       height: height,
@@ -57,7 +80,7 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1221374046,
-            child: _buildMiddleRow(context, screenWidth),
+            child: _buildMiddleRow(context, screenWidth,starIndex),
           ),
         ],
       ),
@@ -120,13 +143,13 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 ConditionalMarquee(
-                  text: "نام خوراکی در حالت طولانی",
+                  text: productName,
                   maxWidth: MediaQuery.of(context).size.width * 0.48717948717948717948717948717949,
                   textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.black),
                   maxCharacters: 25,
                 ),
                 Text(
-                  "خوشه محصول  ·  برند محصول",
+                  "${productCluster}  ·  ${productBrand}",
                   style: TextStyle(color: Color(0xFF018A08), fontSize: 12),
                 ),
               ],
@@ -218,7 +241,7 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
     );
   }
 
-  Widget _buildMiddleRow(BuildContext context, double screenWidth) {
+  Widget _buildMiddleRow(BuildContext context, double screenWidth,double productRate) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -227,20 +250,21 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ConditionalMarquee(
-              text: "نام خوراکی در حالت طولانی / نام خوراکی در حالت طولانی",
+              text: productName,
               maxWidth: MediaQuery.of(context).size.width * 0.63076923076923076923076923076923,
               textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black),
               maxCharacters: 25,
             ),
-            const Text(
-              "خوشه محصول  ·  برند محصول",
+            Text(
+              textDirection: TextDirection.rtl,
+              "${productCluster} · ${productBrand}",
               style: TextStyle(color: Color(0xFF018A08), fontSize: 12),
             ),
             Row(
               children: [
                 ElevatedButton(
                   onPressed: () {
-
+                    //todo
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF018A08).withOpacity(0.16),
@@ -265,7 +289,7 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
                         ),
                       ),
                       SizedBox(width: screenWidth * 0.01538),
-                      SvgPicture.asset(
+                        SvgPicture.asset(
                         'assets/icons/star_linear.svg',
                         width: 16,
                         height: 16,
@@ -277,16 +301,61 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Text(
-                      "(555 نفر) 4.5",
-                      style: TextStyle(color: Color(0xFF018A08), fontSize: 12),
+                    Text(
+                      textDirection: TextDirection.rtl,
+                      "(${rateCount} نفر)" ,
+                      style: TextStyle(color: Color(0xFF657380), fontSize: 12),
                     ),
-                    SizedBox(width: screenWidth * 0.01026),
+                    SizedBox(width: 4),
+                    if (productRate<2)
+                      Text(
+                        productRate.toStringAsFixed(2),
+                        style: TextStyle(color: Color(0xFFF2506E), fontSize: 14),
+                      ),
+                    if (productRate>=2 && productRate<3)
+                      Text(
+                        productRate.toStringAsFixed(2),
+                        style: TextStyle(color: Color(0xFFF5AE32), fontSize: 14),
+                      ),
+                    if (productRate>=3 && productRate<4)
+                      Text(
+                        productRate.toStringAsFixed(2),
+                        style: TextStyle(color: Color(0xFF464E59), fontSize: 14),
+                      ),
+                    if (productRate>4)
+                      Text(
+                        productRate.toStringAsFixed(2),
+                        style: TextStyle(color: Color(0xFF018A08), fontSize: 14),
+                      ),
+                    SizedBox(width: 4),
+                    if (productRate<2)
                     SvgPicture.asset(
                       'assets/icons/star.svg',
                       width: 16,
                       height: 16,
+                      color: Color(0xFFF2506E),
                     ),
+                    if (productRate>=2 && productRate<3)
+                      SvgPicture.asset(
+                        'assets/icons/star.svg',
+                        width: 16,
+                        height: 16,
+                        color: Color(0xFFF5AE32),
+                      ),
+                    if (productRate>=3 && productRate<4)
+                      SvgPicture.asset(
+                        'assets/icons/star.svg',
+                        width: 16,
+                        height: 16,
+                        color: Color(0xFF464E59),
+                      ),
+                    if (productRate>4)
+                      SvgPicture.asset(
+                        'assets/icons/star.svg',
+                        width: 16,
+                        height: 16,
+                        color: Color(0xFF018A08),
+                      ),
                   ],
                 ),
               ],
@@ -308,7 +377,8 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 
   Widget _buildBottomRow() {
-    return const Row(
+    return Row(
+      key: _radialChartWidgetKey,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         RadialChartWidget(label: 'نمک', value: 100, color: Color(0xFF4BB4D8)),
