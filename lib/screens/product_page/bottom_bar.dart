@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'adding_meal.dart';
+
 class ProductBottomBar extends StatelessWidget {
   const ProductBottomBar({Key? key}) : super(key: key);
 
@@ -46,7 +48,22 @@ class ProductBottomBar extends StatelessWidget {
           const SizedBox(width: 16.0),
           Expanded(
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => DraggableScrollableSheet(
+                    expand: false,
+                    initialChildSize: 0.8,
+                    minChildSize: 0.4,
+                    maxChildSize: 0.95,
+                    builder: (context, scrollController) {
+                      return AddingMeal();
+                    },
+                  ),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 backgroundColor: Color(0xFF018A08),
