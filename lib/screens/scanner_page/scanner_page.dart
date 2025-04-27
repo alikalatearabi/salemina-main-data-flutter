@@ -12,7 +12,7 @@ class ProductScannerScreen extends StatefulWidget {
 
 class _ProductScannerScreenState extends State<ProductScannerScreen> {
   String? scannedCode;
-  bool isValid=false;
+  bool isValid=true;
   bool scanned=true;
   MobileScannerController controller = MobileScannerController();
   @override
@@ -102,13 +102,13 @@ class _ProductScannerScreenState extends State<ProductScannerScreen> {
               ),
             ),
           ),
-          if (scannedCode != null && !isValid && scanned)
+          if (scannedCode != null && isValid && scanned &&scannedCode=='6262032500222')
             //todo fix invalid product
-            Align(
-              alignment: Alignment.bottomCenter,
-                child: ValidProductDisplay(scannedCode: scannedCode!)
-            ),
-          if (scannedCode != null && isValid && scanned)
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ValidProductDisplay(scannedCode: scannedCode!)
+              ),
+          if (scannedCode != null && !isValid && scanned)
             //todo fix valid product
             Align(
                 alignment: Alignment.bottomCenter,

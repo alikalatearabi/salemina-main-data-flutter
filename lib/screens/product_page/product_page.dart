@@ -248,7 +248,7 @@ class ProductPageState extends State<ProductPage> {
           slivers: [
             SliverPersistentHeader(
               pinned: true,
-              delegate: ProductHeaderDelegate(productRate: 2.31, rateCount: 200, productBrand: 'برند محصول', productName: 'اسم محصول', productCluster: 'خوشه محصول'),
+              delegate: ProductHeaderDelegate(productRate: 2.31, rateCount: 200, productBrand: 'اویلا', productName: 'روغن آفتابگردان اویلا', productCluster: 'خوشه محصول'),
             ),
             SliverList(
               delegate: SliverChildListDelegate([

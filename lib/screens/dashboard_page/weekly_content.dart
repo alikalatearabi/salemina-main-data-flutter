@@ -73,7 +73,7 @@ class _WeeklyContentState extends State<WeeklyContent> {
           final eachSpace = (totalW - 2 * cardW) / 3;
           final sugarW = 2 * cardW + eachSpace;
           return Container(
-            height: _rootSize!.height * 0.167,
+            height: _rootSize!.height * 0.2,
             width: sugarW,
             padding: const EdgeInsets.all(16),
             decoration: _boxDecoration(),

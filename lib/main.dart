@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/home_page/home_page.dart';
+import 'package:main_app/screens/product_page/product_page.dart';
 import 'package:main_app/widgets/splash_screen.dart';
 
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'yekanBakh',
       ),
-      home: HomePage(),
+      home: ProductPage(),
 
     );
   }

@@ -202,7 +202,7 @@ class _YearlyContentState extends State<YearlyContent> {
           final sugarW = 2 * cardW + gap;
 
           return Container(
-            height: _rootSize!.height * 0.167,
+            height: _rootSize!.height * 0.2,
             width: sugarW,
             padding: const EdgeInsets.all(16),
             decoration: _boxDecoration(),
