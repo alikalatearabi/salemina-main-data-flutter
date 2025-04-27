@@ -159,8 +159,8 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
               borderRadius: BorderRadius.circular(8),
               child: Image.asset(
                 'assets/eges.png',
-                width: 40,
-                height: 40,
+                width: MediaQuery.of(context).size.width*0.1,
+                height: MediaQuery.of(context).size.width*0.1,
                 fit: BoxFit.cover,
               ),
             ),
