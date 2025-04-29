@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:main_app/screens/home_page/utils.dart' as utils;
 import 'package:main_app/screens/product_page/alternative_product_screen.dart';
 import 'package:main_app/screens/product_page/calorie_analysis_card.dart';
 import 'package:main_app/screens/product_page/negative_attributes_card.dart';
@@ -19,42 +20,41 @@ class ProductPage extends StatefulWidget {
 }
 
 class ProductPageState extends State<ProductPage> {
-
   final List<AlternativeProduct> alternativeProducts = [
     AlternativeProduct(
       imagePath: 'assets/milk.png',
       name: 'نام محصول در حالت خیلی طولانی ...',
-      calories: '5555 کالری',
-      weight: '145 گرم',
+      calories: '${utils.toPersianNumber('5555')} کالری',
+      weight: '${utils.toPersianNumber('145')} گرم',
       values: {
-        'چربی': '0.55 گرم',
-        'اسید چرب': '0.55 گرم',
-        'نمک': '0.55 گرم',
-        'قند': '0.55 گرم',
+        'چربی': '${utils.toPersianNumber('0.55')} گرم',
+        'اسید چرب': '${utils.toPersianNumber('0.14')} گرم',
+        'نمک': '${utils.toPersianNumber('0.55')} گرم',
+        'قند': '${utils.toPersianNumber('0.55')} گرم',
       },
     ),
     AlternativeProduct(
       imagePath: 'assets/milk2.png',
       name: 'نام محصول در حالت خیلی طولانی ...',
-      calories: '5555 کالری',
-      weight: '145 گرم',
+      calories: '${utils.toPersianNumber('5555')} کالری',
+      weight: '${utils.toPersianNumber('145')} گرم',
       values: {
-        'چربی': '0.55 گرم',
-        'اسید چرب': '0.55 گرم',
-        'نمک': '0.55 گرم',
-        'قند': '0.55 گرم',
+        'چربی': '${utils.toPersianNumber('0.55')} گرم',
+        'اسید چرب': '${utils.toPersianNumber('0.14')} گرم',
+        'نمک': '${utils.toPersianNumber('0.55')} گرم',
+        'قند': '${utils.toPersianNumber('0.55')} گرم',
       },
     ),
     AlternativeProduct(
       imagePath: 'assets/milk3.png',
       name: 'نام محصول در حالت خیلی طولانی ...',
-      calories: '5555 کالری',
-      weight: '145 گرم',
+      calories: '${utils.toPersianNumber('5555')} کالری',
+      weight: '${utils.toPersianNumber('145')} گرم',
       values: {
-        'چربی': '0.55 گرم',
-        'اسید چرب': '0.55 گرم',
-        'نمک': '0.55 گرم',
-        'قند': '0.55 گرم',
+        'چربی': '${utils.toPersianNumber('0.55')} گرم',
+        'اسید چرب': '${utils.toPersianNumber('0.14')} گرم',
+        'نمک': '${utils.toPersianNumber('0.55')} گرم',
+        'قند': '${utils.toPersianNumber('0.55')} گرم',
       },
     ),
   ];
@@ -62,10 +62,10 @@ class ProductPageState extends State<ProductPage> {
   List<FoodItemData> foodInfoItems = [
     FoodItemData(
       label: 'قند',
-      value: 4,
+      value: 6.6,
       unit: 'گرم',
-      status: 'سالم',
-      statusTextColor: Color(0xFF25A749),
+      status: 'متوسط',
+      statusTextColor: Color(0xFFAE701E),
       icon: SvgPicture.asset(
         'assets/icons/sugar.svg',
         width: 24,
@@ -74,10 +74,10 @@ class ProductPageState extends State<ProductPage> {
     ),
     FoodItemData(
       label: 'چربی کل',
-      value: 10,
+      value: 7.2,
       unit: 'گرم',
-      status: 'متوسط',
-      statusTextColor: Color(0xFFAE701E),
+      status: 'ناسالم',
+      statusTextColor: Color(0xFFD44661),
       icon: SvgPicture.asset(
         'assets/icons/bottle_2.svg',
         width: 24,
@@ -86,10 +86,10 @@ class ProductPageState extends State<ProductPage> {
     ),
     FoodItemData(
       label: 'نمک',
-      value: 0.8,
+      value: 0,
       unit: 'گرم',
-      status: 'ناسالم',
-      statusTextColor: Color(0xFFD44661),
+      status: 'سالم',
+      statusTextColor: Color(0xFF25A749),
       icon: SvgPicture.asset(
         'assets/icons/salt.svg',
         width: 24,
@@ -98,10 +98,10 @@ class ProductPageState extends State<ProductPage> {
     ),
     FoodItemData(
       label: 'اسیدهای چرب ترانس',
-      value: 0.4,
+      value: 0.06,
       unit: 'گرم',
-      status: 'ناسالم',
-      statusTextColor: Color(0xFFD44661),
+      status: 'سالم',
+      statusTextColor: Color(0xFF25A749),
       icon: SvgPicture.asset(
         'assets/icons/olives.svg',
         width: 20,
@@ -113,7 +113,7 @@ class ProductPageState extends State<ProductPage> {
   List<FoodItemData> calorieAnalysisItems = [
     FoodItemData(
       label: 'کالری کل',
-      value: 24.33,
+      value: 426.4727,
       unit: 'کیلوکالری',
       status: '',
       statusTextColor: Color(0xFF25A749),
@@ -123,38 +123,38 @@ class ProductPageState extends State<ProductPage> {
         height: 24,
       ),
     ),
-    FoodItemData(
-      label: 'کالری حاصل از قند',
-      value: 10,
-      unit: 'کیلوکالری',
-      status: '',
-      statusTextColor: Color(0xFFAE701E),
-      icon: SvgPicture.asset(
-        'assets/icons/sugar.svg',
-        width: 24,
-        height: 24,
-      ),
-    ),
-    FoodItemData(
-      label: 'کالری حاصل از چربی',
-      value: 0.8,
-      unit: 'کیلوکالری',
-      status: 'ناسالم',
-      statusTextColor: Color(0xFFD44661),
-      icon: SvgPicture.asset(
-        'assets/icons/bottle_2.svg',
-        width: 24,
-        height: 24,
-      ),
-    ),
+    // FoodItemData(
+    //   label: 'کالری حاصل از قند',
+    //   value: 10,
+    //   unit: 'کیلوکالری',
+    //   status: '',
+    //   statusTextColor: Color(0xFFAE701E),
+    //   icon: SvgPicture.asset(
+    //     'assets/icons/sugar.svg',
+    //     width: 24,
+    //     height: 24,
+    //   ),
+    // ),
+    // FoodItemData(
+    //   label: 'کالری حاصل از چربی',
+    //   value: 0.8,
+    //   unit: 'کیلوکالری',
+    //   status: 'ناسالم',
+    //   statusTextColor: Color(0xFFD44661),
+    //   icon: SvgPicture.asset(
+    //     'assets/icons/bottle_2.svg',
+    //     width: 24,
+    //     height: 24,
+    //   ),
+    // ),
   ];
 
   List<FoodItemData> positiveItems = [
     FoodItemData(
-      label: 'انرژی',
-      value: 4,
-      unit: 'کیلوکالری',
-      status: 'Free Calorie',
+      label: 'اسید چرب ترانس',
+      value: 0.06,
+      unit: 'گرم',
+      status: 'اسید ترانس خوب',
       statusTextColor: Color(0xFF25A749),
       icon: SvgPicture.asset(
         'assets/icons/fire.svg',
@@ -162,50 +162,50 @@ class ProductPageState extends State<ProductPage> {
         height: 24,
       ),
     ),
-    FoodItemData(
-      label: 'چربی',
-      value: 10,
-      unit: 'گرم',
-      status: 'Low Fat',
-      statusTextColor: Color(0xFF25A749),
-      icon: SvgPicture.asset(
-        'assets/icons/bottle_2.svg',
-        width: 24,
-        height: 24,
-      ),
-    ),
-    FoodItemData(
-      label: 'شکر',
-      value: 0.8,
-      unit: 'گرم',
-      status: 'Low Sugar',
-      statusTextColor: Color(0xFF25A749),
-      icon: SvgPicture.asset(
-        'assets/icons/sugar.svg',
-        width: 24,
-        height: 24,
-      ),
-    ),
-    FoodItemData(
-      label: 'نمک',
-      value: 0.4,
-      unit: 'گرم',
-      status: 'Low Salt',
-      statusTextColor: Color(0xFF25A749),
-      icon: SvgPicture.asset(
-        'assets/icons/salt.svg',
-        width: 24,
-        height: 24,
-      ),
-    ),
+    // FoodItemData(
+    //   label: 'چربی',
+    //   value: 10,
+    //   unit: 'گرم',
+    //   status: 'Low Fat',
+    //   statusTextColor: Color(0xFF25A749),
+    //   icon: SvgPicture.asset(
+    //     'assets/icons/bottle_2.svg',
+    //     width: 24,
+    //     height: 24,
+    //   ),
+    // ),
+    // FoodItemData(
+    //   label: 'شکر',
+    //   value: 0.8,
+    //   unit: 'گرم',
+    //   status: 'Low Sugar',
+    //   statusTextColor: Color(0xFF25A749),
+    //   icon: SvgPicture.asset(
+    //     'assets/icons/sugar.svg',
+    //     width: 24,
+    //     height: 24,
+    //   ),
+    // ),
+    // FoodItemData(
+    //   label: 'نمک',
+    //   value: 0.4,
+    //   unit: 'گرم',
+    //   status: 'Low Salt',
+    //   statusTextColor: Color(0xFF25A749),
+    //   icon: SvgPicture.asset(
+    //     'assets/icons/salt.svg',
+    //     width: 24,
+    //     height: 24,
+    //   ),
+    // ),
   ];
 
   List<FoodItemData> negativeItems = [
     FoodItemData(
-      label: 'انرژی',
-      value: 4,
-      unit: 'کیلوکالری',
-      status: 'High in Calorie',
+      label: 'چربی',
+      value: 7.2,
+      unit: 'گرم',
+      status: 'چربی زیاد',
       statusTextColor: Color(0xFFD44661),
       icon: SvgPicture.asset(
         'assets/icons/fire.svg',
@@ -214,10 +214,10 @@ class ProductPageState extends State<ProductPage> {
       ),
     ),
     FoodItemData(
-      label: 'شکر',
-      value: 0.8,
+      label: 'قند',
+      value: 6.6,
       unit: 'گرم',
-      status: 'High in Sugar',
+      status: 'قند متوسط',
       statusTextColor: Color(0xFFD44661),
       icon: SvgPicture.asset(
         'assets/icons/sugar.svg',
@@ -225,18 +225,18 @@ class ProductPageState extends State<ProductPage> {
         height: 24,
       ),
     ),
-    FoodItemData(
-      label: 'نمک',
-      value: 0.4,
-      unit: 'گرم',
-      status: 'High Sodium',
-      statusTextColor: Color(0xFFD44661),
-      icon: SvgPicture.asset(
-        'assets/icons/salt.svg',
-        width: 24,
-        height: 24,
-      ),
-    ),
+    // FoodItemData(
+    //   label: 'نمک',
+    //   value: 0.4,
+    //   unit: 'گرم',
+    //   status: 'High Sodium',
+    //   statusTextColor: Color(0xFFD44661),
+    //   icon: SvgPicture.asset(
+    //     'assets/icons/salt.svg',
+    //     width: 24,
+    //     height: 24,
+    //   ),
+    // ),
   ];
 
   @override
@@ -248,15 +248,26 @@ class ProductPageState extends State<ProductPage> {
           slivers: [
             SliverPersistentHeader(
               pinned: true,
-              delegate: ProductHeaderDelegate(productRate: 2.31, rateCount: 200, productBrand: 'اویلا', productName: 'روغن آفتابگردان اویلا', productCluster: 'خوشه محصول'),
+              delegate: ProductHeaderDelegate(
+                productRate: 2.31,
+                rateCount: 200,
+                productBrand: '',
+                productName: 'شیرینی آردی با مغزی شکلات',
+                productCluster: 'شیرینی',
+              ),
             ),
             SliverList(
               delegate: SliverChildListDelegate([
-                SizedBox(height: MediaQuery.of(context).size.height * 0.01017811704834605597964376590331,),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height *
+                      0.01017811704834605597964376590331,
+                ),
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.height * 0.02035623409669211195928753180662,
-                    vertical: MediaQuery.of(context).size.height * 0.01017811704834605597964376590331,
+                    horizontal: MediaQuery.of(context).size.height *
+                        0.02035623409669211195928753180662,
+                    vertical: MediaQuery.of(context).size.height *
+                        0.01017811704834605597964376590331,
                   ),
                   color: Colors.white,
                   child: FoodInfoCard(foodItems: foodInfoItems),
@@ -271,25 +282,33 @@ class ProductPageState extends State<ProductPage> {
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.height * 0.02035623409669211195928753180662,
-                    vertical: MediaQuery.of(context).size.height * 0.01017811704834605597964376590331,
+                    horizontal: MediaQuery.of(context).size.height *
+                        0.02035623409669211195928753180662,
+                    vertical: MediaQuery.of(context).size.height *
+                        0.01017811704834605597964376590331,
                   ),
                   color: Colors.white,
                   child: NegativeAttributesCard(foodItems: negativeItems),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.height * 0.02035623409669211195928753180662,
-                    vertical: MediaQuery.of(context).size.height * 0.01017811704834605597964376590331,
-                  ),
-                  color: Colors.white,
-                  child: CalorieAnalysisCard(foodItems: calorieAnalysisItems),
+                // Container(
+                //   padding: EdgeInsets.symmetric(
+                //     horizontal: MediaQuery.of(context).size.height *
+                //         0.02035623409669211195928753180662,
+                //     vertical: MediaQuery.of(context).size.height *
+                //         0.01017811704834605597964376590331,
+                //   ),
+                //   color: Colors.white,
+                //   child: CalorieAnalysisCard(foodItems: calorieAnalysisItems),
+                // ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height *
+                      0.01017811704834605597964376590331,
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.01017811704834605597964376590331,),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.01017811704834605597964376590331,
-                  color: Color(0xFF03D929EAB).withOpacity(0.24),
-                  margin: EdgeInsets.symmetric(horizontal: 0),
+                  height: MediaQuery.of(context).size.height *
+                      0.01017811704834605597964376590331,
+                  color: const Color(0xFF03D929EAB).withOpacity(0.24),
+                  margin: const EdgeInsets.symmetric(horizontal: 0),
                 ),
                 Container(
                   padding: const EdgeInsets.all(24),
@@ -303,7 +322,8 @@ class ProductPageState extends State<ProductPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => AlternativeProductScreen(),
+                                  builder: (context) =>
+                                      AlternativeProductScreen(),
                                 ),
                               );
                             },

@@ -4,6 +4,17 @@ import 'package:main_app/screens/home_page/home_page.dart';
 import 'conditional_marquee.dart';
 import 'radial_chart_widget.dart';
 
+// Utility function to convert English digits to Persian digits
+String toPersianNumber(String number) {
+  const english = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
+  const persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', '٫'];
+  
+  for (int i = 0; i < english.length; i++) {
+    number = number.replaceAll(english[i], persian[i]);
+  }
+  return number;
+}
+
 class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double productRate;
   final int rateCount;
@@ -139,28 +150,31 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
               ),
             ),
             const Spacer(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                ConditionalMarquee(
-                  text: productName,
-                  maxWidth: MediaQuery.of(context).size.width * 0.48717948717948717948717948717949,
-                  textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.black),
-                  maxCharacters: 25,
-                ),
-                Text(
-                  "${productCluster}  ·  ${productBrand}",
-                  style: TextStyle(color: Color(0xFF018A08), fontSize: 12),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  ConditionalMarquee(
+                    text: productName,
+                    maxWidth: MediaQuery.of(context).size.width * 0.4,
+                    textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.black),
+                    maxCharacters: 25,
+                  ),
+                  Text(
+                    "${productCluster}  ·  ${productBrand}",
+                    style: TextStyle(color: Color(0xFF018A08), fontSize: 12),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
             SizedBox(width: screenWidth * 0.02051),
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.asset(
-                'assets/eges.png',
-                width: MediaQuery.of(context).size.width*0.1,
-                height: MediaQuery.of(context).size.width*0.1,
+                'assets/biscuit.jpg',
+                width: MediaQuery.of(context).size.width*0.08,
+                height: MediaQuery.of(context).size.width*0.08,
                 fit: BoxFit.cover,
               ),
             ),
@@ -245,124 +259,129 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ConditionalMarquee(
-              text: productName,
-              maxWidth: MediaQuery.of(context).size.width * 0.63076923076923076923076923076923,
-              textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black),
-              maxCharacters: 25,
-            ),
-            Text(
-              textDirection: TextDirection.rtl,
-              "${productCluster} · ${productBrand}",
-              style: TextStyle(color: Color(0xFF018A08), fontSize: 12),
-            ),
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    //todo
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF018A08).withOpacity(0.16),
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    minimumSize: Size(
-                      screenWidth * 0.22308,
-                      MediaQuery.of(context).size.height * 0.03053,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ConditionalMarquee(
+                text: productName,
+                maxWidth: MediaQuery.of(context).size.width * 0.6,
+                textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black),
+                maxCharacters: 25,
+              ),
+              Text(
+                textDirection: TextDirection.rtl,
+                "${productCluster} · ${productBrand}",
+                style: TextStyle(color: Color(0xFF018A08), fontSize: 12),
+                overflow: TextOverflow.ellipsis,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      //todo
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF018A08).withOpacity(0.16),
+                      elevation: 0,
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      minimumSize: Size(
+                        screenWidth * 0.22308,
+                        MediaQuery.of(context).size.height * 0.03053,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          "ثبت امتیاز",
+                          style: TextStyle(
+                            color: Color(0xFF015B05),
+                            fontSize: 12,
+                          ),
+                        ),
+                        SizedBox(width: screenWidth * 0.01538),
+                          SvgPicture.asset(
+                          'assets/icons/star_linear.svg',
+                          width: 16,
+                          height: 16,
+                        ),
+                      ],
                     ),
                   ),
-                  child: Row(
+                  SizedBox(width: screenWidth * 0.02051),
+                  Row(
                     mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const Text(
-                        "ثبت امتیاز",
-                        style: TextStyle(
-                          color: Color(0xFF015B05),
-                          fontSize: 12,
-                        ),
+                      Text(
+                        textDirection: TextDirection.rtl,
+                        "(${toPersianNumber(rateCount.toString())} نفر)" ,
+                        style: TextStyle(color: Color(0xFF657380), fontSize: 12),
                       ),
-                      SizedBox(width: screenWidth * 0.01538),
-                        SvgPicture.asset(
-                        'assets/icons/star_linear.svg',
+                      SizedBox(width: 4),
+                      if (productRate<2)
+                        Text(
+                          toPersianNumber(productRate.toStringAsFixed(2)),
+                          style: TextStyle(color: Color(0xFFF2506E), fontSize: 14),
+                        ),
+                      if (productRate>=2 && productRate<3)
+                        Text(
+                          toPersianNumber(productRate.toStringAsFixed(2)),
+                          style: TextStyle(color: Color(0xFFF5AE32), fontSize: 14),
+                        ),
+                      if (productRate>=3 && productRate<4)
+                        Text(
+                          toPersianNumber(productRate.toStringAsFixed(2)),
+                          style: TextStyle(color: Color(0xFF464E59), fontSize: 14),
+                        ),
+                      if (productRate>4)
+                        Text(
+                          toPersianNumber(productRate.toStringAsFixed(2)),
+                          style: TextStyle(color: Color(0xFF018A08), fontSize: 14),
+                        ),
+                      SizedBox(width: 4),
+                      if (productRate<2)
+                      SvgPicture.asset(
+                        'assets/icons/star.svg',
                         width: 16,
                         height: 16,
+                        color: Color(0xFFF2506E),
                       ),
+                      if (productRate>=2 && productRate<3)
+                        SvgPicture.asset(
+                          'assets/icons/star.svg',
+                          width: 16,
+                          height: 16,
+                          color: Color(0xFFF5AE32),
+                        ),
+                      if (productRate>=3 && productRate<4)
+                        SvgPicture.asset(
+                          'assets/icons/star.svg',
+                          width: 16,
+                          height: 16,
+                          color: Color(0xFF464E59),
+                        ),
+                      if (productRate>4)
+                        SvgPicture.asset(
+                          'assets/icons/star.svg',
+                          width: 16,
+                          height: 16,
+                          color: Color(0xFF018A08),
+                        ),
                     ],
                   ),
-                ),
-                SizedBox(width: screenWidth * 0.02051),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      textDirection: TextDirection.rtl,
-                      "(${rateCount} نفر)" ,
-                      style: TextStyle(color: Color(0xFF657380), fontSize: 12),
-                    ),
-                    SizedBox(width: 4),
-                    if (productRate<2)
-                      Text(
-                        productRate.toStringAsFixed(2),
-                        style: TextStyle(color: Color(0xFFF2506E), fontSize: 14),
-                      ),
-                    if (productRate>=2 && productRate<3)
-                      Text(
-                        productRate.toStringAsFixed(2),
-                        style: TextStyle(color: Color(0xFFF5AE32), fontSize: 14),
-                      ),
-                    if (productRate>=3 && productRate<4)
-                      Text(
-                        productRate.toStringAsFixed(2),
-                        style: TextStyle(color: Color(0xFF464E59), fontSize: 14),
-                      ),
-                    if (productRate>4)
-                      Text(
-                        productRate.toStringAsFixed(2),
-                        style: TextStyle(color: Color(0xFF018A08), fontSize: 14),
-                      ),
-                    SizedBox(width: 4),
-                    if (productRate<2)
-                    SvgPicture.asset(
-                      'assets/icons/star.svg',
-                      width: 16,
-                      height: 16,
-                      color: Color(0xFFF2506E),
-                    ),
-                    if (productRate>=2 && productRate<3)
-                      SvgPicture.asset(
-                        'assets/icons/star.svg',
-                        width: 16,
-                        height: 16,
-                        color: Color(0xFFF5AE32),
-                      ),
-                    if (productRate>=3 && productRate<4)
-                      SvgPicture.asset(
-                        'assets/icons/star.svg',
-                        width: 16,
-                        height: 16,
-                        color: Color(0xFF464E59),
-                      ),
-                    if (productRate>4)
-                      SvgPicture.asset(
-                        'assets/icons/star.svg',
-                        width: 16,
-                        height: 16,
-                        color: Color(0xFF018A08),
-                      ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
-        SizedBox(width: screenWidth * 0.04103),
+        SizedBox(width: screenWidth * 0.02),
         ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: Image.asset(

@@ -1,39 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/activity_diet_page/water_intake_page.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:main_app/models/user_data.dart';
 
 class AllergiesPage extends StatefulWidget {
-  const AllergiesPage({super.key});
+  final int userId;
+  
+  const AllergiesPage({super.key, required this.userId});
 
   @override
   AllergiesPageState createState() => AllergiesPageState();
 }
 
 class AllergiesPageState extends State<AllergiesPage> {
-  final List<AllergyCategory> allergies = [
-    AllergyCategory("آجیل‌ها",
-        ["بادام", "گردو", "فندق", "پسته", "فندق کاج", "سایر انواع آجیل"]),
-    AllergyCategory("بادام زمینی", []),
-    AllergyCategory("دانه‌های روغنی",
-        ["بذر کنجد", "بذر آفتابگردان", "بذر کدو", "سایر دانه‌های روغنی"]),
-    AllergyCategory("غلات حاوی گلوتن", ["گندم", "جو", "چاودار"]),
-    AllergyCategory("تخم‌مرغ", []),
-    AllergyCategory("شیر و لبنیات", []),
-    AllergyCategory("ماهی و صدف‌های دریایی", []),
-    AllergyCategory("سویا و محصولات سویا", []),
-    AllergyCategory("ذرت و فرآورده های حاوی ذرت", []),
-    AllergyCategory("سیب زمینی", []),
-    AllergyCategory("گوجه فرنگی", []),
-    AllergyCategory("بادمجان", []),
-    AllergyCategory("فلفل", []),
-    AllergyCategory("پیاز", []),
-    AllergyCategory("کلم‌ها", ["گل‌کلم", "کلم بروکلی", "کلم پیچ"]),
-    AllergyCategory("تره فرنگی", []),
-    AllergyCategory("کاهو", []),
-    AllergyCategory("کرفس", []),
-    AllergyCategory("اسفناج", []),
-  ];
+  List<AllergyCategory> allergies = [];
+  bool isLoading = true;
+  Set<int> selectedAllergyIds = {};
 
-  final Set<String> selectedAllergies = {};
+  @override
+  void initState() {
+    super.initState();
+    fetchAllergies();
+  }
+
+  Future<void> fetchAllergies() async {
+    try {
+      final response = await http.get(Uri.parse('http://localhost:3000/api/auth/allergies'));
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        setState(() {
+          allergies = data.map((item) => AllergyCategory.fromJson(item)).toList();
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error fetching allergies: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,16 +116,18 @@ class AllergiesPageState extends State<AllergiesPage> {
                   ),
                   const SizedBox(height: 24),
                   Expanded(
-                    child: SingleChildScrollView(
-                      child: Wrap(
-                        spacing: 8,
-                        runSpacing: 12,
-                        children: allergies
-                            .expand(
-                                (category) => _buildAllergyOptions(category))
-                            .toList(),
-                      ),
-                    ),
+                    child: isLoading
+                        ? const Center(child: CircularProgressIndicator())
+                        : SingleChildScrollView(
+                            child: Wrap(
+                              spacing: 8,
+                              runSpacing: 12,
+                              children: allergies
+                                  .expand(
+                                      (category) => _buildAllergyOptions(category))
+                                  .toList(),
+                            ),
+                          ),
                   ),
                   const SizedBox(height: 16),
                   _buildSubmitButton(),
@@ -130,25 +143,28 @@ class AllergiesPageState extends State<AllergiesPage> {
   List<Widget> _buildAllergyOptions(AllergyCategory category) {
     final List<Widget> widgets = [];
 
-    widgets.addAll(category.items.map((item) => _buildAllergyChip(item)));
+    // Add all allergy items from this category
+    for (var item in category.items) {
+      widgets.add(_buildAllergyChip(item));
+    }
 
     if (category.items.isEmpty) {
-      widgets.add(_buildAllergyChip(category.name));
+      widgets.add(_buildAllergyChip(AllergyItem(category.id, category.name)));
     }
 
     return widgets;
   }
 
-  Widget _buildAllergyChip(String allergy) {
-    final bool isSelected = selectedAllergies.contains(allergy);
+  Widget _buildAllergyChip(AllergyItem allergy) {
+    final bool isSelected = selectedAllergyIds.contains(allergy.id);
 
     return GestureDetector(
       onTap: () {
         setState(() {
           if (isSelected) {
-            selectedAllergies.remove(allergy);
+            selectedAllergyIds.remove(allergy.id);
           } else {
-            selectedAllergies.add(allergy);
+            selectedAllergyIds.add(allergy.id);
           }
         });
       },
@@ -165,7 +181,7 @@ class AllergiesPageState extends State<AllergiesPage> {
           color: isSelected ? const Color(0xFFE8F5E9) : Colors.white,
         ),
         child: Text(
-          allergy,
+          allergy.name,
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
@@ -181,12 +197,41 @@ class AllergiesPageState extends State<AllergiesPage> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const WaterIntakePage(),
-            ),
-          );
+        onPressed: () async {
+          try {
+            // Create the allergies list in the required format for the API
+            final allergiesList = selectedAllergyIds.map((id) => {"id": id}).toList();
+            
+            // Store allergies in UserData
+            final userData = UserData.getInstance(widget.userId);
+            userData.allergies = selectedAllergyIds.map((id) => id.toString()).toList();
+            
+            // Send to API
+            final response = await http.post(
+              Uri.parse('http://localhost:3000/api/auth/signup/allergies'),
+              headers: {'Content-Type': 'application/json'},
+              body: jsonEncode({
+                'userId': widget.userId,
+                'allergies': allergiesList,
+              }),
+            );
+            
+            if (response.statusCode == 200 || response.statusCode == 201) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => WaterIntakePage(userId: widget.userId),
+                ),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('خطا: ${response.body}'), backgroundColor: Colors.red),
+              );
+            }
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('خطا: $e'), backgroundColor: Colors.red),
+            );
+          }
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF018A08),
@@ -206,10 +251,31 @@ class AllergiesPageState extends State<AllergiesPage> {
 }
 
 class AllergyCategory {
+  final int id;
   final String name;
-  final List<String> items;
+  final List<AllergyItem> items;
 
-  AllergyCategory(this.name, this.items);
+  AllergyCategory(this.id, this.name, this.items);
+
+  factory AllergyCategory.fromJson(Map<String, dynamic> json) {
+    final List<dynamic> itemsJson = json['items'] ?? [];
+    final List<AllergyItem> items = itemsJson.map((item) => 
+      AllergyItem(item['id'] as int, item['persianName'] as String)
+    ).toList();
+    
+    return AllergyCategory(
+      json['id'] as int, 
+      json['persianName'] as String, 
+      items
+    );
+  }
+}
+
+class AllergyItem {
+  final int id;
+  final String name;
+  
+  AllergyItem(this.id, this.name);
 }
 
 class TopCurveClipper extends CustomClipper<Path> {

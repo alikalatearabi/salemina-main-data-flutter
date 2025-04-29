@@ -1,22 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:main_app/screens/activity_diet_page/prefered_food_page.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:main_app/models/user_data.dart';
 
 class DietPage extends StatefulWidget {
-  const DietPage({super.key});
+  final int userId;
+  
+  const DietPage({super.key, required this.userId});
 
   @override
   DietPageState createState() => DietPageState();
 }
 
 class DietPageState extends State<DietPage> {
-  String? selectedActivity;
+  String? selectedActivityId;
+  List<ActivityOption> activityOptions = [];
+  bool isLoading = true;
 
-  final List<ActivityOption> activityOptions = [
-    ActivityOption("کم"),
-    ActivityOption("معمولی"),
-    ActivityOption("زیاد"),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    fetchActivityOptions();
+  }
+
+  Future<void> fetchActivityOptions() async {
+    try {
+      final response = await http.get(Uri.parse('http://localhost:3000/api/auth/appetite-modes'));
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        setState(() {
+          activityOptions = data.map((item) => ActivityOption.fromJson(item)).toList();
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error fetching activity options: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +126,10 @@ class DietPageState extends State<DietPage> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  ...activityOptions
-                      .map((option) => _buildActivityOption(option)),
+                  if (isLoading)
+                    const Center(child: CircularProgressIndicator())
+                  else
+                    ...activityOptions.map((option) => _buildActivityOption(option)),
                   const Spacer(),
                   _buildSubmitButton(),
                 ],
@@ -111,10 +142,10 @@ class DietPageState extends State<DietPage> {
   }
 
   Widget _buildActivityOption(ActivityOption option) {
-    final isSelected = selectedActivity == option.title;
+    final isSelected = selectedActivityId == option.id;
     return GestureDetector(
       onTap: () => setState(() {
-        selectedActivity = option.title;
+        selectedActivityId = option.id;
       }),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
@@ -164,15 +195,18 @@ class DietPageState extends State<DietPage> {
   }
 
   Widget _buildSubmitButton() {
-    final isEnabled = selectedActivity != null;
+    final isEnabled = selectedActivityId != null;
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
         onPressed: isEnabled
             ? () {
+                // Store appetite mode ID in UserData
+                UserData.getInstance(widget.userId).appetiteLevel = selectedActivityId!;
+
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const PreferredFoodPage(),
+                    builder: (context) => PreferredFoodPage(userId: widget.userId),
                   ),
                 );
               }
@@ -196,9 +230,14 @@ class DietPageState extends State<DietPage> {
 }
 
 class ActivityOption {
+  final String id;
   final String title;
 
-  ActivityOption(this.title);
+  ActivityOption(this.id, this.title);
+
+  factory ActivityOption.fromJson(Map<String, dynamic> json) {
+    return ActivityOption(json['id'] as String, json['name_fa'] as String);
+  }
 }
 
 class TopCurveClipper extends CustomClipper<Path> {

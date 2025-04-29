@@ -3,7 +3,14 @@ import 'package:main_app/screens/personal_info/ideal_weight_page.dart';
 import 'package:main_app/utility/english_to_persian_number.dart';
 
 class WeightPage extends StatefulWidget {
-  const WeightPage({super.key});
+  final int userId;
+  final int height;
+  
+  const WeightPage({
+    super.key, 
+    required this.userId,
+    required this.height,
+  });
 
   @override
   WeightPageState createState() => WeightPageState();
@@ -68,7 +75,11 @@ class WeightPageState extends State<WeightPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const IdealWeightPage(),
+                    builder: (context) => IdealWeightPage(
+                      userId: widget.userId,
+                      weight: selectedWeight + (selectedDecimal * 0.1),
+                      height: widget.height,
+                    ),
                   ),
                 );
               }

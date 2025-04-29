@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:main_app/screens/home_page/utils.dart';
 
 import 'food_item_data.dart';
 
@@ -28,34 +28,48 @@ class NegativeAttributesCard extends StatelessWidget {
                 top: Radius.circular(20),
               ),
             ),
-            child: const Row(
-              textDirection: TextDirection.rtl,
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                InkWell(
+                  onTap: () {},
+                  child: Row(
+                    children: [
+                      const Text(
+                        'توضیحات',
+                        style: TextStyle(
+                          color: Color(0xFF018A08),
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      const Icon(
+                        Icons.info,
+                        color: Color(0xFF018A08),
+                        size: 18,
+                      ),
+                    ],
+                  ),
+                ),
                 Row(
-                  textDirection: TextDirection.rtl,
                   children: [
-                    Text(
-                      'ویژگی منفی',
+                    SvgPicture.asset(
+                      'assets/icons/close-circle-2.svg',
+                      width: 16,
+                      height: 16,
+                      color: const Color(0xFFD24661),
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      'ویژگی های منفی',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
                       ),
-                      textDirection: TextDirection.rtl,
-                    ),
-                    SizedBox(width: 5,),
-                    Text(
-                      ' (بر‌اساس شاخص غذایی  STOP)',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.black,
-                      ),
-                      textDirection: TextDirection.rtl,
                     ),
                   ],
                 ),
-                Icon(Icons.info_outline, color: Color(0xFF464E59), size: 18),
               ],
             ),
           ),
@@ -63,13 +77,22 @@ class NegativeAttributesCard extends StatelessWidget {
           ...foodItems.map((item) {
             Color effectiveStatusTextColor = item.statusTextColor ?? Colors.black;
             Color effectiveStatusBgColor = effectiveStatusTextColor.withOpacity(0.2);
+            
+            // Convert value to Persian
+            String valueStr = '${item.value} ${item.unit}';
+            try {
+              valueStr = '${toPersianNumber(item.value.toString())} ${item.unit}';
+            } catch (e) {
+              // Keep original value in case of error
+            }
+            
             return Container(
               padding: const EdgeInsets.only(bottom: 2, top: 2, left: 16, right: 16),
               child: Column(
                 children: [
                   _buildInfoRow(
                     label: item.label,
-                    value: '${item.value} ${item.unit}',
+                    value: valueStr,
                     status: item.status,
                     statusTextColor: effectiveStatusTextColor,
                     statusBgColor: effectiveStatusBgColor,
@@ -132,9 +155,9 @@ class NegativeAttributesCard extends StatelessWidget {
           child: Text(
             status,
             style: TextStyle(
+              fontSize: 12,
               color: statusTextColor,
               fontWeight: FontWeight.bold,
-              fontSize:12,
             ),
             textDirection: TextDirection.rtl,
           ),

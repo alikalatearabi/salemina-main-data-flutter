@@ -2,6 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:main_app/screens/authentication_page/code_input_page.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:main_app/screens/home_page/home_page.dart';
 
 class PhoneNumberPage extends StatefulWidget {
   const PhoneNumberPage({super.key});
@@ -13,6 +16,7 @@ class PhoneNumberPage extends StatefulWidget {
 class PhoneNumberPageState extends State<PhoneNumberPage> {
   final TextEditingController _phoneController = TextEditingController();
   bool _isButtonEnabled = false;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -28,6 +32,65 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
         _isButtonEnabled = _phoneController.text.isNotEmpty;
       });
     });
+  }
+
+  Future<void> _checkUserStatus() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final response = await http.post(
+        Uri.parse('http://localhost:3000/api/auth/signup/phone'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'phone': '+98${_phoneController.text}'}),
+      );
+
+      if (response.statusCode == 201) {
+        final data = json.decode(response.body);
+        
+        if (data['exists'] == true && data['signupComplete'] == true) {
+          // Navigate to HomePage if user exists and signup is complete
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+            (route) => false,
+          );
+        } else {
+          // Navigate to CodeInputPage for new users or incomplete signup
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => CodeInputPage(
+                phoneNumber: _phoneController.text,
+                userId: data['userId'],
+                nextStep: data['nextStep'],
+              ),
+            ),
+          );
+        }
+      } else {
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('خطا در ارتباط با سرور'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      // Show error message for exceptions
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('خطا: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -146,10 +209,19 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: 50,
                       child: ElevatedButton.icon(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: _isButtonEnabled ? Colors.white : Colors.grey,
-                        ),
+                        icon: _isLoading
+                            ? const SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : Icon(
+                                Icons.arrow_back,
+                                color: _isButtonEnabled ? Colors.white : Colors.grey,
+                              ),
                         label: Text(
                           'تایید و ادامه',
                           style: TextStyle(
@@ -159,16 +231,8 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        onPressed: _isButtonEnabled
-                            ? () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => CodeInputPage(
-                                      phoneNumber: _phoneController.text,
-                                    ),
-                                  ),
-                                );
-                              }
+                        onPressed: (_isButtonEnabled && !_isLoading)
+                            ? _checkUserStatus
                             : null,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF018A08),

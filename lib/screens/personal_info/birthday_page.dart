@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:main_app/screens/personal_info/age_page.dart';
+import 'package:main_app/models/user_data.dart';
+import 'package:main_app/screens/personal_info/height_page.dart';
+import 'package:main_app/services/user_service.dart';
 import 'package:main_app/utility/english_to_persian_number.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class BirthdayPage extends StatefulWidget {
-  const BirthdayPage({super.key});
+  final int userId;
+  
+  const BirthdayPage({super.key, required this.userId});
 
   @override
   BirthdayPageState createState() => BirthdayPageState();
@@ -12,6 +16,8 @@ class BirthdayPage extends StatefulWidget {
 
 class BirthdayPageState extends State<BirthdayPage> {
   bool _isButtonEnabled = true;
+  bool _isLoading = false;
+  late UserData userData;
 
   // Get today's date in Jalali
   final Jalali today = Jalali.now();
@@ -33,6 +39,72 @@ class BirthdayPageState extends State<BirthdayPage> {
     "بهمن",
     "اسفند"
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    userData = UserData.getInstance(widget.userId);
+    
+    // Pre-fill birthdate if it already exists
+    if (userData.birthYear != null && userData.birthMonth != null && userData.birthDay != null) {
+      selectedYear = userData.birthYear!;
+      selectedMonth = userData.birthMonth!;
+      selectedDay = userData.birthDay!;
+    }
+  }
+
+  Future<void> _submitBasicInfo() async {
+    setState(() {
+      _isLoading = true;
+      _isButtonEnabled = false;
+    });
+    
+    try {
+      // Save birth date to UserData model
+      userData.birthYear = selectedYear;
+      userData.birthMonth = selectedMonth;
+      userData.birthDay = selectedDay;
+      
+      // Submit data to API if all data is available
+      if (userData.hasCompletedBasicInfo) {
+        await UserService.submitBasicInfoWithJalali(
+          userId: userData.userId,
+          name: userData.name!,
+          gender: userData.gender!,
+          birthYear: userData.birthYear!,
+          birthMonth: userData.birthMonth!,
+          birthDay: userData.birthDay!,
+        );
+      }
+      
+      // Navigate to next page
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HeightPage(userId: widget.userId),
+          ),
+        );
+      }
+    } catch (e) {
+      // Show error message
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('خطا: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+          _isButtonEnabled = true;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,16 +156,7 @@ class BirthdayPageState extends State<BirthdayPage> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
-        onPressed: _isButtonEnabled
-            ? () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HeightPage(),
-                  ),
-                );
-              }
-            : null,
+        onPressed: _isButtonEnabled ? _submitBasicInfo : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: _isButtonEnabled
               ? const Color(0xFF018A08)
@@ -103,13 +166,22 @@ class BirthdayPageState extends State<BirthdayPage> {
             borderRadius: BorderRadius.circular(20),
           ),
         ),
-        icon: const Padding(
-          padding: EdgeInsets.only(top: 3),
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
-        ),
+        icon: _isLoading 
+            ? const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2,
+                ),
+              )
+            : const Padding(
+                padding: EdgeInsets.only(top: 3),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                ),
+              ),
         label: const Text(
           "تایید و ادامه",
           style: TextStyle(
@@ -181,7 +253,9 @@ class BirthdayPageState extends State<BirthdayPage> {
               itemBuilder: (context, index) => _buildDateItem(
                 _getMaxDayCount() - index,
                 selectedDay,
+                isMonth: false,
               ),
+              width: 80,
             ),
             // Month picker, limited if current year is selected
             _buildListWheel(
@@ -198,7 +272,9 @@ class BirthdayPageState extends State<BirthdayPage> {
               itemBuilder: (context, index) => _buildDateItem(
                 persianMonths[_getMaxMonthCount() - 1 - index],
                 persianMonths[selectedMonth - 1],
+                isMonth: true,
               ),
+              width: 120, // Wider for month names
             ),
             // Year picker, limited to current year
             _buildListWheel(
@@ -218,7 +294,9 @@ class BirthdayPageState extends State<BirthdayPage> {
               itemBuilder: (context, index) => _buildDateItem(
                 today.year - index,
                 selectedYear,
+                isMonth: false,
               ),
+              width: 80,
             ),
           ],
         ),
@@ -238,11 +316,13 @@ class BirthdayPageState extends State<BirthdayPage> {
   }
 
   // Build a single item with opacity based on selection
-  Widget _buildDateItem(dynamic item, dynamic selectedItem) {
+  Widget _buildDateItem(dynamic item, dynamic selectedItem, {bool isMonth = false}) {
     return Text(
       toPersianNumber(item.toString()),
+      textAlign: TextAlign.center,
+      overflow: TextOverflow.ellipsis,
       style: TextStyle(
-        fontSize: 22,
+        fontSize: isMonth ? 15 : 22, // Smaller font for month names
         color:
             item == selectedItem ? Colors.black : Colors.black.withOpacity(0.4),
       ),
@@ -271,9 +351,10 @@ class BirthdayPageState extends State<BirthdayPage> {
     required int initialItem,
     required ValueChanged<int> onSelectedItemChanged,
     required IndexedWidgetBuilder itemBuilder,
+    double width = 80,
   }) {
     return SizedBox(
-      width: 80,
+      width: width,
       height: 150,
       child: ListWheelScrollView.useDelegate(
         itemExtent: 50,

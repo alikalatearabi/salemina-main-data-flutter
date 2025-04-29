@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:main_app/screens/activity_diet_page/allergies_page.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:main_app/models/user_data.dart';
 
 class PreferredFoodPage extends StatefulWidget {
-  const PreferredFoodPage({super.key});
+  final int userId;
+  
+  const PreferredFoodPage({super.key, required this.userId});
 
   @override
   PreferredFoodPageState createState() => PreferredFoodPageState();
@@ -10,34 +16,36 @@ class PreferredFoodPage extends StatefulWidget {
 
 class PreferredFoodPageState extends State<PreferredFoodPage> {
   String? selectedPreference;
+  List<FoodPreference> preferences = [];
+  bool isLoading = true;
 
-  final List<FoodPreference> preferences = [
-    FoodPreference("همه چیز خوار", ""),
-    FoodPreference(
-      "گیاه‌خواری (Vegetarianism)",
-      "ترجیح مصرف غذاهای گیاهی مانند سبزیجات، میوه‌ها، غلات و حبوبات و پرهیز از خوردن گوشت و محصولات حیوانی.",
-    ),
-    FoodPreference(
-      "Lacto-vegetarianism",
-      "گیاهی‌خواری با مصرف محصولات لبنی مجاز.",
-    ),
-    FoodPreference(
-      "Lacto-ovo-vegetarianism",
-      "گیاهی‌خواری با مصرف محصولات لبنی و تخم‌مرغ مجاز.",
-    ),
-    FoodPreference(
-      "Pescatarianism",
-      "گیاهی‌خواری با مصرف ماهی و غذاهای دریایی مجاز.",
-    ),
-    FoodPreference(
-      "Ketogenic",
-      "رژیم غذایی کم‌کربوهیدرات و پرچربی برای تحریک فرآیند کتوز.",
-    ),
-    FoodPreference(
-      "رژیم غذایی مبتنی بر حساسیت‌های غذایی",
-      "اجتناب از مصرف خاص مواد غذایی که باعث واکنش‌های منفی می‌شوند، مانند گلوتن، لاکتوز یا آجیل.",
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    fetchFoodPreferences();
+  }
+
+  Future<void> fetchFoodPreferences() async {
+    try {
+      final response = await http.get(Uri.parse('http://localhost:3000/api/auth/full-food-preferences'));
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        setState(() {
+          preferences = data.map((item) => FoodPreference.fromJson(item)).toList();
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error fetching food preferences: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,13 +118,15 @@ class PreferredFoodPageState extends State<PreferredFoodPage> {
                     ),
                   ),
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: preferences.length,
-                      itemBuilder: (context, index) {
-                        final preference = preferences[index];
-                        return _buildPreferenceOption(preference);
-                      },
-                    ),
+                    child: isLoading
+                        ? const Center(child: CircularProgressIndicator())
+                        : ListView.builder(
+                            itemCount: preferences.length,
+                            itemBuilder: (context, index) {
+                              final preference = preferences[index];
+                              return _buildPreferenceOption(preference);
+                            },
+                          ),
                   ),
                   const SizedBox(height: 16),
                   _buildSubmitButton(),
@@ -203,12 +213,32 @@ class PreferredFoodPageState extends State<PreferredFoodPage> {
       width: double.infinity,
       child: ElevatedButton.icon(
         onPressed: isEnabled
-            ? () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const AllergiesPage(),
-                  ),
+            ? () async {
+                final userData = UserData.getInstance(widget.userId);
+                userData.dietType = selectedPreference!;
+
+                // API call
+                final prefObj = preferences.firstWhere((p) => p.title == selectedPreference);
+                final response = await http.post(
+                  Uri.parse('http://localhost:3000/api/auth/signup/dietary-preferences'),
+                  headers: {'Content-Type': 'application/json'},
+                  body: jsonEncode({
+                    'userId': widget.userId,
+                    'appetiteMode': userData.appetiteLevel,
+                    'foodPreferences': [ {'id': prefObj.id} ],
+                  }),
                 );
+                if (response.statusCode == 200 || response.statusCode == 201) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AllergiesPage(userId: widget.userId),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('خطا: ${response.body}'), backgroundColor: Colors.red),
+                  );
+                }
               }
             : null,
         style: ElevatedButton.styleFrom(
@@ -232,8 +262,16 @@ class PreferredFoodPageState extends State<PreferredFoodPage> {
 class FoodPreference {
   final String title;
   final String description;
+  final int id;
 
-  FoodPreference(this.title, this.description);
+  FoodPreference(this.title, this.description, this.id);
+
+  factory FoodPreference.fromJson(Map<String, dynamic> json) {
+    String title = (json['name_fa'] as String).isNotEmpty
+        ? json['name_fa'] as String
+        : json['name'] as String;
+    return FoodPreference(title, json['description'] as String, json['id'] as int);
+  }
 }
 
 class TopCurveClipper extends CustomClipper<Path> {

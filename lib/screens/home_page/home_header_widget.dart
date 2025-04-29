@@ -4,6 +4,17 @@ import 'package:main_app/screens/home_page/utils.dart';
 
 import 'custom_painters.dart';
 
+// Utility function to convert English digits to Persian digits
+String toPersianNumber(String number) {
+  const english = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
+  const persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', '٫'];
+  
+  for (int i = 0; i < english.length; i++) {
+    number = number.replaceAll(english[i], persian[i]);
+  }
+  return number;
+}
+
 class HomeHeaderWidget extends StatelessWidget {
   final double screenHeight;
 
@@ -81,28 +92,42 @@ class HomeHeaderWidget extends StatelessWidget {
                     CustomPaint(
                       size: const Size(150, 150),
                       painter: HalfCircleFilledPainter(
-                        consumedCalories: 555,
+                        consumedCalories: 625,
                         totalCalories: 2000,
                       ),
                     ),
-                    const Column(
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(height:45),
+                        const SizedBox(height:45),
                         Text(
-                          '555',
-                          style: TextStyle(
+                          toPersianNumber('625'),
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          'از ۲۰۰۰ کیلو کالری',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'از ${toPersianNumber('2000')} کیلو کالری',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              '(${toPersianNumber('32')}%)',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -116,10 +141,10 @@ class HomeHeaderWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  buildHealthFactor(context,'چربی', 200, 300),
-                  buildHealthFactor(context,'اسید چرب', 50, 100),
-                  buildHealthFactor(context,'قند', 80, 150),
-                  buildHealthFactor(context,'نمک', 10, 30),
+                  buildHealthFactor(context, 'چربی', 66, 138), // 48%
+                  buildHealthFactor(context, 'اسید چرب', 5, 50), // 10%
+                  buildHealthFactor(context, 'قند', 25, 20), // 123%
+                  buildHealthFactor(context, 'نمک', 38, 56), // 68%
                 ],
               ),
             ),

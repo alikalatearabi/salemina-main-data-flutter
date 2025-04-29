@@ -3,14 +3,16 @@ import 'package:main_app/screens/personal_info/weight_page.dart';
 import 'package:main_app/utility/english_to_persian_number.dart';
 
 class HeightPage extends StatefulWidget {
-  const HeightPage({super.key});
+  final int userId;
+  
+  const HeightPage({super.key, required this.userId});
 
   @override
   HeightPageState createState() => HeightPageState();
 }
 
 class HeightPageState extends State<HeightPage> {
-  bool _isButtonEnabled = true;
+  final bool _isButtonEnabled = true;
   int selectedHeight = 170;
 
   @override
@@ -67,7 +69,10 @@ class HeightPageState extends State<HeightPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const WeightPage(),
+                    builder: (context) => WeightPage(
+                      userId: widget.userId,
+                      height: selectedHeight,
+                    ),
                   ),
                 );
               }
