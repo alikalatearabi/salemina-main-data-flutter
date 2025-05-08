@@ -2,54 +2,27 @@ C/C++ Structured LogS
 Q
 OC:\Flutter\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txtC
 A
-<<<<<<< HEAD
-?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	ï¸ÒŸÛ2§ õ ÜÚÏ2q
+?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	·¨˜‡ë2§ õ ÜÚÏ2q
 o
-mD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\additional_project_files.txt	ï¸ÒŸÛ2 êóÛžÛ2n
+mD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\additional_project_files.txt	¸¨˜‡ë2 ›Ãø„ë2n
 l
-jD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\android_gradle_build.json	ï¸ÒŸÛ2¡ ¸ôÛžÛ2s
+jD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\android_gradle_build.json	¸¨˜‡ë2¡ ºÃø„ë2s
 q
-oD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\android_gradle_build_mini.json	ï¸ÒŸÛ2Ê ãùÛžÛ2`
+oD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\android_gradle_build_mini.json	¸¨˜‡ë2Ê þÃø„ë2`
 ^
-\D:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\build.ninja	ï¸ÒŸÛ2¨ž ÒãÛžÛ2d
+\D:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\build.ninja	¸¨˜‡ë2¨ž Á·ø„ë2d
 b
-`D:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\build.ninja.txt	ï¸ÒŸÛ2i
+`D:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\build.ninja.txt	¸¨˜‡ë2i
 g
-eD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\build_file_index.txt	ï¸ÒŸÛ2O ˆüÛžÛ2j
+eD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\build_file_index.txt	¸¨˜‡ë2O ©Äø„ë2j
 h
-fD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\compile_commands.json	ï¸ÒŸÛ2	n
+fD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\compile_commands.json	¸¨˜‡ë2	n
 l
-jD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\compile_commands.json.bin	ï¸ÒŸÛ2
+jD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\compile_commands.json.bin	¸¨˜‡ë2
 t
 r
-pD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\metadata_generation_command.txt	ï¸ÒŸÛ2Ñ õûÛžÛ2g
+pD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\metadata_generation_command.txt	¸¨˜‡ë2Ñ —Äø„ë2g
 e
-cD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\prefab_config.json	ï¸ÒŸÛ2( …üÛžÛ2l
+cD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\prefab_config.json	¸¨˜‡ë2( ˜Äø„ë2l
 j
-hD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\symbol_folder_index.txt	ï¸ÒŸÛ2_ ‡üÛžÛ2
-=======
-?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	îÊÀ‚ë2§ õ ÜÚÏ2q
-o
-mD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\additional_project_files.txt	îÊÀ‚ë2 ÁÄ»ÃÛ2n
-l
-jD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\android_gradle_build.json	ïÊÀ‚ë2¡ ÊÄ»ÃÛ2s
-q
-oD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\android_gradle_build_mini.json	ïÊÀ‚ë2Ê ÙÄ»ÃÛ2`
-^
-\D:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\build.ninja	ïÊÀ‚ë2¨ž ¼Ã»ÃÛ2d
-b
-`D:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\build.ninja.txt	ïÊÀ‚ë2i
-g
-eD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\build_file_index.txt	ïÊÀ‚ë2O éÄ»ÃÛ2j
-h
-fD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\compile_commands.json	ïÊÀ‚ë2	n
-l
-jD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\compile_commands.json.bin	ïÊÀ‚ë2
-t
-r
-pD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\metadata_generation_command.txt	ïÊÀ‚ë2Ñ äÄ»ÃÛ2g
-e
-cD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\prefab_config.json	ïÊÀ‚ë2( åÄ»ÃÛ2l
-j
-hD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\symbol_folder_index.txt	ïÊÀ‚ë2_ æÄ»ÃÛ2
->>>>>>> main
+hD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\arm64-v8a\symbol_folder_index.txt	¸¨˜‡ë2_ ™Äø„ë2
