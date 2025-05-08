@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:main_app/screens/home_page/utils.dart';
+
 import 'food_item_data.dart';
 
 class CalorieAnalysisCard extends StatelessWidget {
@@ -27,39 +28,53 @@ class CalorieAnalysisCard extends StatelessWidget {
                 top: Radius.circular(20),
               ),
             ),
-            child: const Row(
-              textDirection: TextDirection.rtl,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  'آنالیز کالری',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  textDirection: TextDirection.rtl,
-                ),
-                Text(
-                  'به ازای هر 100 گرم',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFF657381),
-                  ),
-                  textDirection: TextDirection.rtl,
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/icons/fire.svg',
+                      width: 16,
+                      height: 16,
+                      color: const Color(0xFFAE701E),
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      'تحلیل کالری',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
           const SizedBox(height: 10),
           ...foodItems.map((item) {
+            Color effectiveStatusTextColor = item.statusTextColor ?? Colors.black;
+            Color effectiveStatusBgColor = effectiveStatusTextColor.withOpacity(0.2);
+            
+            // Convert value to Persian
+            String valueStr = '${item.value} ${item.unit}';
+            try {
+              valueStr = '${toPersianNumber(item.value.toString())} ${item.unit}';
+            } catch (e) {
+              // Keep original value in case of error
+            }
+            
             return Container(
               padding: const EdgeInsets.only(bottom: 2, top: 2, left: 16, right: 16),
               child: Column(
                 children: [
                   _buildInfoRow(
                     label: item.label,
-                    value: '${item.value} ${item.unit}',
+                    value: valueStr,
+                    status: item.status,
+                    statusTextColor: effectiveStatusTextColor,
+                    statusBgColor: effectiveStatusBgColor,
                     icon: item.icon,
                   ),
                   if (item != foodItems.last)
@@ -78,6 +93,9 @@ class CalorieAnalysisCard extends StatelessWidget {
   Widget _buildInfoRow({
     required String label,
     required String value,
+    required String status,
+    required Color statusTextColor,
+    required Color statusBgColor,
     required Widget icon,
   }) {
     return Row(
@@ -107,6 +125,23 @@ class CalorieAnalysisCard extends StatelessWidget {
             ),
           ],
         ),
+        if (status.isNotEmpty)
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            decoration: BoxDecoration(
+              color: statusBgColor,
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Text(
+              status,
+              style: TextStyle(
+                fontSize: 12,
+                color: statusTextColor,
+                fontWeight: FontWeight.bold,
+              ),
+              textDirection: TextDirection.rtl,
+            ),
+          ),
       ],
     );
   }

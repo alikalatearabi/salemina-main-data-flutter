@@ -1,69 +1,119 @@
 import 'package:flutter/material.dart';
-import 'package:barcode_scan2/barcode_scan2.dart';
+import 'package:main_app/screens/scanner_page/Invalid_product_display.dart';
+import 'package:main_app/screens/scanner_page/valid_product_display.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
-class BarcodeScannerScreen extends StatefulWidget {
-  const BarcodeScannerScreen({Key? key}) : super(key: key);
+class ProductScannerScreen extends StatefulWidget {
+  const ProductScannerScreen({super.key});
 
   @override
-  _BarcodeScannerScreenState createState() => _BarcodeScannerScreenState();
+  State<ProductScannerScreen> createState() => _ProductScannerScreenState();
 }
 
-class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
-  String scannedResult = "";
-
-  Future<void> scanBarcode() async {
-    try {
-      final result = await BarcodeScanner.scan();
-      if (result.rawContent.isNotEmpty) {
-        setState(() {
-          scannedResult = result.rawContent; // Update with scanned data
-        });
-        Navigator.pop(context, scannedResult); // Return the result
-      }
-    } catch (e) {
-      setState(() {
-        scannedResult = "Failed to scan: $e";
-      });
-    }
+class _ProductScannerScreenState extends State<ProductScannerScreen> {
+  String? scannedCode;
+  bool isValid=true;
+  bool scanned=true;
+  MobileScannerController controller = MobileScannerController();
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => scanBarcode());
+    controller.start();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFEFEFEF),
+      backgroundColor: const Color(0xFFD1D5DB),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.close, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context); // Close the scanner screen
-          },
+        surfaceTintColor: Colors.white,
+        title: const Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            'اسکن محصول',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Colors.black,
+            ),
+          ),
         ),
-        title: const Text(
-          'اسکن محصول',
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
         children: [
-          scannedResult.isEmpty
-              ? const Text(
-                  'در حال اسکن...',
-                  style: TextStyle(fontSize: 16, color: Colors.black54),
-                )
-              : Text(
-                  'نتیجه: $scannedResult',
-                  style: const TextStyle(fontSize: 16, color: Colors.black),
+          MobileScanner(
+            controller: controller,
+            onDetect: (capture) async {
+              final barcode = capture.barcodes.first;
+              if (barcode.rawValue != null && mounted) {
+                String code = barcode.rawValue!;
+
+                await controller.stop();
+
+                setState(() {
+                  scannedCode = code;
+                });
+              }
+            },
+          ),
+          Column(
+            children: [
+              const Spacer(),
+              Container(
+                margin: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
                 ),
+                child: Row(
+                  textDirection: TextDirection.rtl,
+                  children: const [
+                    Icon(Icons.info_outline, color: Colors.grey),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'محصول یا بارکد آن را جلوی دوربین قرار دهید.',
+                        textDirection: TextDirection.rtl,
+                        style: TextStyle(fontSize: 14),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Center(
+            child: Container(
+              width: 250,
+              height: 250,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white70, width: 2),
+                borderRadius: BorderRadius.circular(24),
+              ),
+            ),
+          ),
+          if (scannedCode != null && isValid && scanned &&scannedCode=='6262032500222')
+            //todo fix invalid product
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ValidProductDisplay(scannedCode: scannedCode!)
+              ),
+          if (scannedCode != null && !isValid && scanned)
+            //todo fix valid product
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: InvalidProductDisplay(scannedCode: scannedCode!,)
+            ),
         ],
       ),
     );

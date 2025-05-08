@@ -4,12 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:main_app/screens/authentication_page/phone_number_page.dart';
 import 'package:main_app/screens/personal_info/personal_info_confirmation.dart';
+import 'package:main_app/screens/personal_info/name_info.dart';
 import 'package:main_app/services/to_farsi_numbers.dart';
 
 class CodeInputPage extends StatefulWidget {
   final String phoneNumber;
+  final int userId;
+  final String nextStep;
 
-  const CodeInputPage({super.key, required this.phoneNumber});
+  const CodeInputPage({
+    super.key, 
+    required this.phoneNumber,
+    required this.userId,
+    required this.nextStep,
+  });
 
   @override
   CodeInputPageState createState() => CodeInputPageState();
@@ -302,10 +310,21 @@ class CodeInputPageState extends State<CodeInputPage> {
                         ),
                         onPressed: _isButtonEnabled
                             ? () {
+                                // Determine next screen based on nextStep from API
+                                Widget nextScreen;
+                                
+                                switch (widget.nextStep) {
+                                  case 'basic-info':
+                                    nextScreen = NameInfoPage(userId: widget.userId);
+                                    break;
+                                  default:
+                                    nextScreen = PersonalInfoConfirmationPage(userId: widget.userId);
+                                    break;
+                                }
+                                
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        const PersonalInfoConfirmationPage(),
+                                    builder: (context) => nextScreen,
                                   ),
                                 );
                               }

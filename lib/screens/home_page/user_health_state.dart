@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class HealthStatusWidget extends StatelessWidget {
   final String healthIcon;
@@ -35,10 +36,15 @@ class HealthStatusWidget extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Image.asset(
-              'assets/icons/$healthIcon.png',
-              width: 60,
-              height: 60,
+            // Image.asset(
+            //   'assets/icons/$healthIcon.png',
+            //   width: 60,
+            //   height: 60,
+            // ),
+            SvgPicture.asset(
+              'assets/icons/emoji.svg',
+              width: 56,
+              height: 56,
             ),
             const SizedBox(width: 16),
             SizedBox(

@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:main_app/screens/personal_info/name_info.dart';
 
 class PersonalInfoConfirmationPage extends StatelessWidget {
-  const PersonalInfoConfirmationPage({super.key});
+  final int userId;
+  
+  const PersonalInfoConfirmationPage({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +134,7 @@ class PersonalInfoConfirmationPage extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const NameInfoPage(),
+                builder: (context) => NameInfoPage(userId: userId),
               ),
             );
           },

@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/home_page/barcode_scanner_screen.dart';
 
+// Utility function to convert English digits to Persian digits
+String toPersianNumber(String number) {
+  const english = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
+  const persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', '٫'];
+  
+  for (int i = 0; i < english.length; i++) {
+    number = number.replaceAll(english[i], persian[i]);
+  }
+  return number;
+}
+
 Widget buildInfoBox(BuildContext context, String text, Widget icon) {
   return Container(
     width: MediaQuery.of(context).size.width * 0.42,
@@ -36,7 +47,11 @@ Widget buildInfoBox(BuildContext context, String text, Widget icon) {
 }
 
 // Helper method to build a health factor widget
-Widget buildHealthFactor(String name, int consumed, int total) {
+Widget buildHealthFactor(BuildContext context,String name, int consumed, int total) {
+  // Calculate percentage
+  final int percentage = (consumed / total * 100).round();
+  final bool isOverLimit = percentage > 100;
+  
   return Directionality(
     textDirection: TextDirection.rtl,
     child: Column(
@@ -46,14 +61,14 @@ Widget buildHealthFactor(String name, int consumed, int total) {
         Text(
           name,
           style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
             color: Colors.white,
           ),
         ),
         const SizedBox(height: 3),
         Container(
-          width: 60,
+          width: MediaQuery.of(context).size.width*0.18846153846153846153846153846154,
           height: 8,
           decoration: BoxDecoration(
             color: Colors.transparent,
@@ -63,19 +78,34 @@ Widget buildHealthFactor(String name, int consumed, int total) {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: LinearProgressIndicator(
-              value: consumed / total,
+              value: isOverLimit ? 1 : consumed / total,
               backgroundColor: Colors.transparent,
-              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                isOverLimit ? Colors.red : Colors.white,
+              ),
             ),
           ),
         ),
         const SizedBox(height: 4),
+        Row(
+          children: [
         Text(
-          '$consumed گرم',
+              '${toPersianNumber(consumed.toString())} گرم',
           style: const TextStyle(
-            fontSize: 14,
+            fontSize: 12,
             color: Colors.white,
           ),
+            ),
+            const SizedBox(width: 4),
+            Text(
+              '(${toPersianNumber(percentage.toString())}%)',
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+                color: isOverLimit ? Colors.red : Colors.white,
+              ),
+            ),
+          ],
         ),
       ],
     ),

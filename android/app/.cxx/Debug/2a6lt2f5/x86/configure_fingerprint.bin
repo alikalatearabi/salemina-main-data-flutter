@@ -2,6 +2,7 @@ C/C++ Structured LogS
 Q
 OC:\Flutter\flutter\packages\flutter_tools\gradle\src\main\groovy\CMakeLists.txtC
 A
+<<<<<<< HEAD
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	˜»ÒŸÛ2§ õ ÜÚÏ2k
 i
 gD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\x86\additional_project_files.txt	˜»ÒŸÛ2 ÅÜžÛ2h
@@ -26,3 +27,29 @@ _
 ]D:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\x86\prefab_config.json	™»ÒŸÛ2( šÅÜžÛ2f
 d
 bD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\x86\symbol_folder_index.txt	™»ÒŸÛ2Y ›ÅÜžÛ2
+=======
+?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	äÍÀ‚ë2§ õ ÜÚÏ2k
+i
+gD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\x86\additional_project_files.txt	åÍÀ‚ë2 Îò»ÃÛ2h
+f
+dD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\x86\android_gradle_build.json	åÍÀ‚ë2• Ðò»ÃÛ2m
+k
+iD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\x86\android_gradle_build_mini.json	åÍÀ‚ë2¾ Ôò»ÃÛ2Z
+X
+VD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\x86\build.ninja	åÍÀ‚ë2Šž ™ò»ÃÛ2^
+\
+ZD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\x86\build.ninja.txt	åÍÀ‚ë2c
+a
+_D:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\x86\build_file_index.txt	åÍÀ‚ë2O ×ò»ÃÛ2d
+b
+`D:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\x86\compile_commands.json	åÍÀ‚ë2	h
+f
+dD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\x86\compile_commands.json.bin	åÍÀ‚ë2
+n
+l
+jD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\x86\metadata_generation_command.txt	åÍÀ‚ë2³ Õò»ÃÛ2a
+_
+]D:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\x86\prefab_config.json	åÍÀ‚ë2( Öò»ÃÛ2f
+d
+bD:\Salemina\salemina-main-data-flutter\android\app\.cxx\Debug\2a6lt2f5\x86\symbol_folder_index.txt	åÍÀ‚ë2Y Öò»ÃÛ2
+>>>>>>> main

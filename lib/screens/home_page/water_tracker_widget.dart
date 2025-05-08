@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:main_app/screens/home_page/utils.dart';
 
 class WaterTrackerWidget extends StatelessWidget {
   final int consumedGlasses;
@@ -54,7 +55,7 @@ class WaterTrackerWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    '$consumedGlasses از $totalGlasses لیوان',
+                    '${toPersianNumber(consumedGlasses.toString())} از ${toPersianNumber(totalGlasses.toString())} لیوان',
                     style: const TextStyle(
                       color: Colors.blue,
                       fontWeight: FontWeight.bold,

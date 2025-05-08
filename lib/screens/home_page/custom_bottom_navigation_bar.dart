@@ -1,139 +1,154 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
-  final void Function()? onHomePressed;
-  final void Function()? onDashboardPressed;
-  final void Function()? onSearchPressed;
-  final void Function()? onProfilePressed;
-  final void Function()? onScanPressed;
-  final String selectedPage; // Added to track selected page
+  final int currentIndex;
+  final Function(int) onTap;
 
   const CustomBottomNavigationBar({
     super.key,
-    this.onHomePressed,
-    this.onDashboardPressed,
-    this.onSearchPressed,
-    this.onProfilePressed,
-    this.onScanPressed,
-    required this.selectedPage, required Null Function() onNotificationsPressed, // Required selected page parameter
+    required this.currentIndex,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Container(
-          margin: const EdgeInsets.all(16),
-          height: 70,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 10,
-                offset: const Offset(0, 3),
-              ),
-            ],
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 8,
+            spreadRadius: 0,
+            offset: const Offset(3, 0),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildNavItem(
-                assetPath: 'assets/icons/home.png',
-                label: 'خانه',
-                onPressed: onHomePressed,
-                isSelected: selectedPage == 'home',
-              ),
-              _buildNavItem(
-                assetPath: 'assets/icons/dashboard.png',
-                label: 'داشبورد',
-                onPressed: onDashboardPressed,
-                isSelected: selectedPage == 'dashboard',
-              ),
-              _buildScanButton(onPressed: onScanPressed),
-              _buildNavItem(
-                assetPath: 'assets/icons/search.png',
-                label: 'جستجو',
-                onPressed: onSearchPressed,
-                isSelected: selectedPage == 'search',
-              ),
-              _buildNavItem(
-                assetPath: 'assets/icons/profile.png',
-                label: 'پروفایل',
-                onPressed: onProfilePressed,
-                isSelected: selectedPage == 'profile',
-              ),
-            ],
-          ),
-        ),
+        ],
       ),
-    );
-  }
-
-  Widget _buildNavItem({
-    required String assetPath,
-    required String label,
-    required void Function()? onPressed,
-    required bool isSelected, // Added to determine selection
-  }) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
+      height: MediaQuery.of(context).size.height*0.09287531806615776081424936386768,
+      child: Row(
         children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              
-              Image.asset(
-                assetPath,
-                width: 24,
-                height: 24,
-              ),
-            ],
+          _NavigationItem(
+            iconPath: 'assets/icons/home.svg',
+            label: 'خانه',
+            isSelected: currentIndex == 0,
+            onTap: () => onTap(0),
           ),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: isSelected ? const Color(0xFF018A08) : const Color(0xFF657381),
-              decoration: TextDecoration.none,
-              fontFamily: 'Yekan',
-            ),
+          _NavigationItem(
+            iconPath: 'assets/icons/search-normal.svg',
+            label: 'جستجو',
+            isSelected: currentIndex == 1,
+            onTap: () => onTap(1),
+          ),
+          _MiddleNavigationItem(
+            iconPath: 'assets/icons/scan.svg',
+            onTap: () => onTap(2),
+          ),
+          _NavigationItem(
+            iconPath: 'assets/icons/chart-square.svg',
+            label: 'داشبورد',
+            isSelected: currentIndex == 3,
+            onTap: () => onTap(3),
+          ),
+          _NavigationItem(
+            iconPath: 'assets/icons/profile.svg',
+            label: 'پروفایل',
+            isSelected: currentIndex == 4,
+            onTap: () => onTap(4),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildScanButton({required void Function()? onPressed}) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        width: 70,
-        height: 70,
-        decoration: BoxDecoration(
-          color: const Color(0xFF018A08),
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF018A08).withOpacity(0.5),
-              blurRadius: 10,
-              offset: const Offset(0, 3),
+class _NavigationItem extends StatelessWidget {
+  final String iconPath;
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _NavigationItem({
+    required this.iconPath,
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: isSelected ? const Color(0xFFEF6EB) : Colors.transparent,
+                    blurRadius: 10,
+                    offset: Offset.zero,
+                  ),
+                ],
+              ),
+              child: SvgPicture.asset(
+                iconPath,
+                width: 24,
+                height: 24,
+                color: isSelected ? const Color(0xFF018A08) : Colors.black,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: isSelected ? const Color(0xFF018A08) : Colors.black,
+              ),
             ),
           ],
         ),
-        child: const Icon(
-          Icons.qr_code_scanner,
-          color: Colors.white,
-          size: 35,
+      ),
+    );
+  }
+}
+
+class _MiddleNavigationItem extends StatelessWidget {
+  final String iconPath;
+  final VoidCallback onTap;
+
+  const _MiddleNavigationItem({
+    required this.iconPath,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                color: Color(0xFF018A08),
+                shape: BoxShape.circle,
+              ),
+              height: 50,
+              width: 50,
+              child: Center(
+                child: SvgPicture.asset(
+                  iconPath,
+                  width: 24,
+                  height: 24,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

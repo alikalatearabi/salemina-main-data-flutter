@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:main_app/models/user_data.dart';
 import 'package:main_app/screens/personal_info/gender_page.dart';
 
 class NameInfoPage extends StatefulWidget {
-  const NameInfoPage({super.key});
+  final int userId;
+  
+  const NameInfoPage({super.key, required this.userId});
 
   @override
   NameInfoPageState createState() => NameInfoPageState();
@@ -11,10 +14,17 @@ class NameInfoPage extends StatefulWidget {
 class NameInfoPageState extends State<NameInfoPage> {
   final TextEditingController _nameController = TextEditingController();
   bool _isButtonEnabled = false;
+  late UserData userData;
 
   @override
   void initState() {
     super.initState();
+    userData = UserData.getInstance(widget.userId);
+    // Pre-fill name if it already exists
+    if (userData.name != null) {
+      _nameController.text = userData.name!;
+      _isButtonEnabled = true;
+    }
     _nameController.addListener(_onNameChanged);
   }
 
@@ -117,7 +127,7 @@ class NameInfoPageState extends State<NameInfoPage> {
     );
   }
 
-  Widget  _buildNameInput() {
+  Widget _buildNameInput() {
     return TextField(
       controller: _nameController,
       decoration: InputDecoration(
@@ -148,46 +158,49 @@ class NameInfoPageState extends State<NameInfoPage> {
     );
   }
 
-Widget _buildSubmitButton(BuildContext context) {
-  return SizedBox(
-    width: double.infinity,
-    child: ElevatedButton.icon(
-      onPressed: _isButtonEnabled
-          ? () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const GenderPage(), 
-                ),
-              );
-            }
-          : null,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: _isButtonEnabled
-            ? const Color(0xFF018A08)
-            : const Color(0x929EABCC),
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18),
+  Widget _buildSubmitButton(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: _isButtonEnabled
+            ? () {
+                // Save name to UserData model
+                userData.name = _nameController.text;
+                
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GenderPage(userId: widget.userId),
+                  ),
+                );
+              }
+            : null,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: _isButtonEnabled
+              ? const Color(0xFF018A08)
+              : const Color(0x929EABCC),
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+        ),
+        icon: const Padding(
+          padding: EdgeInsets.only(top: 3),
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+        ),
+        label: const Text(
+          "تایید و ادامه",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 23,
+          ),
         ),
       ),
-      icon: const Padding(
-        padding: EdgeInsets.only(top: 3),
-        child: Icon(
-          Icons.arrow_back_ios,
-          color: Colors.white,
-        ),
-      ),
-      label: const Text(
-        "تایید و ادامه",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 23,
-        ),
-      ),
-    ),
-  );
-}
+    );
+  }
 }
 
 class ArcClipper extends CustomClipper<Path> {

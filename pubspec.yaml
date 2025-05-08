@@ -32,7 +32,7 @@ dependencies:
   mobile_scanner: ^6.0.6
   flutter:
     sdk: flutter
-
+  http: ^1.2.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -40,6 +40,9 @@ dependencies:
   barcode_scan2: ^4.5.0
   flutter_svg: ^2.0.17
   syncfusion_flutter_charts: ^28.2.9
+  marquee: ^2.3.0
+  syncfusion_flutter_sliders: ^28.2.9
+  flutter_xlider: ^3.5.0
 
 dev_dependencies:
   flutter_test:
@@ -73,12 +76,24 @@ flutter:
     - assets/onboarding5.png
     - assets/personal1.png
     - assets/eges.png
+    - assets/biscuit.jpg
     - assets/milk.png
+    - assets/milk2.png
+    - assets/milk3.png
     - assets/gender_woman.png
     - assets/gender_man.png
     - assets/gender_man_active.png
     - assets/gender_woman_active.png
+    - assets/k1.png
+    - assets/k2.png
+    - assets/k3.png
+    - assets/k4.png
+    - assets/k5.png
+    - assets/k6.png
+    - assets/k7.png
+    - assets/k8.png
     - assets/home_back.png
+    - assets/profile_avatar.png
     - assets/icons/
 
 

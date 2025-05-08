@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/home_page/home_page.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:main_app/models/user_data.dart';
 
 class WaterIntakePage extends StatefulWidget {
-  const WaterIntakePage({super.key});
+  final int userId;
+  
+  const WaterIntakePage({super.key, required this.userId});
 
   @override
   WaterIntakePageState createState() => WaterIntakePageState();
@@ -149,12 +154,38 @@ class WaterIntakePageState extends State<WaterIntakePage> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const HomePage(),
-            ),
-          );
+        onPressed: () async {
+          try {
+            // Store water intake in UserData
+            final userData = UserData.getInstance(widget.userId);
+            userData.waterIntake = selectedGlass;
+            
+            // Send to API
+            final response = await http.post(
+              Uri.parse('http://localhost:3000/api/auth/signup/water-intake'),
+              headers: {'Content-Type': 'application/json'},
+              body: jsonEncode({
+                'userId': widget.userId,
+                'waterIntake': selectedGlass,
+              }),
+            );
+            
+            if (response.statusCode == 200 || response.statusCode == 201) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const HomePage(),
+                ),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('خطا: ${response.body}'), backgroundColor: Colors.red),
+              );
+            }
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('خطا: $e'), backgroundColor: Colors.red),
+            );
+          }
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF018A08),

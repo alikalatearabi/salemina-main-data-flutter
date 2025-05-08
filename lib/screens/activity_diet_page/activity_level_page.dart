@@ -1,9 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:main_app/screens/activity_diet_page/disease_page.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:main_app/models/user_data.dart';
+
+class ActivityLevel {
+  final int id;
+  final String name;
+  final String nameFa;
+  final String description;
+  final String descriptionFa;
+
+  ActivityLevel({
+    required this.id,
+    required this.name,
+    required this.nameFa,
+    required this.description,
+    required this.descriptionFa,
+  });
+
+  factory ActivityLevel.fromJson(Map<String, dynamic> json) {
+    return ActivityLevel(
+      id: json['id'],
+      name: json['name'],
+      nameFa: json['name_fa'],
+      description: json['description'],
+      descriptionFa: json['description_fa'],
+    );
+  }
+}
 
 class ActivityLevelPage extends StatefulWidget {
-  const ActivityLevelPage({super.key});
+  final int userId;
+  
+  const ActivityLevelPage({super.key, required this.userId});
 
   @override
   ActivityLevelPageState createState() => ActivityLevelPageState();
@@ -11,13 +42,42 @@ class ActivityLevelPage extends StatefulWidget {
 
 class ActivityLevelPageState extends State<ActivityLevelPage> {
   String? selectedActivity;
+  int? selectedActivityId;
+  List<ActivityLevel> activityLevels = [];
+  bool isLoading = true;
+  String? errorMessage;
 
-  final List<ActivityOption> activityOptions = [
-    ActivityOption("کم", "بدون تحرک، بدون پیاده روی یا ورزش"),
-    ActivityOption("متوسط", "تحرک نسبی و راه رفتن"),
-    ActivityOption("زیاد", "برنامه ورزشی و پیاده‌روی"),
-    ActivityOption("خیلی زیاد", "کار سنگین و ورزش حرفه‌ای"),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    fetchActivityLevels();
+  }
+
+  Future<void> fetchActivityLevels() async {
+    try {
+      final response = await http.get(
+        Uri.parse('http://localhost:3000/api/auth/activity-levels'),
+      );
+      
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        setState(() {
+          activityLevels = data.map((item) => ActivityLevel.fromJson(item)).toList();
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          errorMessage = 'خطا در دریافت اطلاعات: ${response.statusCode}';
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'خطا در ارتباط با سرور: $e';
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +158,7 @@ class ActivityLevelPageState extends State<ActivityLevelPage> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  ...activityOptions
-                      .map((option) => _buildActivityOption(option)),
+                  _buildActivityList(),
                   const Spacer(),
                   _buildSubmitButton(),
                 ],
@@ -111,11 +170,56 @@ class ActivityLevelPageState extends State<ActivityLevelPage> {
     );
   }
 
-  Widget _buildActivityOption(ActivityOption option) {
-    final isSelected = selectedActivity == option.title;
+  Widget _buildActivityList() {
+    if (isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(
+          color: Color(0xFF018A08),
+        ),
+      );
+    }
+
+    if (errorMessage != null) {
+      return Center(
+        child: Column(
+          children: [
+            Text(
+              errorMessage!,
+              style: const TextStyle(color: Colors.red),
+              textAlign: TextAlign.center,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isLoading = true;
+                  errorMessage = null;
+                });
+                fetchActivityLevels();
+              },
+              child: const Text('تلاش مجدد'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (activityLevels.isEmpty) {
+      return const Center(
+        child: Text('هیچ داده‌ای یافت نشد'),
+      );
+    }
+
+    return Column(
+      children: activityLevels.map((level) => _buildActivityOption(level)).toList(),
+    );
+  }
+
+  Widget _buildActivityOption(ActivityLevel level) {
+    final isSelected = selectedActivity == level.nameFa;
     return GestureDetector(
       onTap: () => setState(() {
-        selectedActivity = option.title;
+        selectedActivity = level.nameFa;
+        selectedActivityId = level.id;
       }),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
@@ -136,27 +240,32 @@ class ActivityLevelPageState extends State<ActivityLevelPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    option.title,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color:
-                          isSelected ? const Color(0xFF018A08) : Colors.black,
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      level.nameFa,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color:
+                            isSelected ? const Color(0xFF018A08) : Colors.black,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    option.description,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
+                    const SizedBox(height: 4),
+                    Text(
+                      level.descriptionFa,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
+                      maxLines: 2,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Icon(
                 isSelected
@@ -177,10 +286,19 @@ class ActivityLevelPageState extends State<ActivityLevelPage> {
       width: double.infinity,
       child: ElevatedButton.icon(
         onPressed: isEnabled
-            ? () {
+            ? () async {
+                // Store activity level in UserData singleton
+                UserData userData = UserData.getInstance(widget.userId);
+                userData.activityLevelId = selectedActivityId;
+
+                // Navigate to disease page to continue data collection
+                // The API call will be made after collecting all data
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const DiseasePage(),
+                    builder: (context) => DiseasePage(
+                      userId: widget.userId,
+                      activityLevelId: selectedActivityId!,
+                    ),
                   ),
                 );
               }
@@ -201,13 +319,6 @@ class ActivityLevelPageState extends State<ActivityLevelPage> {
       ),
     );
   }
-}
-
-class ActivityOption {
-  final String title;
-  final String description;
-
-  ActivityOption(this.title, this.description);
 }
 
 class TopCurveClipper extends CustomClipper<Path> {

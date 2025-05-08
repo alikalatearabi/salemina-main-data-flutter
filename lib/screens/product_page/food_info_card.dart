@@ -1,13 +1,13 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:main_app/screens/home_page/utils.dart';
 
+import 'custom_indicator_bottom_sheet.dart';
 import 'food_item_data.dart';
 
 class FoodInfoCard extends StatelessWidget {
   final List<FoodItemData> foodItems;
 
-  const FoodInfoCard({Key? key, required this.foodItems}) : super(key: key);
+  const FoodInfoCard({super.key, required this.foodItems});
 
   @override
   Widget build(BuildContext context) {
@@ -29,34 +29,72 @@ class FoodInfoCard extends StatelessWidget {
                 top: Radius.circular(20),
               ),
             ),
-            child: const Row(
-              textDirection: TextDirection.rtl,
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'شاخص‌های غذایی سازمان غذا و دارو',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const CustomIndicatorBottomSheet(
+                          title: 'اطلاعات شاخص',
+                          description: 'توضیحات تکمیلی درباره شاخص های تغذیه‌ای',
+                          minValue: 0,
+                          maxValue: 100,
+                          initialValue: 50,
+                        );
+                      },
+                    );
+                  },
+                  child: const Row(
+                    children: [
+                      Text(
+                        'توضیحات',
+                        style: TextStyle(
+                          color: Color(0xFF018A08),
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(width: 4),
+                      Icon(
+                        Icons.info,
+                        color: Color(0xFF018A08),
+                        size: 18,
+                      ),
+                    ],
                   ),
-                  textDirection: TextDirection.rtl,
                 ),
-                Icon(Icons.info_outline, color: Color(0xFF464E59), size: 18),
+                const Text(
+                  'اطلاعات تغذیه ای',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
               ],
             ),
           ),
-          SizedBox(height: 10,),
           ...foodItems.map((item) {
             Color effectiveStatusTextColor = item.statusTextColor ?? Colors.black;
             Color effectiveStatusBgColor = effectiveStatusTextColor.withOpacity(0.2);
+            
+            // Convert value to Persian
+            String valueStr = '${item.value} ${item.unit}';
+            try {
+              valueStr = '${toPersianNumber(item.value.toString())} ${item.unit}';
+            } catch (e) {
+              // Keep original value in case of error
+            }
+            
             return Container(
               padding: const EdgeInsets.only(bottom: 2, top: 2, left: 16, right: 16),
               child: Column(
                 children: [
                   _buildInfoRow(
                     label: item.label,
-                    value: '${item.value} ${item.unit}',
+                    value: valueStr,
                     status: item.status,
                     statusTextColor: effectiveStatusTextColor,
                     statusBgColor: effectiveStatusBgColor,

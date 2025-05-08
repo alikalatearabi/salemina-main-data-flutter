@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:main_app/models/user_data.dart';
 import 'package:main_app/screens/personal_info/birthday_page.dart';
 
 class GenderPage extends StatefulWidget {
-  const GenderPage({super.key});
+  final int userId;
+  
+  const GenderPage({super.key, required this.userId});
 
   @override
   GenderPageState createState() => GenderPageState();
@@ -11,6 +14,18 @@ class GenderPage extends StatefulWidget {
 class GenderPageState extends State<GenderPage> {
   bool _isButtonEnabled = false;
   String? _selectedGender;
+  late UserData userData;
+
+  @override
+  void initState() {
+    super.initState();
+    userData = UserData.getInstance(widget.userId);
+    // Pre-fill gender if it already exists
+    if (userData.gender != null) {
+      _selectedGender = userData.gender!.toLowerCase();
+      _isButtonEnabled = true;
+    }
+  }
 
   // Handle gender selection
   void _onGenderSelected(String gender) {
@@ -130,10 +145,13 @@ class GenderPageState extends State<GenderPage> {
       child: ElevatedButton.icon(
         onPressed: _isButtonEnabled
             ? () {
+                // Save gender to UserData model
+                userData.gender = _selectedGender;
+                
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const BirthdayPage(),
+                    builder: (context) => BirthdayPage(userId: widget.userId),
                   ),
                 );
               }

@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/activity_diet_page/diet_page.dart';
+import 'package:main_app/services/api_service.dart';
+import 'package:main_app/models/user_data.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class DiseasePage extends StatefulWidget {
-  const DiseasePage({super.key});
+  final int userId;
+  final int activityLevelId;
+  
+  const DiseasePage({
+    super.key, 
+    required this.userId,
+    required this.activityLevelId,
+  });
 
   @override
   DiseasePageState createState() => DiseasePageState();
@@ -10,23 +21,190 @@ class DiseasePage extends StatefulWidget {
 
 class DiseasePageState extends State<DiseasePage> {
   final Map<String, String> selectedConditions = {};
-  final List<Disease> diseases = [
-    Disease("تیروئید", ["کم کاری", "پر کاری", "نرمال", "نامشخص"]),
-    Disease("فشار خون", ["پایین", "نرمال", "بالا", "نامشخص"]),
-    Disease("دیابت", ["سالم", "پیش دیابت", "دیابت"]),
-    Disease("بیماری قلبی عروقی", ["دارم", "ندارم"]),
-    Disease("کبد چرب", ["دارم", "ندارم"]),
-    Disease("سندرم تخمدان پلی کیستیک", ["دارم", "ندارم"]),
-    Disease("چاقی شکمی", ["دارم", "ندارم"]),
-    Disease("تری گلیسیرید", ["نرمال", "بالا", "نامشخص"]),
-    Disease("کلسترول", ["نرمال", "بالا", "نامشخص"]),
-    Disease("اسید اوریک", ["نرمال", "بالا", "نامشخص"]),
-    Disease("کراتینین", ["نرمال", "بالا", "نامشخص"]),
-    Disease("وضعیت اشتها", ["کم", "معمولی", "زیاد"]),
-    Disease("ریفلاکس معده", ["دارم", "ندارم"]),
-    Disease("سوزش معده", ["دارم", "ندارم"]),
-    Disease("کم خونی", ["دارم", "ندارم"]),
-  ];
+  Map<String, int> diseaseIdMap = {}; // Remove final keyword
+  List<Disease> diseases = [];
+  bool isLoading = true;
+  bool isSubmitting = false;
+  String? errorMessage;
+  final ApiService _apiService = ApiService();
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchDiseases();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submitHealthInfo() async {
+    setState(() {
+      isSubmitting = true;
+    });
+
+    try {
+      // Prepare illnesses data
+      final List<Map<String, dynamic>> illnesses = [];
+      
+      selectedConditions.forEach((diseaseName, level) {
+        if (diseaseIdMap.containsKey(diseaseName)) {
+          final int diseaseId = diseaseIdMap[diseaseName]!;
+          
+          // Convert level to standard format (e.g., "بالا" -> "HIGH")
+          String standardLevel = "MEDIUM"; // Default
+          
+          // This mapping should be adjusted based on your actual level names
+          if (level.contains("بالا") || level == "دارم") {
+            standardLevel = "HIGH";
+          } else if (level.contains("پایین") || level.contains("کم")) {
+            standardLevel = "LOW";
+          } else if (level.contains("نرمال") || level == "ندارم") {
+            standardLevel = "NORMAL";
+          }
+          
+          illnesses.add({
+            "id": diseaseId,
+            "level": standardLevel
+          });
+        }
+      });
+
+      // Get activity level string
+      String activityLevel = "MODERATE"; // Default
+      
+      // Map activity level ID to string value
+      // This should be adjusted based on your actual data
+      switch (widget.activityLevelId) {
+        case 1:
+          activityLevel = "LOW";
+          break;
+        case 2:
+          activityLevel = "MODERATE";
+          break;
+        case 3:
+          activityLevel = "HIGH";
+          break;
+        case 4:
+          activityLevel = "VERY_HIGH";
+          break;
+      }
+
+      // Submit data to API
+      final response = await http.post(
+        Uri.parse('http://localhost:3000/api/auth/signup/health-info'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'userId': widget.userId,
+          'activityLevel': activityLevel,
+          'illnesses': illnesses,
+        }),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Success - store in user data and navigate to next page
+        final userData = UserData.getInstance(widget.userId);
+        userData.selectedIllnesses = illnesses;
+        
+        if (mounted) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => DietPage(userId: widget.userId),
+            ),
+          );
+        }
+      } else {
+        // Show error
+        if (mounted) {
+          setState(() {
+            errorMessage = 'خطا: ${response.body}';
+            isSubmitting = false;
+          });
+          
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('خطا: ${response.body}'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      // Show error message
+      if (mounted) {
+        setState(() {
+          errorMessage = 'خطا: ${e.toString()}';
+          isSubmitting = false;
+        });
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('خطا: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _fetchDiseases() async {
+    try {
+      setState(() {
+        isLoading = true;
+        errorMessage = null;
+      });
+
+      final response = await _apiService.fetchIllnessesWithLevels();
+      
+      // Extract disease IDs from API response
+      final Map<String, int> idMap = {};
+      for (final illness in response.illnesses) {
+        idMap[illness.persianName] = illness.id;
+      }
+      
+      setState(() {
+        diseaseIdMap = idMap;
+      });
+      
+      final mappedDiseases = _apiService.mapApiIllnessesToDiseases<Disease>(
+        response, 
+        (name, options) => Disease(name, options)
+      );
+      
+      setState(() {
+        diseases = mappedDiseases;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+        errorMessage = 'خطا در دریافت اطلاعات: $e';
+        // Fallback to hardcoded diseases in case of error
+        diseases = [
+          Disease("تیروئید", ["کم کاری", "پر کاری", "نرمال", "نامشخص"]),
+          Disease("فشار خون", ["پایین", "نرمال", "بالا", "نامشخص"]),
+          Disease("دیابت", ["سالم", "پیش دیابت", "دیابت"]),
+          Disease("بیماری قلبی عروقی", ["دارم", "ندارم"]),
+          Disease("کبد چرب", ["دارم", "ندارم"]),
+          Disease("سندرم تخمدان پلی کیستیک", ["دارم", "ندارم"]),
+          Disease("چاقی شکمی", ["دارم", "ندارم"]),
+          Disease("تری گلیسیرید", ["نرمال", "بالا", "نامشخص"]),
+          Disease("کلسترول", ["نرمال", "بالا", "نامشخص"]),
+          Disease("اسید اوریک", ["نرمال", "بالا", "نامشخص"]),
+          Disease("کراتینین", ["نرمال", "بالا", "نامشخص"]),
+          Disease("وضعیت اشتها", ["کم", "معمولی", "زیاد"]),
+          Disease("ریفلاکس معده", ["دارم", "ندارم"]),
+          Disease("سوزش معده", ["دارم", "ندارم"]),
+          Disease("کم خونی", ["دارم", "ندارم"]),
+        ];
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,24 +276,7 @@ class DiseasePageState extends State<DiseasePage> {
                     ),
                   ),
                   Expanded(
-                    child: Scrollbar(
-                      thumbVisibility: true,
-                      thickness: 6,
-                      radius: const Radius.circular(8),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 12),
-                        child: ListView.builder(
-                          itemCount: diseases.length,
-                          itemBuilder: (context, index) {
-                            final disease = diseases[index];
-                            final selectedCondition =
-                                selectedConditions[disease.name];
-                            return _buildDiseaseItem(
-                                disease, selectedCondition);
-                          },
-                        ),
-                      ),
-                    ),
+                    child: _buildContent(),
                   ),
                   const SizedBox(height: 16),
                   _buildSubmitButton(),
@@ -124,6 +285,59 @@ class DiseasePageState extends State<DiseasePage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    if (isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(
+          color: Color(0xFF018A08),
+        ),
+      );
+    }
+
+    if (errorMessage != null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              errorMessage!,
+              style: const TextStyle(color: Colors.red),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _fetchDiseases,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF018A08),
+              ),
+              child: const Text(
+                "تلاش مجدد",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Scrollbar(
+      controller: _scrollController,
+      thumbVisibility: true,
+      thickness: 6,
+      radius: const Radius.circular(8),
+      child: ListView.builder(
+        controller: _scrollController,
+        padding: const EdgeInsets.only(left: 12),
+        itemCount: diseases.length,
+        itemBuilder: (context, index) {
+          final disease = diseases[index];
+          final selectedCondition = selectedConditions[disease.name];
+          return _buildDiseaseItem(disease, selectedCondition);
+        },
       ),
     );
   }
@@ -355,21 +569,26 @@ class DiseasePageState extends State<DiseasePage> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const DietPage(),
-            ),
-          );
-        },
+        onPressed: isSubmitting ? null : _submitHealthInfo,
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF018A08),
+          backgroundColor: isSubmitting 
+              ? const Color(0xFF9E9E9E) 
+              : const Color(0xFF018A08),
           padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+        icon: isSubmitting 
+            ? const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2,
+                ),
+              )
+            : const Icon(Icons.arrow_back_ios, color: Colors.white),
         label: const Text(
           "تایید و ادامه",
           style: TextStyle(color: Colors.white, fontSize: 16),
