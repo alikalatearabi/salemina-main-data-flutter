@@ -283,7 +283,7 @@ class _DailyContentState extends State<DailyContent> {
             trackColor: Colors.grey.shade300,
             cornerStyle: CornerStyle.bothCurve,
             innerRadius: '85%',
-            radius: '80%',
+            radius: '100%',
           ),
         ],
       ),
