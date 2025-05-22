@@ -102,8 +102,7 @@ class _ProductScannerScreenState extends State<ProductScannerScreen> {
               ),
             ),
           ),
-          if (scannedCode != null && isValid && scanned &&scannedCode=='6262032500222')
-            //todo fix invalid product
+          if (scannedCode != null && isValid && scanned)
               Align(
                   alignment: Alignment.bottomCenter,
                   child: ValidProductDisplay(scannedCode: scannedCode!)

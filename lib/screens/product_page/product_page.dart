@@ -20,6 +20,7 @@ class ProductPage extends StatefulWidget {
 }
 
 class ProductPageState extends State<ProductPage> {
+
   final List<AlternativeProduct> alternativeProducts = [
     AlternativeProduct(
       imagePath: 'assets/milk.png',
