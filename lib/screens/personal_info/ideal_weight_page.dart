@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/activity_diet_page/activity_level_page.dart';
 import 'package:main_app/utility/english_to_persian_number.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:main_app/services/physical_attributes_service.dart';
 
 class IdealWeightPage extends StatefulWidget {
   final int userId;
@@ -43,39 +42,21 @@ class IdealWeightPageState extends State<IdealWeightPage> {
     });
 
     try {
-      final response = await http.post(
-        Uri.parse('http://localhost:3000/api/auth/signup/physical-attributes'),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({
-          'userId': widget.userId,
-          'height': widget.height,
-          'weight': widget.weight,
-          'idealWeight': selectedWeight + (selectedDecimal * 0.1),
-        }),
+      await PhysicalAttributesService.submitPhysicalAttributes(
+        userId: widget.userId,
+        height: widget.height,
+        weight: widget.weight,
+        idealWeight: selectedWeight + (selectedDecimal * 0.1),
       );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        // Success - navigate to next page
-        if (mounted) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ActivityLevelPage(userId: widget.userId),
-            ),
-          );
-        }
-      } else {
-        // Show error
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('خطا: ${response.body}'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
+      // Success - navigate to next page
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ActivityLevelPage(userId: widget.userId),
+          ),
+        );
       }
     } catch (e) {
       // Show error message

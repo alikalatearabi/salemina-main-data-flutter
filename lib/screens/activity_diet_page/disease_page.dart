@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/activity_diet_page/diet_page.dart';
-import 'package:main_app/services/api_service.dart';
 import 'package:main_app/models/user_data.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:main_app/services/disease_service.dart';
 
 class DiseasePage extends StatefulWidget {
   final int userId;
@@ -20,13 +18,11 @@ class DiseasePage extends StatefulWidget {
 }
 
 class DiseasePageState extends State<DiseasePage> {
-  final Map<String, String> selectedConditions = {};
-  Map<String, int> diseaseIdMap = {}; // Remove final keyword
+  final Map<String, int> selectedConditions = {};
   List<Disease> diseases = [];
   bool isLoading = true;
   bool isSubmitting = false;
   String? errorMessage;
-  final ApiService _apiService = ApiService();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -50,92 +46,40 @@ class DiseasePageState extends State<DiseasePage> {
       // Prepare illnesses data
       final List<Map<String, dynamic>> illnesses = [];
       
-      selectedConditions.forEach((diseaseName, level) {
-        if (diseaseIdMap.containsKey(diseaseName)) {
-          final int diseaseId = diseaseIdMap[diseaseName]!;
-          
-          // Convert level to standard format (e.g., "بالا" -> "HIGH")
-          String standardLevel = "MEDIUM"; // Default
-          
-          // This mapping should be adjusted based on your actual level names
-          if (level.contains("بالا") || level == "دارم") {
-            standardLevel = "HIGH";
-          } else if (level.contains("پایین") || level.contains("کم")) {
-            standardLevel = "LOW";
-          } else if (level.contains("نرمال") || level == "ندارم") {
-            standardLevel = "NORMAL";
-          }
-          
-          illnesses.add({
-            "id": diseaseId,
-            "level": standardLevel
-          });
-        }
+      selectedConditions.forEach((diseaseName, levelId) {
+        final disease = diseases.firstWhere(
+          (d) => d.name == diseaseName,
+          orElse: () => Disease(0, diseaseName, []),
+        );
+        
+        illnesses.add({
+          "id": disease.id,
+          "levelId": levelId
+        });
       });
 
       // Get activity level string
-      String activityLevel = "MODERATE"; // Default
-      
-      // Map activity level ID to string value
-      // This should be adjusted based on your actual data
-      switch (widget.activityLevelId) {
-        case 1:
-          activityLevel = "LOW";
-          break;
-        case 2:
-          activityLevel = "MODERATE";
-          break;
-        case 3:
-          activityLevel = "HIGH";
-          break;
-        case 4:
-          activityLevel = "VERY_HIGH";
-          break;
-      }
+      final activityLevel = DiseaseService.getActivityLevelString(widget.activityLevelId);
 
-      // Submit data to API
-      final response = await http.post(
-        Uri.parse('http://localhost:3000/api/auth/signup/health-info'),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({
-          'userId': widget.userId,
-          'activityLevel': activityLevel,
-          'illnesses': illnesses,
-        }),
+      // Submit data using the service
+      await DiseaseService.submitHealthInfo(
+        userId: widget.userId,
+        activityLevel: activityLevel,
+        illnesses: illnesses,
       );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        // Success - store in user data and navigate to next page
-        final userData = UserData.getInstance(widget.userId);
-        userData.selectedIllnesses = illnesses;
-        
-        if (mounted) {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => DietPage(userId: widget.userId),
-            ),
-          );
-        }
-      } else {
-        // Show error
-        if (mounted) {
-          setState(() {
-            errorMessage = 'خطا: ${response.body}';
-            isSubmitting = false;
-          });
-          
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('خطا: ${response.body}'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
+      // Success - store in user data and navigate to next page
+      final userData = UserData.getInstance(widget.userId);
+      userData.selectedIllnesses = illnesses;
+      
+      if (mounted) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => DietPage(userId: widget.userId),
+          ),
+        );
       }
     } catch (e) {
-      // Show error message
       if (mounted) {
         setState(() {
           errorMessage = 'خطا: ${e.toString()}';
@@ -159,25 +103,10 @@ class DiseasePageState extends State<DiseasePage> {
         errorMessage = null;
       });
 
-      final response = await _apiService.fetchIllnessesWithLevels();
-      
-      // Extract disease IDs from API response
-      final Map<String, int> idMap = {};
-      for (final illness in response.illnesses) {
-        idMap[illness.persianName] = illness.id;
-      }
+      final fetchedDiseases = await DiseaseService.getDiseases();
       
       setState(() {
-        diseaseIdMap = idMap;
-      });
-      
-      final mappedDiseases = _apiService.mapApiIllnessesToDiseases<Disease>(
-        response, 
-        (name, options) => Disease(name, options)
-      );
-      
-      setState(() {
-        diseases = mappedDiseases;
+        diseases = fetchedDiseases;
         isLoading = false;
       });
     } catch (e) {
@@ -186,21 +115,17 @@ class DiseasePageState extends State<DiseasePage> {
         errorMessage = 'خطا در دریافت اطلاعات: $e';
         // Fallback to hardcoded diseases in case of error
         diseases = [
-          Disease("تیروئید", ["کم کاری", "پر کاری", "نرمال", "نامشخص"]),
-          Disease("فشار خون", ["پایین", "نرمال", "بالا", "نامشخص"]),
-          Disease("دیابت", ["سالم", "پیش دیابت", "دیابت"]),
-          Disease("بیماری قلبی عروقی", ["دارم", "ندارم"]),
-          Disease("کبد چرب", ["دارم", "ندارم"]),
-          Disease("سندرم تخمدان پلی کیستیک", ["دارم", "ندارم"]),
-          Disease("چاقی شکمی", ["دارم", "ندارم"]),
-          Disease("تری گلیسیرید", ["نرمال", "بالا", "نامشخص"]),
-          Disease("کلسترول", ["نرمال", "بالا", "نامشخص"]),
-          Disease("اسید اوریک", ["نرمال", "بالا", "نامشخص"]),
-          Disease("کراتینین", ["نرمال", "بالا", "نامشخص"]),
-          Disease("وضعیت اشتها", ["کم", "معمولی", "زیاد"]),
-          Disease("ریفلاکس معده", ["دارم", "ندارم"]),
-          Disease("سوزش معده", ["دارم", "ندارم"]),
-          Disease("کم خونی", ["دارم", "ندارم"]),
+          Disease(1, "تیروئید", [
+            IllnessLevel(id: 1, name: "LOW", persianName: "کم کاری", illnessId: 1),
+            IllnessLevel(id: 2, name: "HIGH", persianName: "پر کاری", illnessId: 1),
+            IllnessLevel(id: 3, name: "NORMAL", persianName: "نرمال", illnessId: 1),
+          ]),
+          Disease(2, "فشار خون", [
+            IllnessLevel(id: 4, name: "LOW", persianName: "پایین", illnessId: 2),
+            IllnessLevel(id: 5, name: "NORMAL", persianName: "نرمال", illnessId: 2),
+            IllnessLevel(id: 6, name: "HIGH", persianName: "بالا", illnessId: 2),
+          ]),
+          // ... Add more fallback diseases as needed
         ];
       });
     }
@@ -335,15 +260,19 @@ class DiseasePageState extends State<DiseasePage> {
         itemCount: diseases.length,
         itemBuilder: (context, index) {
           final disease = diseases[index];
-          final selectedCondition = selectedConditions[disease.name];
-          return _buildDiseaseItem(disease, selectedCondition);
+          final selectedLevelId = selectedConditions[disease.name];
+          return _buildDiseaseItem(disease, selectedLevelId);
         },
       ),
     );
   }
 
-  Widget _buildDiseaseItem(Disease disease, String? selectedCondition) {
-    final isSelected = selectedCondition != null;
+  Widget _buildDiseaseItem(Disease disease, int? selectedLevelId) {
+    final isSelected = selectedLevelId != null;
+    final selectedLevel = isSelected 
+        ? disease.levels.firstWhere((level) => level.id == selectedLevelId)
+        : null;
+
     return GestureDetector(
       onTap: () => _showConditionDialog(disease),
       child: AnimatedContainer(
@@ -376,11 +305,11 @@ class DiseasePageState extends State<DiseasePage> {
                 ),
               ],
             ),
-            if (isSelected)
+            if (isSelected && selectedLevel != null)
               Row(
                 children: [
                   Text(
-                    selectedCondition,
+                    selectedLevel.persianName,
                     style: const TextStyle(
                       fontSize: 17,
                       color: Color(0xFF018A08),
@@ -459,9 +388,8 @@ class DiseasePageState extends State<DiseasePage> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        ...disease.options.map((option) {
-                          final isSelected =
-                              selectedConditions[disease.name] == option;
+                        ...disease.levels.map((level) {
+                          final isSelected = selectedConditions[disease.name] == level.id;
 
                           return GestureDetector(
                             onTap: () {
@@ -471,7 +399,7 @@ class DiseasePageState extends State<DiseasePage> {
                                   selectedConditions.remove(disease.name);
                                 } else {
                                   // Select the item
-                                  selectedConditions[disease.name] = option;
+                                  selectedConditions[disease.name] = level.id;
                                 }
                               });
 
@@ -481,7 +409,7 @@ class DiseasePageState extends State<DiseasePage> {
                                   selectedConditions.remove(disease.name);
                                 } else {
                                   // Select the item
-                                  selectedConditions[disease.name] = option;
+                                  selectedConditions[disease.name] = level.id;
                                 }
                               });
                             },
@@ -494,8 +422,7 @@ class DiseasePageState extends State<DiseasePage> {
                                 border: Border.all(
                                   color: isSelected
                                       ? const Color(0xFF018A08)
-                                      : const Color.fromARGB(
-                                          255, 238, 238, 238),
+                                      : const Color.fromARGB(255, 238, 238, 238),
                                   width: 2,
                                 ),
                                 color: isSelected
@@ -503,11 +430,10 @@ class DiseasePageState extends State<DiseasePage> {
                                     : Colors.white,
                               ),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    option,
+                                    level.persianName,
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.normal,
@@ -596,13 +522,6 @@ class DiseasePageState extends State<DiseasePage> {
       ),
     );
   }
-}
-
-class Disease {
-  final String name;
-  final List<String> options;
-
-  Disease(this.name, this.options);
 }
 
 class TopCurveClipper extends CustomClipper<Path> {

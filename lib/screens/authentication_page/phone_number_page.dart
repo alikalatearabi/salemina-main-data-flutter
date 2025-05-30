@@ -5,6 +5,10 @@ import 'package:main_app/screens/authentication_page/code_input_page.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:main_app/screens/home_page/home_page.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:main_app/screens/personal_info/name_info.dart';
+import 'package:main_app/screens/activity_diet_page/activity_level_page.dart';
+import 'package:main_app/screens/activity_diet_page/diet_page.dart';
 
 class PhoneNumberPage extends StatefulWidget {
   const PhoneNumberPage({super.key});
@@ -41,12 +45,12 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:3000/api/auth/signup/phone'),
+        Uri.parse('${dotenv.env['BASE_URL']}/api/auth/signup/phone'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({'phone': '+98${_phoneController.text}'}),
       );
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
         final data = json.decode(response.body);
         
         if (data['exists'] == true && data['signupComplete'] == true) {
@@ -57,8 +61,47 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
             ),
             (route) => false,
           );
+        } else if (data['exists'] == true && data['signupComplete'] == false) {
+          // Handle incomplete signup based on nextStep
+          switch (data['nextStep']) {
+            case 'basic-info':
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) => NameInfoPage(userId: data['userId']),
+                ),
+                (route) => false,
+              );
+              break;
+            case 'health-info':
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) => ActivityLevelPage(userId: data['userId']),
+                ),
+                (route) => false,
+              );
+              break;
+            case 'dietary-preferences':
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) => DietPage(userId: data['userId']),
+                ),
+                (route) => false,
+              );
+              break;
+            default:
+              // If nextStep is not recognized, go to code input page
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => CodeInputPage(
+                    phoneNumber: _phoneController.text,
+                    userId: data['userId'],
+                    nextStep: data['nextStep'],
+                  ),
+                ),
+              );
+          }
         } else {
-          // Navigate to CodeInputPage for new users or incomplete signup
+          // Navigate to CodeInputPage for new users
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => CodeInputPage(

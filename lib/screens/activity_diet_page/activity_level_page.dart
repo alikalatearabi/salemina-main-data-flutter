@@ -1,35 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:main_app/screens/activity_diet_page/disease_page.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:main_app/models/user_data.dart';
-
-class ActivityLevel {
-  final int id;
-  final String name;
-  final String nameFa;
-  final String description;
-  final String descriptionFa;
-
-  ActivityLevel({
-    required this.id,
-    required this.name,
-    required this.nameFa,
-    required this.description,
-    required this.descriptionFa,
-  });
-
-  factory ActivityLevel.fromJson(Map<String, dynamic> json) {
-    return ActivityLevel(
-      id: json['id'],
-      name: json['name'],
-      nameFa: json['name_fa'],
-      description: json['description'],
-      descriptionFa: json['description_fa'],
-    );
-  }
-}
+import 'package:main_app/services/activity_level_service.dart';
 
 class ActivityLevelPage extends StatefulWidget {
   final int userId;
@@ -55,22 +28,11 @@ class ActivityLevelPageState extends State<ActivityLevelPage> {
 
   Future<void> fetchActivityLevels() async {
     try {
-      final response = await http.get(
-        Uri.parse('http://localhost:3000/api/auth/activity-levels'),
-      );
-      
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        setState(() {
-          activityLevels = data.map((item) => ActivityLevel.fromJson(item)).toList();
-          isLoading = false;
-        });
-      } else {
-        setState(() {
-          errorMessage = 'خطا در دریافت اطلاعات: ${response.statusCode}';
-          isLoading = false;
-        });
-      }
+      final levels = await ActivityLevelService.getActivityLevels();
+      setState(() {
+        activityLevels = levels;
+        isLoading = false;
+      });
     } catch (e) {
       setState(() {
         errorMessage = 'خطا در ارتباط با سرور: $e';

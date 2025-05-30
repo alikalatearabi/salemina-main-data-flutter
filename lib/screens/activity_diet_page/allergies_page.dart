@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/activity_diet_page/water_intake_page.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:main_app/models/user_data.dart';
+import 'package:main_app/services/allergies_service.dart';
 
 class AllergiesPage extends StatefulWidget {
   final int userId;
@@ -26,18 +25,11 @@ class AllergiesPageState extends State<AllergiesPage> {
 
   Future<void> fetchAllergies() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost:3000/api/auth/allergies'));
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        setState(() {
-          allergies = data.map((item) => AllergyCategory.fromJson(item)).toList();
-          isLoading = false;
-        });
-      } else {
-        setState(() {
-          isLoading = false;
-        });
-      }
+      final allergyCategories = await AllergiesService.getAllergies();
+      setState(() {
+        allergies = allergyCategories;
+        isLoading = false;
+      });
     } catch (e) {
       print('Error fetching allergies: $e');
       setState(() {
@@ -199,34 +191,22 @@ class AllergiesPageState extends State<AllergiesPage> {
       child: ElevatedButton.icon(
         onPressed: () async {
           try {
-            // Create the allergies list in the required format for the API
-            final allergiesList = selectedAllergyIds.map((id) => {"id": id}).toList();
-            
             // Store allergies in UserData
             final userData = UserData.getInstance(widget.userId);
             userData.allergies = selectedAllergyIds.map((id) => id.toString()).toList();
             
-            // Send to API
-            final response = await http.post(
-              Uri.parse('http://localhost:3000/api/auth/signup/allergies'),
-              headers: {'Content-Type': 'application/json'},
-              body: jsonEncode({
-                'userId': widget.userId,
-                'allergies': allergiesList,
-              }),
+            // Submit allergies using the service
+            await AllergiesService.submitAllergies(
+              userId: widget.userId,
+              allergyIds: selectedAllergyIds.toList(),
             );
-            
-            if (response.statusCode == 200 || response.statusCode == 201) {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => WaterIntakePage(userId: widget.userId),
-                ),
-              );
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('خطا: ${response.body}'), backgroundColor: Colors.red),
-              );
-            }
+
+            // Navigate to next page on success
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => WaterIntakePage(userId: widget.userId),
+              ),
+            );
           } catch (e) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('خطا: $e'), backgroundColor: Colors.red),
@@ -248,34 +228,6 @@ class AllergiesPageState extends State<AllergiesPage> {
       ),
     );
   }
-}
-
-class AllergyCategory {
-  final int id;
-  final String name;
-  final List<AllergyItem> items;
-
-  AllergyCategory(this.id, this.name, this.items);
-
-  factory AllergyCategory.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> itemsJson = json['items'] ?? [];
-    final List<AllergyItem> items = itemsJson.map((item) => 
-      AllergyItem(item['id'] as int, item['persianName'] as String)
-    ).toList();
-    
-    return AllergyCategory(
-      json['id'] as int, 
-      json['persianName'] as String, 
-      items
-    );
-  }
-}
-
-class AllergyItem {
-  final int id;
-  final String name;
-  
-  AllergyItem(this.id, this.name);
 }
 
 class TopCurveClipper extends CustomClipper<Path> {

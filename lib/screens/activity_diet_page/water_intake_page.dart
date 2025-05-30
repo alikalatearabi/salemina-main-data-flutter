@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/home_page/home_page.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:main_app/models/user_data.dart';
+import 'package:main_app/services/water_intake_service.dart';
 
 class WaterIntakePage extends StatefulWidget {
   final int userId;
@@ -15,6 +14,7 @@ class WaterIntakePage extends StatefulWidget {
 
 class WaterIntakePageState extends State<WaterIntakePage> {
   int selectedGlass = 8;
+  bool isSubmitting = false;
 
   @override
   Widget build(BuildContext context) {
@@ -154,47 +154,62 @@ class WaterIntakePageState extends State<WaterIntakePage> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
-        onPressed: () async {
+        onPressed: isSubmitting ? null : () async {
           try {
+            setState(() {
+              isSubmitting = true;
+            });
+
             // Store water intake in UserData
             final userData = UserData.getInstance(widget.userId);
             userData.waterIntake = selectedGlass;
             
-            // Send to API
-            final response = await http.post(
-              Uri.parse('http://localhost:3000/api/auth/signup/water-intake'),
-              headers: {'Content-Type': 'application/json'},
-              body: jsonEncode({
-                'userId': widget.userId,
-                'waterIntake': selectedGlass,
-              }),
+            // Submit using the service
+            await WaterIntakeService.submitWaterIntake(
+              userId: widget.userId,
+              waterIntake: selectedGlass,
             );
             
-            if (response.statusCode == 200 || response.statusCode == 201) {
+            if (mounted) {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const HomePage(),
                 ),
               );
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('خطا: ${response.body}'), backgroundColor: Colors.red),
-              );
             }
           } catch (e) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('خطا: $e'), backgroundColor: Colors.red),
-            );
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('خطا: ${e.toString()}'),
+                  backgroundColor: Colors.red,
+                ),
+              );
+              setState(() {
+                isSubmitting = false;
+              });
+            }
           }
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF018A08),
+          backgroundColor: isSubmitting 
+              ? const Color(0xFF9E9E9E) 
+              : const Color(0xFF018A08),
           padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+        icon: isSubmitting 
+            ? const SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2,
+                ),
+              )
+            : const Icon(Icons.arrow_back_ios, color: Colors.white),
         label: const Text(
           "تایید و ادامه",
           style: TextStyle(color: Colors.white, fontSize: 16),
