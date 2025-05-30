@@ -88,6 +88,14 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
                 (route) => false,
               );
               break;
+            case 'complete':
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) => const HomePage(),
+                ),
+                (route) => false,
+              );
+              break;
             default:
               // If nextStep is not recognized, go to code input page
               Navigator.of(context).push(
