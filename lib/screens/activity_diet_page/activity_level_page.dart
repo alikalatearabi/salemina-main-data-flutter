@@ -4,6 +4,7 @@ import 'package:main_app/screens/activity_diet_page/disease_page.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:main_app/models/user_data.dart';
+import 'package:main_app/utility/env_config.dart';
 
 class ActivityLevel {
   final int id;
@@ -56,7 +57,7 @@ class ActivityLevelPageState extends State<ActivityLevelPage> {
   Future<void> fetchActivityLevels() async {
     try {
       final response = await http.get(
-        Uri.parse('http://localhost:3000/api/auth/activity-levels'),
+        Uri.parse('${EnvConfig.apiBaseUrl}/auth/activity-levels'),
       );
       
       if (response.statusCode == 200) {

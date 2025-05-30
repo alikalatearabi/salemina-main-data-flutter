@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shamsi_date/shamsi_date.dart';
+import 'package:main_app/utility/env_config.dart';
 
 class UserService {
-  static const String baseUrl = 'http://localhost:3000/api';
+  static const String baseUrl = EnvConfig.apiBaseUrl;
   
   // Convert Jalali date to ISO format (YYYY-MM-DD)
   static String jalaliToGregorian(int year, int month, int day) {
@@ -20,7 +21,7 @@ class UserService {
     required DateTime birthDate,
   }) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/auth/signup/basic-info'),
+      Uri.parse('${EnvConfig.apiBaseUrl}/auth/signup/basic-info'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({
         'userId': userId,
@@ -49,7 +50,7 @@ class UserService {
     final gregorianDate = jalaliToGregorian(birthYear, birthMonth, birthDay);
     
     final response = await http.post(
-      Uri.parse('$baseUrl/auth/signup/basic-info'),
+      Uri.parse('${EnvConfig.apiBaseUrl}/auth/signup/basic-info'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({
         'userId': userId,

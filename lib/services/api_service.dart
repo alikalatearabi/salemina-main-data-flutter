@@ -1,17 +1,18 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:main_app/models/illness_model.dart';
+import 'package:main_app/utility/env_config.dart';
 
 // Type definition for Disease constructor function
 typedef DiseaseConstructor<T> = T Function(String name, List<String> options);
 
 class ApiService {
-  final String baseUrl = 'http://localhost:3000/api';
+  final String baseUrl = EnvConfig.apiBaseUrl;
 
   Future<IllnessResponse> fetchIllnessesWithLevels() async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/auth/illnesses-with-levels'),
+        Uri.parse('${EnvConfig.apiBaseUrl}/auth/illnesses-with-levels'),
       );
 
       if (response.statusCode == 200) {

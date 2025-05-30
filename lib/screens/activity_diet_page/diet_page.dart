@@ -4,6 +4,7 @@ import 'package:main_app/screens/activity_diet_page/prefered_food_page.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:main_app/models/user_data.dart';
+import 'package:main_app/utility/env_config.dart';
 
 class DietPage extends StatefulWidget {
   final int userId;
@@ -27,7 +28,7 @@ class DietPageState extends State<DietPage> {
 
   Future<void> fetchActivityOptions() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost:3000/api/auth/appetite-modes'));
+      final response = await http.get(Uri.parse('${EnvConfig.apiBaseUrl}/auth/appetite-modes'));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
         setState(() {

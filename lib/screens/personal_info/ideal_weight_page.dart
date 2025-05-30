@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/activity_diet_page/activity_level_page.dart';
 import 'package:main_app/utility/english_to_persian_number.dart';
+import 'package:main_app/utility/env_config.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -44,7 +45,7 @@ class IdealWeightPageState extends State<IdealWeightPage> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:3000/api/auth/signup/physical-attributes'),
+        Uri.parse('${EnvConfig.apiBaseUrl}/auth/signup/physical-attributes'),
         headers: {
           'Content-Type': 'application/json',
         },

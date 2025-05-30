@@ -4,6 +4,7 @@ import 'package:main_app/services/api_service.dart';
 import 'package:main_app/models/user_data.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:main_app/utility/env_config.dart';
 
 class DiseasePage extends StatefulWidget {
   final int userId;
@@ -95,7 +96,7 @@ class DiseasePageState extends State<DiseasePage> {
 
       // Submit data to API
       final response = await http.post(
-        Uri.parse('http://localhost:3000/api/auth/signup/health-info'),
+        Uri.parse('${EnvConfig.apiBaseUrl}/auth/signup/health-info'),
         headers: {
           'Content-Type': 'application/json',
         },

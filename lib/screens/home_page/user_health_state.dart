@@ -1,22 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'health_helpers.dart';
 
-class HealthStatusWidget extends StatelessWidget {
-  final String healthIcon;
-  final String healthText;
-  final int healthLevel;
+class HealthStatusWidget extends StatefulWidget {
+  final String? healthIcon;
+  final String? healthText;
+  final int? healthLevel;
   final int maxHealthLevel;
 
   const HealthStatusWidget({
     super.key,
-    required this.healthIcon,
-    required this.healthText,
-    required this.healthLevel,
+    this.healthIcon,
+    this.healthText,
+    this.healthLevel,
     this.maxHealthLevel = 6, // Default value
   });
 
   @override
+  State<HealthStatusWidget> createState() => _HealthStatusWidgetState();
+}
+
+class _HealthStatusWidgetState extends State<HealthStatusWidget> {
+  bool _isLoading = true;
+  String _healthIcon = 'emoji';
+  String _healthText = 'سلامتی متوسط';
+  int _healthLevel = 4;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchHealthData();
+  }
+
+  Future<void> _fetchHealthData() async {
+    try {
+      final healthData = await calculateHealthScore();
+      if (mounted) {
+        setState(() {
+          _healthIcon = healthData['healthIcon'] ?? 'emoji';
+          _healthText = healthData['healthText'] ?? 'سلامتی متوسط';
+          _healthLevel = healthData['score'] ?? 4;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      print('Error fetching health data: $e');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // Use provided values or calculated values
+    final icon = widget.healthIcon ?? _healthIcon;
+    final text = widget.healthText ?? _healthText;
+    final level = widget.healthLevel ?? _healthLevel;
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
@@ -34,54 +77,56 @@ class HealthStatusWidget extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
-          children: [
-            // Image.asset(
-            //   'assets/icons/$healthIcon.png',
-            //   width: 60,
-            //   height: 60,
-            // ),
-            SvgPicture.asset(
-              'assets/icons/emoji.svg',
-              width: 56,
-              height: 56,
-            ),
-            const SizedBox(width: 16),
-            SizedBox(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: _isLoading && widget.healthLevel == null
+            ? const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : Row(
                 children: [
-                  Text(
-                    healthText,
-                    style: const TextStyle(
-                      color: Color(0xFF25A749),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+                  SvgPicture.asset(
+                    'assets/icons/emoji.svg',
+                    width: 56,
+                    height: 56,
                   ),
-                  const SizedBox(height: 15),
-                  Row(
-                    children: List.generate(maxHealthLevel, (index) {
-                      return SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.10,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 2),
-                          height: 8,
-                          decoration: BoxDecoration(
-                            color: index < healthLevel
-                                ? Colors.green
-                                : Colors.grey[300],
-                            borderRadius: BorderRadius.circular(4),
+                  const SizedBox(width: 16),
+                  SizedBox(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          text,
+                          style: const TextStyle(
+                            color: Color(0xFF25A749),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
                           ),
                         ),
-                      );
-                    }),
+                        const SizedBox(height: 15),
+                        Row(
+                          children: List.generate(widget.maxHealthLevel, (index) {
+                            return SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.10,
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 2),
+                                height: 8,
+                                decoration: BoxDecoration(
+                                  color: index < level
+                                      ? Colors.green
+                                      : Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }

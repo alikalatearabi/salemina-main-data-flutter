@@ -3,6 +3,7 @@ import 'package:main_app/screens/home_page/home_page.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:main_app/models/user_data.dart';
+import 'package:main_app/utility/env_config.dart';
 
 class WaterIntakePage extends StatefulWidget {
   final int userId;
@@ -162,7 +163,7 @@ class WaterIntakePageState extends State<WaterIntakePage> {
             
             // Send to API
             final response = await http.post(
-              Uri.parse('http://localhost:3000/api/auth/signup/water-intake'),
+              Uri.parse('${EnvConfig.apiBaseUrl}/auth/signup/water-intake'),
               headers: {'Content-Type': 'application/json'},
               body: jsonEncode({
                 'userId': widget.userId,

@@ -49,36 +49,30 @@ class HomeContent extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InkWell(
-                          onTap:(){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ClusterRankingPage()),
-                            );
-        
-                          },
-                          child: buildInfoBox(context, 'رتبه بندی خوشه ها',
-                            SvgPicture.asset(
-                              'assets/icons/category.svg',
-                              width: 56,
-                              height: 56,
-                            ),
+                        // Cluster ranking with coming soon badge (teal color theme)
+                        ComingSoonInfoBox(
+                          text: 'رتبه بندی خوشه ها',
+                          icon: SvgPicture.asset(
+                            'assets/icons/category.svg',
+                            width: 56,
+                            height: 56,
                           ),
+                          badgeColor: const Color(0xFF2C3E50),
                         ),
-                        buildInfoBox(context, 'مقایسه محصولات',
-                          SvgPicture.asset(
+                        
+                        // Product comparison with coming soon badge (purple color theme)
+                        ComingSoonInfoBox(
+                          text: 'مقایسه محصولات',
+                          icon: SvgPicture.asset(
                             'assets/icons/compare.svg',
                             width: 56,
                             height: 56,
                           ),
+                          badgeColor: const Color(0xFF34495E),
                         ),
                       ],
                     ),
-                    HealthStatusWidget(
-                      healthIcon: getHealthIcon(),
-                      healthText: getHealthText(),
-                      healthLevel: getHealthLevel(),
-                    ),
+                    const HealthStatusWidget(),
                     WaterTrackerWidget(
                       consumedGlasses: 2,
                       totalGlasses: 9,

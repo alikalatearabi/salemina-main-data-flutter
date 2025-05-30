@@ -4,6 +4,7 @@ import 'package:main_app/screens/activity_diet_page/allergies_page.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:main_app/models/user_data.dart';
+import 'package:main_app/utility/env_config.dart';
 
 class PreferredFoodPage extends StatefulWidget {
   final int userId;
@@ -27,7 +28,7 @@ class PreferredFoodPageState extends State<PreferredFoodPage> {
 
   Future<void> fetchFoodPreferences() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost:3000/api/auth/full-food-preferences'));
+      final response = await http.get(Uri.parse('${EnvConfig.apiBaseUrl}/auth/full-food-preferences'));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
         setState(() {
@@ -220,7 +221,7 @@ class PreferredFoodPageState extends State<PreferredFoodPage> {
                 // API call
                 final prefObj = preferences.firstWhere((p) => p.title == selectedPreference);
                 final response = await http.post(
-                  Uri.parse('http://localhost:3000/api/auth/signup/dietary-preferences'),
+                  Uri.parse('${EnvConfig.apiBaseUrl}/auth/signup/dietary-preferences'),
                   headers: {'Content-Type': 'application/json'},
                   body: jsonEncode({
                     'userId': widget.userId,

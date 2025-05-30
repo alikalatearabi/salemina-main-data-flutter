@@ -1,9 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:main_app/utility/env_config.dart';
 
 class AddingMeal extends StatefulWidget {
-  const AddingMeal({Key? key}) : super(key: key);
+  final Map<String, dynamic>? productData;
+  final int? userId;
+
+  const AddingMeal({
+    super.key, 
+    this.productData,
+    this.userId,
+  });
 
   @override
   State<AddingMeal> createState() => _AddingMealState();
@@ -14,6 +24,23 @@ class _AddingMealState extends State<AddingMeal> {
   String _consumption = '';
   String _selectedUnit = 'قاشق غذاخوری';
   bool _expanded = false;
+  bool _isLoading = false;
+  String _selectedMealType = 'ناهار'; // Default to lunch
+  final DateTime _selectedDate = DateTime.now();
+
+  // Mapping of UI strings to API values
+  final Map<String, String> _unitMapping = {
+    'قاشق غذاخوری': 'tablespoon',
+    'گرم': 'gram',
+    'میلی‌لیتر': 'milliliter',
+  };
+
+  final Map<String, String> _mealTypeMapping = {
+    'صبحانه': 'BREAKFAST',
+    'ناهار': 'LUNCH',
+    'شام': 'DINNER',
+    'میان وعده': 'SNACK',
+  };
 
   final List<_Metric> _metrics = [
     _Metric(name: 'کالری', current: 845, diff: 42, goal: 2000, barColor: Color(0xFF464E59)),
@@ -44,6 +71,120 @@ class _AddingMealState extends State<AddingMeal> {
         },
       ),
     );
+  }
+
+  Future<void> _submitMealConsumption() async {
+    if (_formKey.currentState?.validate() != true) {
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final quantity = double.tryParse(_consumption) ?? 0.0;
+      
+      // Determine effective userId
+      final effectiveUserId = widget.userId ?? EnvConfig.currentUserId;
+      // Determine productId
+      final effectiveProductId = widget.productData?['id'];
+      // Determine serving size: use per field or default to 100
+      final perValue = widget.productData?['per']?.toString();
+      final servingSize = double.tryParse(perValue ?? '') ?? 100.0;
+      // Prepare API request body
+      final requestBody = {
+        'userId': effectiveUserId,
+        'productId': effectiveProductId,
+        'quantity': quantity,
+        'servingSize': servingSize,
+        'unit': _unitMapping[_selectedUnit] ?? 'tablespoon',
+        'mealType': _mealTypeMapping[_selectedMealType] ?? 'LUNCH',
+        'consumedAt': _selectedDate.toUtc().toIso8601String(),
+      };
+
+      // Send API request
+      final response = await http.post(
+        Uri.parse('${EnvConfig.apiBaseUrl}/nutrition/consumed'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        // Success
+        Navigator.of(context).pop();
+        
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            duration: const Duration(seconds: 2),
+            content: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    },
+                    child: Icon(Icons.close, size: 20, color: Color(0xFF647482)),
+                  ),
+                  const Flexible(
+                    child: Text(
+                      'میزان مصرف با موفقیت ثبت شد.',
+                      textDirection: TextDirection.rtl,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF284740),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'assets/icons/ic_check.svg',
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      } else {
+        // Error
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('خطا در ارسال اطلاعات: ${response.statusCode}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      // Exception
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('خطا: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -142,6 +283,51 @@ class _AddingMealState extends State<AddingMeal> {
                           validator: (val) => val == null || val.isEmpty ? 'میزان مصرف خود را وارد کنید' : null,
                         ),
                         const SizedBox(height: 16),
+                        
+                        // Meal Type Selection
+                        const Text(
+                          'نوع وعده‌ی غذایی',
+                          textAlign: TextAlign.right,
+                          textDirection: TextDirection.rtl,
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  value: _selectedMealType,
+                                  isExpanded: true,
+                                  icon: const Icon(CupertinoIcons.chevron_down, size: 16),
+                                  items: ['صبحانه', 'ناهار', 'شام', 'میان وعده']
+                                      .map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      _selectedMealType = newValue!;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        
                         GestureDetector(
                           onTap: () => setState(() => _expanded = !_expanded),
                           child: Container(
@@ -220,58 +406,7 @@ class _AddingMealState extends State<AddingMeal> {
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState?.validate() == true) {
-                        final messenger = ScaffoldMessenger.of(context);
-                        Navigator.of(context).pop();
-                        messenger.showSnackBar(
-                          SnackBar(
-                            behavior: SnackBarBehavior.floating,
-                            margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                            duration: const Duration(seconds: 2),
-                            content: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      messenger.hideCurrentSnackBar();
-                                    },
-                                    child: Icon(Icons.close, size: 20, color: Color(0xFF647482)),
-                                  ),
-                                  const Flexible(
-                                    child: Text(
-                                      'میزان مصرف با موفقیت ثبت شد.',
-                                      textDirection: TextDirection.rtl,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 40,
-                                    width: 40,
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFF284740),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        'assets/icons/ic_check.svg',
-                                        width: 24,
-                                        height: 24,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-                    },
+                    onPressed: _isLoading ? null : _submitMealConsumption,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF018A08),
                       elevation: 0,
@@ -282,10 +417,19 @@ class _AddingMealState extends State<AddingMeal> {
                       ),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
-                    child: const Text(
-                      "تأیید و ذخیره",
-                      style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
-                    ),
+                    child: _isLoading
+                        ? const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : const Text(
+                            "تأیید و ذخیره",
+                            style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+                          ),
                   ),
                 ],
               ),

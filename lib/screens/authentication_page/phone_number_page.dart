@@ -5,6 +5,7 @@ import 'package:main_app/screens/authentication_page/code_input_page.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:main_app/screens/home_page/home_page.dart';
+import 'package:main_app/utility/env_config.dart';
 
 class PhoneNumberPage extends StatefulWidget {
   const PhoneNumberPage({super.key});
@@ -41,16 +42,23 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:3000/api/auth/signup/phone'),
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({'phone': '+98${_phoneController.text}'}),
+        Uri.parse('${EnvConfig.apiBaseUrl}/auth/signup/phone'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'phone': '+98${_phoneController.text}',
+        }),
       );
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
         final data = json.decode(response.body);
         
-        if (data['exists'] == true && data['signupComplete'] == true) {
-          // Navigate to HomePage if user exists and signup is complete
+        // Store current user ID globally
+        EnvConfig.currentUserId = data['userId'];
+        
+        if (data['exists'] == true && (data['signupComplete'] == true || data['nextStep'] == 'complete')) {
+          // Navigate to HomePage if user exists and signup is complete or next step is complete
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
               builder: (context) => const HomePage(),
