@@ -43,6 +43,7 @@ dependencies:
   marquee: ^2.3.0
   syncfusion_flutter_sliders: ^28.2.9
   flutter_xlider: ^3.5.0
+  dotted_border: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -92,6 +93,13 @@ flutter:
     - assets/k6.png
     - assets/k7.png
     - assets/k8.png
+    - assets/Illustration.svg
+    - assets/Illustration (1).svg
+    - assets/Illustration (2).svg
+    - assets/Illustration (3).svg
+    - assets/Illustration (4).svg
+    - assets/Illustration (5).svg
+    - assets/Illustration (6).svg
     - assets/home_back.png
     - assets/profile_avatar.png
     - assets/icons/

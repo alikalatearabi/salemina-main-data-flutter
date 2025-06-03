@@ -5,6 +5,7 @@ import 'package:main_app/screens/home_page/home_page.dart';
 import 'package:main_app/screens/product_page/rate_and_review_modal.dart';
 import '../../widgets/one_attribute_list.dart';
 import '../../widgets/one_attribute_list_item.dart';
+import '../comparison_page/comparison_page.dart';
 import 'conditional_marquee.dart';
 import 'radial_chart_widget.dart';
 
@@ -152,7 +153,12 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
           children: [
             SizedBox(width: screenWidth * 0.01795),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>ComparisonScreen()),
+                );
+              },
               child: SvgPicture.asset(
                 'assets/icons/compare2.svg',
                 width: 18,
@@ -226,7 +232,12 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>ComparisonScreen()),
+            );
+          },
           child: Row(
             children: [
               const Text(
