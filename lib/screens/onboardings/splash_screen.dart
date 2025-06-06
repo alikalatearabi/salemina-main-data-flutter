@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:main_app/screens/onboardings/onboarding_screen1.dart';
+
+import 'onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,10 +15,10 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (ctx) => const OnboardingScreen1(currentPage: 0),
+            builder: (ctx) => const OnboardingScreen(),
           ));
     });
   }
@@ -28,8 +29,8 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: Colors.white,
       body: Center(
         child: SvgPicture.asset(
-          'assets/images/splash.svg',
-          width: MediaQuery.of(context).size.width*0.7,
+          'assets/images/onboarding_screen/splash.svg',
+          width: MediaQuery.of(context).size.width*0.76,
         ),
       ),
     );
