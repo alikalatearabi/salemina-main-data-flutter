@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:main_app/screens/onboardings/onboarding_screen1.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -12,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -26,7 +27,10 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Image.asset('assets/splash.png'),
+        child: SvgPicture.asset(
+          'assets/images/splash.svg',
+          width: MediaQuery.of(context).size.width*0.7,
+        ),
       ),
     );
   }

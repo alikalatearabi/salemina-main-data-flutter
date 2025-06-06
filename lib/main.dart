@@ -6,6 +6,7 @@ import 'package:main_app/screens/product_page/product_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:main_app/screens/authentication_page/phone_number_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:main_app/screens/onboardings/splash_screen.dart';
 
 
 
@@ -26,18 +27,17 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('fa', 'IR'), // Farsi
-        Locale('en', 'US'), // English
+        Locale('fa', 'IR'),
+        Locale('en', 'US'),
       ],
-      locale: const Locale('fa', 'IR'), // Set Farsi as default
-      //home: const ChooseYourPlanPage(),
+      locale: const Locale('fa', 'IR'),
       title: 'BookIt',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'yekanBakh',
       ),
-      home: const PhoneNumberPage(),
+      home: const SplashScreen(),
 
     );
   }

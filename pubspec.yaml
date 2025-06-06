@@ -109,6 +109,7 @@ flutter:
     - assets/home_back.png
     - assets/profile_avatar.png
     - assets/icons/
+    - assets/images/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
