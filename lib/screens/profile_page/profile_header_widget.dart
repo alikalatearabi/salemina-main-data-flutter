@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/home_page/utils.dart';
 
+import '../plan_selection/controller/plan_selection_controller.dart';
+
 
 class ProfileHeaderWidget extends StatelessWidget {
   final double screenHeight;
@@ -44,6 +46,7 @@ class ProfileHeaderWidget extends StatelessWidget {
                     ),
                     OutlinedButton(
                       onPressed: () {
+                        ChooseYourPlanController(context).startPlanSelectionFlow();
                       },
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
