@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:main_app/screens/activity_diet_page/prefered_food_page.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:main_app/models/user_data.dart';
+import 'package:main_app/services/diet_service.dart';
 
 class DietPage extends StatefulWidget {
   final int userId;
@@ -18,6 +17,7 @@ class DietPageState extends State<DietPage> {
   String? selectedActivityId;
   List<ActivityOption> activityOptions = [];
   bool isLoading = true;
+  String? errorMessage;
 
   @override
   void initState() {
@@ -27,22 +27,21 @@ class DietPageState extends State<DietPage> {
 
   Future<void> fetchActivityOptions() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost:3000/api/auth/appetite-modes'));
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        setState(() {
-          activityOptions = data.map((item) => ActivityOption.fromJson(item)).toList();
-          isLoading = false;
-        });
-      } else {
-        setState(() {
-          isLoading = false;
-        });
-      }
+      setState(() {
+        isLoading = true;
+        errorMessage = null;
+      });
+
+      final options = await DietService.getAppetiteModes();
+      
+      setState(() {
+        activityOptions = options;
+        isLoading = false;
+      });
     } catch (e) {
-      print('Error fetching activity options: $e');
       setState(() {
         isLoading = false;
+        errorMessage = 'خطا در دریافت اطلاعات: $e';
       });
     }
   }
@@ -128,6 +127,30 @@ class DietPageState extends State<DietPage> {
                   const SizedBox(height: 24),
                   if (isLoading)
                     const Center(child: CircularProgressIndicator())
+                  else if (errorMessage != null)
+                    Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            errorMessage!,
+                            style: const TextStyle(color: Colors.red),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: fetchActivityOptions,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF018A08),
+                            ),
+                            child: const Text(
+                              "تلاش مجدد",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   else
                     ...activityOptions.map((option) => _buildActivityOption(option)),
                   const Spacer(),
@@ -226,17 +249,6 @@ class DietPageState extends State<DietPage> {
         ),
       ),
     );
-  }
-}
-
-class ActivityOption {
-  final String id;
-  final String title;
-
-  ActivityOption(this.id, this.title);
-
-  factory ActivityOption.fromJson(Map<String, dynamic> json) {
-    return ActivityOption(json['id'] as String, json['name_fa'] as String);
   }
 }
 

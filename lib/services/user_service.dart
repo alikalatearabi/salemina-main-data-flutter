@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shamsi_date/shamsi_date.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class UserService {
-  static const String baseUrl = 'http://localhost:3000/api';
+  static String get baseUrl => '${dotenv.env['BASE_URL']}/api';
   
   // Convert Jalali date to ISO format (YYYY-MM-DD)
   static String jalaliToGregorian(int year, int month, int day) {

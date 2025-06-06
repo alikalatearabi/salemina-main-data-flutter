@@ -3,11 +3,14 @@ import 'package:main_app/screens/comparison_page/comparison_page.dart';
 import 'package:main_app/screens/home_page/home_page.dart';
 import 'package:main_app/screens/onboardings/onboarding_screen1.dart';
 import 'package:main_app/screens/product_page/product_page.dart';
-import 'package:flutter_localizations/flutter_localizations.dart'; // این خط را اضافه کنید
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:main_app/screens/authentication_page/phone_number_page.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp( const MyApp());
 }
 
@@ -34,7 +37,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'yekanBakh',
       ),
-      home: const ProductPage(),
+      home: const PhoneNumberPage(),
 
     );
   }
