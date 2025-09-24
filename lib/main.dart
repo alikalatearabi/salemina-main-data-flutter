@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:main_app/screens/authentication_page/code_input_page.dart';
+import 'package:main_app/screens/home_page/home_page.dart';
 import 'package:main_app/screens/onboardings/splash_screen.dart';
 
 
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'yekanBakh',
       ),
-      home: const CodeInputPage(phoneNumber: '9123456789', userId: 0269, nextStep: 'complete',),
+      home: const HomePage(),
 
     );
   }

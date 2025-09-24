@@ -14,6 +14,10 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final HealthLevel currentUserHealthLevel = HealthLevel.highRisk;
+    final HealthStatusInfo statusInfo = getHealthStatusInfo(currentUserHealthLevel);
+
     return Scaffold(
       backgroundColor: const Color(0xFFF3F5F7),
       body: SingleChildScrollView(
@@ -48,6 +52,7 @@ class HomeContent extends StatelessWidget {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      textDirection: TextDirection.ltr,
                       children: [
                         InkWell(
                           onTap:(){
@@ -75,9 +80,12 @@ class HomeContent extends StatelessWidget {
                       ],
                     ),
                     HealthStatusWidget(
-                      healthIcon: getHealthIcon(),
-                      healthText: getHealthText(),
-                      healthLevel: getHealthLevel(),
+                      statusInfo: statusInfo,
+                      onWarningPressed: () {
+                        //todo
+                        print('دکمه هشدار کلیک شد!');
+                        _showHealthWarningsPopup(context);
+                      },
                     ),
                     WaterTrackerWidget(
                       consumedGlasses: 2,
@@ -94,4 +102,65 @@ class HomeContent extends StatelessWidget {
       ),
     );
   }
+
+
+  HealthStatusInfo getHealthStatusInfo(HealthLevel level) {
+    switch (level) {
+      case HealthLevel.perfect:
+        return HealthStatusInfo(
+          title: 'سلامت کامل',
+          iconAsset: 'assets/icons/green_face.svg',
+          color: const Color(0xFF25A749),
+          levelValue: 5,
+        );
+      case HealthLevel.normal:
+        return HealthStatusInfo(
+          title: 'نرمال',
+          iconAsset: 'assets/icons/light_green_face.svg',
+          color: const Color(0xFF4BD772),
+          levelValue: 4,
+        );
+      case HealthLevel.atRisk:
+        return HealthStatusInfo(
+          title: 'در معرض ابتلا',
+          iconAsset: 'assets/icons/orange_face.svg',
+          color:const Color(0xFFF5AE32),
+          levelValue: 3,
+        );
+      case HealthLevel.mediumRisk:
+        return HealthStatusInfo(
+          title: 'ریسک متوسط',
+          iconAsset: 'assets/icons/pink_face.svg',
+          color: const Color(0xFFF2506E),
+          levelValue: 2,
+        );
+      case HealthLevel.highRisk:
+        return HealthStatusInfo(
+          title: 'ریسک بالا',
+          iconAsset: 'assets/icons/red_face.svg',
+          color: const Color(0xFFD44661),
+          levelValue: 1,
+        );
+    }
+  }
+
+
+  void _showHealthWarningsPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('هشدارها'),
+          content: const Text('لیست هشدارها در اینجا نمایش داده می‌شود.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('بستن'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

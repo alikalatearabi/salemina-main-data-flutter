@@ -28,6 +28,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
       ),
       height: MediaQuery.of(context).size.height*0.09287531806615776081424936386768,
       child: Row(
+        textDirection: TextDirection.rtl,
         children: [
           _NavigationItem(
             iconPath: 'assets/icons/home.svg',

@@ -118,15 +118,15 @@ class HomeHeaderWidget extends StatelessWidget {
                                 fontSize: 12,
                               ),
                             ),
-                            const SizedBox(width: 4),
-                            Text(
-                              '(${toPersianNumber('32')}%)',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            // const SizedBox(width: 4),
+                            // Text(
+                            //   '(${toPersianNumber('32')}%)',
+                            //   style: const TextStyle(
+                            //     color: Colors.white,
+                            //     fontSize: 12,
+                            //     fontWeight: FontWeight.bold,
+                            //   ),
+                            // ),
                           ],
                         ),
                       ],
