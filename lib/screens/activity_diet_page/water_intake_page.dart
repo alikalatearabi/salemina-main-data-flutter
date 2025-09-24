@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:main_app/screens/home_page/home_page.dart';
+import 'package:main_app/screens/home_page/view/home_page.dart';
 import 'package:main_app/models/user_data.dart';
 import 'package:main_app/services/water_intake_service.dart';
 

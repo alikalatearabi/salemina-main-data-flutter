@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:main_app/screens/authentication_page/code_input_page.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:main_app/screens/home_page/home_page.dart';
+import 'package:main_app/screens/home_page/view/home_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:main_app/screens/personal_info/name_info.dart';
 import 'package:main_app/screens/activity_diet_page/activity_level_page.dart';

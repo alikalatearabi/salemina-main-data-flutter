@@ -20,7 +20,7 @@ class HealthStatusWidget extends StatelessWidget {
     final bool showWarningButton = statusInfo.levelValue < maxHealthLevel;
 
     return Container(
-      margin: const EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(top: 16),
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       decoration: BoxDecoration(
@@ -55,14 +55,14 @@ class HealthStatusWidget extends StatelessWidget {
                       style: TextStyle(
                         color: statusInfo.color,
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                     if (showWarningButton)
                       _buildWarningButton(),
                   ],
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 Row(
                   children: List.generate(maxHealthLevel, (index) {
                     return Expanded(

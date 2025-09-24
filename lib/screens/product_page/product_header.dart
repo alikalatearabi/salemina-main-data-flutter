@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:main_app/screens/home_page/home_page.dart';
+import 'package:main_app/screens/home_page/view/home_page.dart';
 import 'package:main_app/screens/product_page/rate_and_review_modal.dart';
 import '../../widgets/one_attribute_list.dart';
 import '../../widgets/one_attribute_list_item.dart';

@@ -1,47 +1,43 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:main_app/screens/home_page/utils.dart';
-
+import 'package:main_app/screens/buy_subscription/buy_subscription_manager.dart';
+import 'package:main_app/screens/profile_page/profile_header_widget.dart';
 import 'custom_painters.dart';
-
-// Utility function to convert English digits to Persian digits
-String toPersianNumber(String number) {
-  const english = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
-  const persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', '٫'];
-  
-  for (int i = 0; i < english.length; i++) {
-    number = number.replaceAll(english[i], persian[i]);
-  }
-  return number;
-}
+import 'models/user_data_model.dart';
+import 'utils.dart'; // Assuming utils file for helpers
 
 class HomeHeaderWidget extends StatelessWidget {
-  final double screenHeight;
+  final CalorieData calories;
+  final NutrientData nutrients;
+  final String subscriptionType;
 
   const HomeHeaderWidget({
     super.key,
-    required this.screenHeight,
+    required this.calories,
+    required this.nutrients,
+    required this.subscriptionType,
   });
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return ClipPath(
       clipper: BottomArcClipper(),
       child: Container(
-        height: screenHeight * 0.5,
+        height: screenHeight * 0.48,
+        width: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/home_back.png'),
             fit: BoxFit.cover,
           ),
         ),
-        child: Column(
-          children: [
-            const SizedBox(height: 40),
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -53,33 +49,53 @@ class HomeHeaderWidget extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    OutlinedButton(
-                      onPressed: () {
-
-                      },
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        side: const BorderSide(color: Colors.white),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                    // TODO: The visibility and action of this button should depend on userData.subscriptionType
+                    if (subscriptionType == 'free')
+                      OutlinedButton(
+                        onPressed: () {
+                          showSalminaPurchaseModals(context);
+                        },
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          side: const BorderSide(color: Colors.white),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: const Text(
+                          'خرید اشتراک',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600),
                         ),
                       ),
-                      child: const Text(
-                        'خرید اشتراک',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600
+                    if (subscriptionType != 'free')
+                      OutlinedButton(
+                        onPressed: () {
+                          // TODO: Navigate to subscription page
+                        },
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          side: const BorderSide(color: Colors.white),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: const Text(
+                          'پرمیوم',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600),
                         ),
                       ),
-                    ),
                   ],
                 ),
               ),
-            ),
-            const SizedBox(height: 10),
-            Center(
-              child: SizedBox(
+              SizedBox(height: 10,),
+              //const Spacer(flex: 1),
+              SizedBox(
                 width: 150,
                 height: 150,
                 child: Stack(
@@ -92,85 +108,52 @@ class HomeHeaderWidget extends StatelessWidget {
                     CustomPaint(
                       size: const Size(150, 150),
                       painter: HalfCircleFilledPainter(
-                        consumedCalories: 625,
-                        totalCalories: 2000,
+                        consumedCalories: calories.consumed,
+                        totalCalories: calories.total,
                       ),
                     ),
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SizedBox(height:45),
                         Text(
-                          toPersianNumber('625'),
+                          toPersianNumber(calories.consumed.toString()),
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'از ${toPersianNumber('2000')} کیلو کالری',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                              ),
-                            ),
-                            // const SizedBox(width: 4),
-                            // Text(
-                            //   '(${toPersianNumber('32')}%)',
-                            //   style: const TextStyle(
-                            //     color: Colors.white,
-                            //     fontSize: 12,
-                            //     fontWeight: FontWeight.bold,
-                            //   ),
-                            // ),
-                          ],
+                        Text(
+                          'از ${toPersianNumber(calories.total.toString())} کیلو کالری',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-            ),
-            const SizedBox(height: 0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  buildHealthFactor(context, 'چربی', 66, 138), // 48%
-                  buildHealthFactor(context, 'اسید چرب', 5, 50), // 10%
-                  buildHealthFactor(context, 'قند', 25, 20), // 123%
-                  buildHealthFactor(context, 'نمک', 38, 56), // 68%
-                ],
+              SizedBox(height: 10,),
+              //const Spacer(flex: 2),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    buildHealthFactor(context, 'چربی', nutrients.fat.consumed, nutrients.fat.total),
+                    buildHealthFactor(context, 'اسید چرب', nutrients.fattyAcid.consumed, nutrients.fattyAcid.total),
+                    buildHealthFactor(context, 'قند', nutrients.sugar.consumed, nutrients.sugar.total),
+                    buildHealthFactor(context, 'نمک', nutrients.salt.consumed, nutrients.salt.total),
+                  ],
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 10,),
+            ],
+          ),
         ),
       ),
     );
   }
-
-
-}
-
-class BottomArcClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.lineTo(0, size.height - 20);
-    path.quadraticBezierTo(
-      size.width / 2, size.height - 60,
-      size.width, size.height - 20,
-    );
-    path.lineTo(size.width, 0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
