@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:main_app/screens/home_page/utils.dart' as utils;
 import 'package:main_app/screens/product_page/alternative_product_screen.dart';
-import 'package:main_app/screens/product_page/calorie_analysis_card.dart';
 import 'package:main_app/screens/product_page/negative_attributes_card.dart';
 import 'package:main_app/screens/product_page/positive_attributes_card.dart';
 import 'package:main_app/screens/product_page/bottom_bar.dart';
@@ -252,7 +251,7 @@ class ProductPageState extends State<ProductPage> {
               delegate: ProductHeaderDelegate(
                 productRate: 2.31,
                 rateCount: 200,
-                productBrand: '',
+                productBrand: 'بیسکوییت',
                 productName: 'شیرینی آردی با مغزی شکلات',
                 productCluster: 'شیرینی',
               ),
@@ -316,6 +315,7 @@ class ProductPageState extends State<ProductPage> {
                   child: Column(
                     children: [
                       Row(
+                        textDirection: TextDirection.ltr,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InkWell(

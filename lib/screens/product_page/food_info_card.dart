@@ -30,41 +30,25 @@ class FoodInfoCard extends StatelessWidget {
               ),
             ),
             child: Row(
+              textDirection: TextDirection.ltr,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const CustomIndicatorBottomSheet(
-                          title: 'اطلاعات شاخص',
-                          description: 'توضیحات تکمیلی درباره شاخص های تغذیه‌ای',
-                          minValue: 0,
-                          maxValue: 100,
-                          initialValue: 50,
-                        );
-                      },
-                    );
-                  },
-                  child: const Row(
-                    children: [
-                      Text(
-                        'توضیحات',
-                        style: TextStyle(
-                          color: Color(0xFF018A08),
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(width: 4),
-                      Icon(
-                        Icons.info,
-                        color: Color(0xFF018A08),
-                        size: 18,
-                      ),
-                    ],
-                  ),
+                    onTap: (){
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const CustomIndicatorBottomSheet(
+                            title: 'اطلاعات شاخص',
+                            description: 'توضیحات تکمیلی درباره شاخص های تغذیه‌ای',
+                            minValue: 0,
+                            maxValue: 100,
+                            initialValue: 50,
+                          );
+                        },
+                      );
+                    },
+                    child: Icon(Icons.info_outline, color: Color(0xFF464E59), size: 18)
                 ),
                 const Text(
                   'اطلاعات تغذیه ای',

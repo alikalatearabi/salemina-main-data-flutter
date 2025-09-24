@@ -65,7 +65,7 @@ class RateAndReviewModalState extends State<RateAndReviewModal> {
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   textDirection: TextDirection.rtl,

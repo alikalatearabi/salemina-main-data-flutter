@@ -55,8 +55,9 @@ class _CustomIndicatorBottomSheetState extends State<CustomIndicatorBottomSheet>
         ),
       ),
       child: Column(
+        textDirection: TextDirection.ltr,
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
             height: 5,
@@ -70,7 +71,7 @@ class _CustomIndicatorBottomSheetState extends State<CustomIndicatorBottomSheet>
           ),
           SizedBox(height: 40,),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 widget.title,

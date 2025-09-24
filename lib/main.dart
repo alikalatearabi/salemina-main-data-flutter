@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:main_app/screens/authentication_page/code_input_page.dart';
 import 'package:main_app/screens/home_page/view/home_page.dart';
 import 'package:main_app/screens/onboardings/splash_screen.dart';
+import 'package:main_app/screens/product_page/product_page.dart';
 
 
 
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'yekanBakh',
       ),
-      home: const HomePage(),
+      home: const ProductPage(),
 
     );
   }

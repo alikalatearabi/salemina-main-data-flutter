@@ -13,7 +13,7 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  int _selectedIndex = 3;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
