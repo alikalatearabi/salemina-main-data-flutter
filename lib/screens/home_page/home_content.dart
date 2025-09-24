@@ -7,6 +7,7 @@ import 'package:main_app/screens/home_page/water_tracker_widget.dart';
 import '../search_page/cluster_ranking_page.dart';
 import 'action_button_with_modal.dart';
 import 'health_helpers.dart';
+import 'health_warnings_page.dart';
 import 'home_header_widget.dart';
 
 class HomeContent extends StatelessWidget {
@@ -83,8 +84,12 @@ class HomeContent extends StatelessWidget {
                       statusInfo: statusInfo,
                       onWarningPressed: () {
                         //todo
-                        print('دکمه هشدار کلیک شد!');
-                        _showHealthWarningsPopup(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HealthWarningsPage(statusInfo: statusInfo),
+                          ),
+                        );
                       },
                     ),
                     WaterTrackerWidget(
