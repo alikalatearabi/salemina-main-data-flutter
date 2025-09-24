@@ -37,6 +37,7 @@ class _YearlyContentState extends State<YearlyContent> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Row(
+            textDirection: TextDirection.ltr,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildCalorieCard(context),
@@ -44,6 +45,7 @@ class _YearlyContentState extends State<YearlyContent> {
             ],
           ),
           Row(
+            textDirection: TextDirection.ltr,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildFatCard(context),
@@ -71,6 +73,7 @@ class _YearlyContentState extends State<YearlyContent> {
         padding: const EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -103,6 +106,7 @@ class _YearlyContentState extends State<YearlyContent> {
         padding: const EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -135,6 +139,7 @@ class _YearlyContentState extends State<YearlyContent> {
         padding: const EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -167,6 +172,7 @@ class _YearlyContentState extends State<YearlyContent> {
         padding: const EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -210,10 +216,11 @@ class _YearlyContentState extends State<YearlyContent> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               textDirection: TextDirection.rtl,
               children: [
-                Column(
+                const Column(
+                  textDirection: TextDirection.ltr,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text('قند', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                     SizedBox(height: 4),
                     Text('۳۹ گرم', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.red)),

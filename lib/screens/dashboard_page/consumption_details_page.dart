@@ -26,10 +26,10 @@ class ConsumptionDetailsPage extends StatefulWidget {
 class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
   bool isComparisonEnabled = false;
   int selectedCategoryIndex = 0;
-  int selectedPeriodIndex = 3; // default to Daily
+  int selectedPeriodIndex = 0; // default to Daily
 
   final List<String> categories = ['سالم', 'متوسط', 'ناسالم'];
-  final List<String> periods = ['سالانه', 'ماهانه', 'هفتگی', 'روزانه'];
+  final List<String> periods = ['روزانه','هفتگی','ماهانه','سالانه' ];
 
   // Slices based on the full 365-item lists:
   List<double> get dailyPrimary =>
@@ -95,6 +95,7 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
         child: Padding(
           padding: EdgeInsets.zero,
           child: Column(
+
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _buildToggleButtons(periods, selectedPeriodIndex, (index) {
@@ -123,6 +124,7 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
                 child: Column(
                   children: [
                     Row(
+                      textDirection: TextDirection.ltr,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InkWell(
@@ -176,7 +178,7 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
 
   Widget _buildConsumptionCard() {
     switch (selectedPeriodIndex) {
-      case 0: // Yearly
+      case 3: // Yearly
         return YearlyConsumptionChart(
           primaryValues: widget.primaryValues,
           secondaryValues:
@@ -184,7 +186,7 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
           isComparisonMode: isComparisonEnabled,
             title: widget.title,
         );
-      case 1: // Monthly
+      case 2: // Monthly
         return MonthlyConsumptionChart(
           primaryValues: monthlyPrimary,
           secondaryValues:
@@ -192,7 +194,7 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
           isComparisonMode: isComparisonEnabled,
             title: widget.title,
         );
-      case 2: // Weekly
+      case 1: // Weekly
         return WeeklyConsumptionCard(
           primaryValues: weeklyPrimary,
           secondaryValues:
@@ -200,7 +202,7 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
           highlightedIndex: weeklyPrimary.length - 1,
           isComparisonMode: isComparisonEnabled, title: widget.title,
         );
-      case 3: // Daily
+      case 0: // Daily
       default:
         return DailyConsumptionCard(
           consumed: dailyPrimary.last,

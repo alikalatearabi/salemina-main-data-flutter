@@ -59,7 +59,7 @@ class _SortButtonState extends State<SortButton> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
-              textDirection: TextDirection.rtl,
+              textDirection: TextDirection.ltr,
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Row(
@@ -82,6 +82,7 @@ class _SortButtonState extends State<SortButton> {
                 _buildSortItem('کمترین اسید چرب', 4),
                 _buildSortItem('کمترین نمک', 5),
                 Row(
+                  textDirection: TextDirection.ltr,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
@@ -151,6 +152,7 @@ class _SortButtonState extends State<SortButton> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
+          textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
@@ -184,7 +186,8 @@ class _SortButtonState extends State<SortButton> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        textDirection: TextDirection.ltr,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
             child: Text(

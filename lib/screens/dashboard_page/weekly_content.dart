@@ -33,10 +33,12 @@ class _WeeklyContentState extends State<WeeklyContent> {
       child: _rootSize == null
           ? const SizedBox.shrink()
           : Column(
+        textDirection: TextDirection.ltr,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
+            textDirection: TextDirection.ltr,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildCalorieCard(context),
@@ -44,6 +46,7 @@ class _WeeklyContentState extends State<WeeklyContent> {
             ],
           ),
           Row(
+            textDirection: TextDirection.ltr,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildFatCard(context),
@@ -82,6 +85,7 @@ class _WeeklyContentState extends State<WeeklyContent> {
               textDirection: TextDirection.rtl,
               children: [
                 Column(
+                  textDirection: TextDirection.ltr,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
@@ -121,6 +125,7 @@ class _WeeklyContentState extends State<WeeklyContent> {
         padding: const EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -156,6 +161,7 @@ class _WeeklyContentState extends State<WeeklyContent> {
         padding: const EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -191,6 +197,7 @@ class _WeeklyContentState extends State<WeeklyContent> {
         padding: const EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -226,6 +233,7 @@ class _WeeklyContentState extends State<WeeklyContent> {
         padding: const EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [

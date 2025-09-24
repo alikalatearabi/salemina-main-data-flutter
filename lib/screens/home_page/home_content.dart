@@ -5,6 +5,7 @@ import 'package:main_app/screens/home_page/health_helpers.dart';
 import 'package:main_app/screens/home_page/health_warnings_page.dart';
 import 'package:main_app/screens/home_page/user_health_state.dart';
 import 'package:main_app/screens/home_page/utils.dart';
+import '../search_page/cluster_ranking_page.dart' show ClusterRankingPage;
 import 'home_header_widget.dart';
 import 'models/user_data_model.dart';
 import 'water_tracker_widget.dart';
@@ -59,14 +60,24 @@ class HomeContent extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
-                      child: buildInfoBox(
-                        context,
-                        'رتبه بندی خوشه ها',
-                        SvgPicture.asset(
-                          'assets/icons/category.svg',
-                          width: 56,
-                          height: 56,
+                    InkWell(
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ClusterRankingPage(),
+                          ),
+                        );
+                      },
+                      child: Flexible(
+                        child: buildInfoBox(
+                          context,
+                          'رتبه بندی خوشه ها',
+                          SvgPicture.asset(
+                            'assets/icons/category.svg',
+                            width: 56,
+                            height: 56,
+                          ),
                         ),
                       ),
                     ),

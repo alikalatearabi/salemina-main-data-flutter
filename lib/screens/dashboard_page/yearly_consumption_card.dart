@@ -30,6 +30,7 @@ class YearlyConsumptionChart extends StatelessWidget {
       child: Column(
         children: [
           Row(
+            textDirection: TextDirection.ltr,
             children: [
               Align(
                   alignment: Alignment.centerRight,

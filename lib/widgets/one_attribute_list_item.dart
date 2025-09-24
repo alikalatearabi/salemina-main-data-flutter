@@ -24,7 +24,7 @@ class OneAttributeListItem extends StatelessWidget {
           ),
           SizedBox(width: 10,),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
