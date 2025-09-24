@@ -4,9 +4,12 @@ import 'package:main_app/screens/home_page/water_tracker_widget.dart';
 import 'package:main_app/screens/profile_page/edit_personal_info.dart';
 import 'package:main_app/screens/profile_page/profile_header_widget.dart';
 
+import '../buy_subscription/buy_subscription_manager.dart';
+
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -330,10 +333,15 @@ class ProfilePage extends StatelessWidget {
                               ),
                               textAlign: TextAlign.center,
                             ),
-                            SvgPicture.asset(
-                              'assets/icons/close.svg',
-                              width: 24,
-                              height: 24,
+                            InkWell(
+                              onTap: () {
+                                showSalminaPurchaseModals(context);
+                              },
+                              child: SvgPicture.asset(
+                                'assets/icons/close.svg',
+                                width: 24,
+                                height: 24,
+                              ),
                             ),
 
                           ],

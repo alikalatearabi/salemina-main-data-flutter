@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/home_page/barcode_scanner_screen.dart';
+import 'package:main_app/screens/search_page/search_page.dart';
 
 // Utility function to convert English digits to Persian digits
 String toPersianNumber(String number) {
@@ -139,7 +140,14 @@ Widget buildProductOptionsModal(BuildContext context) {
           context,
           'جست و جوی محصول',
           Icons.search,
-          () {},
+          () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SearchPage(),
+              ),
+            );
+          },
         ),
       ],
     ),

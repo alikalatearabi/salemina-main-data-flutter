@@ -36,9 +36,11 @@ class _DailyContentState extends State<DailyContent> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
+        textDirection: TextDirection.ltr,
         children: [
           if (myWidgetSize != null)
             Row(
+              textDirection: TextDirection.ltr,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildCalorieCard(context),
@@ -47,6 +49,7 @@ class _DailyContentState extends State<DailyContent> {
             ),
           if (myWidgetSize != null)
             Row(
+              textDirection: TextDirection.ltr,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildFatCard(context),
@@ -75,6 +78,7 @@ class _DailyContentState extends State<DailyContent> {
         padding: EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -110,6 +114,7 @@ class _DailyContentState extends State<DailyContent> {
         padding: EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -145,6 +150,7 @@ class _DailyContentState extends State<DailyContent> {
         padding: EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -180,6 +186,7 @@ class _DailyContentState extends State<DailyContent> {
         padding: EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -225,6 +232,7 @@ class _DailyContentState extends State<DailyContent> {
               textDirection: TextDirection.rtl,
               children: [
                 Column(
+                  textDirection: TextDirection.ltr,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

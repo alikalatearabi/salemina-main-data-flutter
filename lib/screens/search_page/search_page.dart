@@ -48,13 +48,16 @@ class _SearchPageState extends State<SearchPage> {
                         filled: true,
                         fillColor: Color(0xFFF7F8F9),
                         prefixIcon: Icon(Icons.search),
-                        suffixIcon: SvgPicture.asset(
-                          'assets/icons/scan.svg',
-                          color:Color(0xFF464E59),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: SvgPicture.asset(
+                            'assets/icons/scan.svg',
+                            color: Color(0xFF464E59),
+                          ),
                         ),
                         suffixIconConstraints: BoxConstraints(
-                          maxHeight: 24,
-                          maxWidth: 24,
+                          maxHeight: 48,
+                          maxWidth: 48,
                         ),
                         hintText: 'جستجو محصول',
                         border: OutlineInputBorder(
@@ -69,8 +72,7 @@ class _SearchPageState extends State<SearchPage> {
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide.none,
                         ),
-                        contentPadding:
-                        EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+                        contentPadding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
                       ),
                       cursorColor: Colors.black,
                     ),

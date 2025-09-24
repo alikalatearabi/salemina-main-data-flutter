@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:main_app/screens/product_page/custom_indicator_bottom_sheet.dart';
 
 import 'food_item_data.dart';
 
@@ -28,11 +29,11 @@ class PositiveAttributesCard extends StatelessWidget {
                 top: Radius.circular(20),
               ),
             ),
-            child: Row(
+            child:  Row(
               textDirection: TextDirection.rtl,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Row(
+                Row(
                   textDirection: TextDirection.rtl,
                   children: [
                     Text(
@@ -56,8 +57,22 @@ class PositiveAttributesCard extends StatelessWidget {
                   ],
                 ),
                 InkWell(
-
-                    child: const Icon(Icons.info_outline, color: Color(0xFF464E59), size: 18)),
+                  onTap: (){
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const CustomIndicatorBottomSheet(
+                          title: 'اطلاعات شاخص',
+                          description: 'توضیحات تکمیلی درباره شاخص های تغذیه‌ای',
+                          minValue: 0,
+                          maxValue: 100,
+                          initialValue: 50,
+                        );
+                      },
+                    );
+                  },
+                    child: Icon(Icons.info_outline, color: Color(0xFF464E59), size: 18)
+                ),
               ],
             ),
           ),

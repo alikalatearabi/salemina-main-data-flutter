@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:main_app/screens/home_page/utils.dart';
+import 'package:main_app/screens/product_page/custom_indicator_bottom_sheet.dart';
 
 import 'food_item_data.dart';
 
@@ -29,30 +30,28 @@ class NegativeAttributesCard extends StatelessWidget {
               ),
             ),
             child: Row(
+              textDirection: TextDirection.ltr,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: () {},
-                  child: Row(
-                    children: [
-                      const Text(
-                        'توضیحات',
-                        style: TextStyle(
-                          color: Color(0xFF018A08),
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      const Icon(
-                        Icons.info,
-                        color: Color(0xFF018A08),
-                        size: 18,
-                      ),
-                    ],
-                  ),
+                    onTap: (){
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const CustomIndicatorBottomSheet(
+                            title: 'اطلاعات شاخص',
+                            description: 'توضیحات تکمیلی درباره شاخص های تغذیه‌ای',
+                            minValue: 0,
+                            maxValue: 100,
+                            initialValue: 50,
+                          );
+                        },
+                      );
+                    },
+                    child: Icon(Icons.info_outline, color: Color(0xFF464E59), size: 18)
                 ),
                 Row(
+                  textDirection: TextDirection.ltr,
                   children: [
                     SvgPicture.asset(
                       'assets/icons/close-circle-2.svg',

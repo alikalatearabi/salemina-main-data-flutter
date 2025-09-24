@@ -40,6 +40,7 @@ class _MonthlyContentState extends State<MonthlyContent> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
+            textDirection: TextDirection.ltr,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildCalorieCard(context),
@@ -47,6 +48,7 @@ class _MonthlyContentState extends State<MonthlyContent> {
             ],
           ),
           Row(
+            textDirection: TextDirection.ltr,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildFatCard(context),
@@ -74,6 +76,7 @@ class _MonthlyContentState extends State<MonthlyContent> {
         padding: const EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -108,6 +111,7 @@ class _MonthlyContentState extends State<MonthlyContent> {
         padding: const EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -142,6 +146,7 @@ class _MonthlyContentState extends State<MonthlyContent> {
         padding: const EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -176,6 +181,7 @@ class _MonthlyContentState extends State<MonthlyContent> {
         padding: const EdgeInsets.all(16),
         decoration: _boxDecoration(),
         child: Column(
+          textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -212,6 +218,7 @@ class _MonthlyContentState extends State<MonthlyContent> {
           final eachSpace = (totalW - 2 * cardW) / 3;
           final sugarW = 2 * cardW + eachSpace;
           return Container(
+
             height: _rootSize!.height * 0.2,
             width: sugarW,
             padding: const EdgeInsets.all(16),
@@ -220,10 +227,11 @@ class _MonthlyContentState extends State<MonthlyContent> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               textDirection: TextDirection.rtl,
               children: [
-                Column(
+                const Column(
+                  textDirection: TextDirection.ltr,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text('قند', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                     SizedBox(height: 4),
                     Text('۳۹ گرم', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.red)),

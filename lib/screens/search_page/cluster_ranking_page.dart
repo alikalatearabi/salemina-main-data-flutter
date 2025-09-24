@@ -84,6 +84,7 @@ class ClusterRankingPage extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(right: 24.0,left: 24,bottom: 24),
             child: Column(
+              textDirection: TextDirection.rtl,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(

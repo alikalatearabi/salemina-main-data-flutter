@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:main_app/screens/home_page/barcode_scanner_screen.dart';
 
+import '../product_page/add_product_to_library/add_product_to_library.dart';
+
 class InvalidProductDisplay extends StatefulWidget {
   final String scannedCode;
 
@@ -87,6 +89,19 @@ class _InvalidProductDisplayState extends State<InvalidProductDisplay> {
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true, // برای اینکه ارتفاع مدال بتواند زیاد باشد
+                backgroundColor: Colors.transparent, // برای اینکه borderRadius کار کند
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.elliptical(600, 50), // انحنای بالای مدال
+                  ),
+                ),
+                builder: (BuildContext context) {
+                  return const ProductScanModal();
+                },
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF018A08).withOpacity(0.16),

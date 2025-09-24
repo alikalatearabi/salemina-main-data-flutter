@@ -13,7 +13,7 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  int _selectedIndex = 3;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +65,10 @@ class _DashboardPageState extends State<DashboardPage> {
               selectedBorderColor: Colors.transparent,
               renderBorder: false,
               children: [
-                _buildToggleButton('سالانه', _selectedIndex == 0),
-                _buildToggleButton('ماهانه', _selectedIndex == 1),
-                _buildToggleButton('هفتگی', _selectedIndex == 2),
-                _buildToggleButton('روزانه', _selectedIndex == 3),
+                _buildToggleButton('روزانه', _selectedIndex == 0),
+                _buildToggleButton('هفتگی', _selectedIndex == 1),
+                _buildToggleButton('ماهانه', _selectedIndex == 2),
+                _buildToggleButton('سالانه', _selectedIndex == 3),
               ],
             ),
           ),
@@ -86,13 +86,13 @@ class _DashboardPageState extends State<DashboardPage> {
 
   Widget _getContentForSelectedIndex() {
     switch (_selectedIndex) {
-      case 3:
-        return  DailyContent();
-      case 2:
-        return  WeeklyContent();
-      case 1:
-        return  MonthlyContent();
       case 0:
+        return  DailyContent();
+      case 1:
+        return  WeeklyContent();
+      case 2:
+        return  MonthlyContent();
+      case 3:
         return  YearlyContent();
       default:
         return  DailyContent();

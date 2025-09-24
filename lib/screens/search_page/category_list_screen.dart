@@ -40,6 +40,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
         title: Align(
           alignment: Alignment.centerRight,
           child: Row(
+            textDirection: TextDirection.ltr,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ElevatedButton(
@@ -64,7 +65,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  textDirection: TextDirection.rtl,
+                  textDirection: TextDirection.ltr,
                   children: [
                     SvgPicture.asset(
                       'assets/icons/sort.svg',
@@ -85,7 +86,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                 ),
               ),
               IconButton(
-                icon: const Icon(Icons.arrow_forward),
+                icon: const Icon(Icons.arrow_back),
                 onPressed: () => Navigator.pop(context),
               ),
             ],
