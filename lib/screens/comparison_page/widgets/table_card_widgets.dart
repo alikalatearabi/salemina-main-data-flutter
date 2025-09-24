@@ -1,7 +1,5 @@
-// lib/widgets/table_card_widgets.dart
 import 'package:flutter/material.dart';
 
-// کارت جدول
 Widget buildTableCard({
   required String title,
   String? subTitle,
@@ -15,7 +13,7 @@ Widget buildTableCard({
       border: Border.all(color: Colors.grey[350]!, width: 0.8),
     ),
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start, // برای راست چین شدن عنوان در RTL
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           decoration: BoxDecoration(
@@ -25,24 +23,26 @@ Widget buildTableCard({
           child: Padding(
             padding: const EdgeInsets.only(top: 20.0, bottom: 8.0, right: 16.0, left: 16.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,// ترتیب فرزندان برای RTL: آیکن، فاصله، متن
+              textDirection: TextDirection.ltr,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Icon(Icons.info_outline, color: Colors.grey[500], size: 20),
                 Row(
+                  textDirection: TextDirection.ltr,
                   children: [
                     if (subTitle != null)
                       Padding(
-                        padding: const EdgeInsets.only(right: 4.0), // فاصله از سمت راست متن اصلی
+                        padding: const EdgeInsets.only(right: 4.0),
                         child: Text(
                           subTitle,
                           style: TextStyle(fontSize: 12, color: Colors.grey[700]),
-                          textAlign: TextAlign.start, // راست چین
+                          textAlign: TextAlign.start,
                         ),
                       ),
                     Text(
                       title,
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black87),
-                      textAlign: TextAlign.start, // راست چین
+                      textAlign: TextAlign.start,
                     ),
                   ],
                 ),
@@ -57,11 +57,11 @@ Widget buildTableCard({
   );
 }
 
-// ستون نمایش ماده مغذی (برای هر محصول در جدول)
 Widget buildNutrientDisplayColumn(String nutrientName, String? value, Color dotColor) {
   return Container(
     padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-    child: Row( // ترتیب فرزندان برای RTL: نقطه، فاصله، متن
+    child: Row(
+      textDirection: TextDirection.ltr,
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -75,19 +75,19 @@ Widget buildNutrientDisplayColumn(String nutrientName, String? value, Color dotC
         ),
         const SizedBox(width: 12),
         Column(
-          crossAxisAlignment: CrossAxisAlignment.end, // راست چین
+          crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               nutrientName,
               style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.black87),
-              textAlign: TextAlign.start, // راست چین
+              textAlign: TextAlign.start,
             ),
             const SizedBox(height: 2),
             Text(
               value ?? "-",
               style: TextStyle(fontSize: 12, color: Colors.grey[700]),
-              textAlign: TextAlign.start, // راست چین
+              textAlign: TextAlign.start,
             ),
           ],
         ),
@@ -96,7 +96,6 @@ Widget buildNutrientDisplayColumn(String nutrientName, String? value, Color dotC
   );
 }
 
-// ردیف ماده مغذی در جدول (شامل دو ستون محصول)
 Widget buildNutrientRow({
   required String nutrientKeyBase,
   required String displayName,
@@ -108,23 +107,21 @@ Widget buildNutrientRow({
   String? p1Value = p1Data?[nutrientKeyBase]?.toString();
   String? p2Value = p2Data?[nutrientKeyBase]?.toString();
 
-  return Column( // برای قرار دادن Divider زیر این ردیف اگر لازم باشد (در buildRowsWithDividers)
+  return Column(
     children: [
       IntrinsicHeight(
         child: Row(
           textDirection: TextDirection.rtl,
           children: [
-            // ستون محصول اول (سمت راست در RTL)
             Expanded(
               child: buildNutrientDisplayColumn(displayName, p1Value, p1DotColor),
             ),
             VerticalDivider(width: 1.0, thickness: 0.5, color: Colors.grey[300]),
-            // ستون محصول دوم (سمت چپ در RTL)
             Expanded(
               child: buildNutrientDisplayColumn(
                 displayName,
                 p2Value,
-                p2Data != null ? p2DotColor : Colors.transparent, // نقطه شفاف اگر محصول دوم نیست
+                p2Data != null ? p2DotColor : Colors.transparent,
               ),
             ),
           ],

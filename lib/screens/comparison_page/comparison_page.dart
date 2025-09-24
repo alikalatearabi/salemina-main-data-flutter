@@ -1,4 +1,4 @@
-// lib/screens/comparison_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:main_app/screens/comparison_page/sample_product_data.dart';
 import 'package:main_app/screens/comparison_page/widgets/product_card_widgets.dart';
@@ -56,31 +56,24 @@ class _ComparisonScreenState extends State<ComparisonScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         surfaceTintColor: Colors.white,
-        automaticallyImplyLeading: false, // شما این را false نگه داشته‌اید
+        automaticallyImplyLeading: false,
         leading: BackButton(
-          color: Colors.black54, // رنگ آیکون بازگشت
+          color: Colors.black54,
           onPressed: () {
-            // می‌توانید قبل از pop کاری انجام دهید
             Navigator.of(context).pop();
-            // یا اگر می‌خواهید بررسی کنید که آیا امکان pop وجود دارد:
             // if (Navigator.of(context).canPop()) {
             //   Navigator.of(context).pop();
             // }
           },
         ),
-        // یا با IconButton برای سفارشی‌سازی بیشتر آیکون:
         // leading: IconButton(
-        //   icon: Icon(Icons.arrow_back_ios_new, color: Colors.black54), // یا Icons.arrow_back
+        //   icon: Icon(Icons.arrow_back_ios_new, color: Colors.black54),
         //   onPressed: () => Navigator.of(context).pop(),
-        //   tooltip: MaterialLocalizations.of(context).backButtonTooltip, // برای دسترسی‌پذیری
+        //   tooltip: MaterialLocalizations.of(context).backButtonTooltip,
         // ),
         title: Row(
           textDirection: TextDirection.rtl,
           children: const [
-            // آیکون فلش در عنوان، ربطی به دکمه بازگشت ندارد
-            // اگر این آیکون را برای ناوبری می‌خواستید، باید آن را به IconButton تبدیل می‌کردید
-            // Icon(Icons.arrow_forward, size: 20, color: Colors.black54),
-            // SizedBox(width: 4,),
             Text("مقایسه محصولات", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
           ],
         ),

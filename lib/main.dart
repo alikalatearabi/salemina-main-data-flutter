@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'yekanBakh',
       ),
-      home: const ProductPage(),
+      home: const HomePage(),
 
     );
   }

@@ -1,6 +1,4 @@
-// lib/data/sample_product_data.dart
 
-// محصول اول همیشه وجود دارد (برای این مثال)
 final Map<String, dynamic> product1SampleData = {
   'name': 'نام خوراکی اول', 'brand': 'برند محصول ۱', 'imageUrl': 'https://picsum.photos/seed/productA4/200/300',
   'calories': '۴۴۴۴', 'fat': '۴۴ گ', 'saturatedFat': '۴۴ گ', 'sugar': '۴۴ گ', 'salt': '۴۴ گ',
@@ -10,10 +8,8 @@ final Map<String, dynamic> product1SampleData = {
   'analysis_total_calories': '۱۱.۱کال', 'analysis_sugar_calories': '۱۱.۱کال', 'analysis_fat_calories': '۱۱.۱کال',
 };
 
-// محصول دوم می تواند null باشد یا با داده پر شود
-Map<String, dynamic>? product2SampleData; // مقدار اولیه null
+Map<String, dynamic>? product2SampleData;
 
-// داده نمونه برای وقتی محصول دوم اضافه می شود
 final Map<String, dynamic> sampleAddedProduct2Data = {
   'name': 'محصول جدید', 'brand': 'برند جدید', 'imageUrl': 'https://picsum.photos/seed/newProd3/200/300',
   'calories': '۳۳۳۳', 'fat': '۳۳ گ', 'saturatedFat': '۳۳ گ', 'sugar': '۳۳ گ', 'salt': '۳۳ گ',

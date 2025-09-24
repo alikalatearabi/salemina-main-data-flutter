@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:main_app/screens/comparison_page/comparison_page.dart';
 import 'package:main_app/screens/home_page/action_button_with_modal.dart';
 import 'package:main_app/screens/home_page/health_helpers.dart';
 import 'package:main_app/screens/home_page/health_warnings_page.dart';
@@ -81,14 +82,19 @@ class HomeContent extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Flexible(
-                      child: buildInfoBox(
-                        context,
-                        'مقایسه محصولات',
-                        SvgPicture.asset(
-                          'assets/icons/compare.svg',
-                          width: 56,
-                          height: 56,
+                    InkWell(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ComparisonScreen()));
+                      },
+                      child: Flexible(
+                        child: buildInfoBox(
+                          context,
+                          'مقایسه محصولات',
+                          SvgPicture.asset(
+                            'assets/icons/compare.svg',
+                            width: 56,
+                            height: 56,
+                          ),
                         ),
                       ),
                     ),

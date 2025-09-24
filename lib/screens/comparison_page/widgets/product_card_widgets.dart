@@ -18,11 +18,12 @@ Widget buildFullProductCard(Map<String, dynamic>? productData, BuildContext cont
 
   return Container(
     width:  MediaQuery.of(context).size.width/2-20,
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 0),
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildEditIcon(),
@@ -83,6 +84,7 @@ Widget buildAddProductFullCardButton({
         border: Border.all(color: Colors.green[200]!, width: 1),
       ),
       child: Row(
+        textDirection: TextDirection.rtl,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -117,14 +119,14 @@ Widget buildStickyProductSummary(Map<String, dynamic> productData) {
                 Text(
                   productData['name'],
                   style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.start, // راست چین در RTL
+                  textAlign: TextAlign.start,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
                   productData['brand'],
                   style: TextStyle(fontSize: 10, color: Colors.grey[700]),
-                  textAlign: TextAlign.start, // راست چین در RTL
+                  textAlign: TextAlign.start,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
