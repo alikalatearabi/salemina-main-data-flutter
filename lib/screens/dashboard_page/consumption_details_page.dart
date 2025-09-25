@@ -50,24 +50,24 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
   final List<OneAttributeList> recentProducts = [
     OneAttributeList(
       imagePath: 'assets/milk.png',
-      name: 'نام محصول در حالت خیلی طولانی ...',
+      name: 'شیر پرچرب پگاه',
       indicator: 'قند',
-      weight: '145 گرم',
-      value: '5555 گرم',
+      weight: '12',
+      value: '240 گرم',
     ),
     OneAttributeList(
-      imagePath: 'assets/milk2.png',
-      name: 'نام محصول در حالت خیلی طولانی ...',
-      indicator: 'نمک',
-      weight: '145 گرم',
-      value: '5555 گرم',
+      imagePath: 'assets/saghe.png',
+      name: 'بیسکویت ساقه طلایی مینو',
+      indicator: 'چربی',
+      weight: '1',
+      value: '12 گرم',
     ),
     OneAttributeList(
-      imagePath: 'assets/milk3.png',
-      name: 'نام محصول در حالت خیلی طولانی ...',
-      indicator: 'اسید چرب',
-      weight: '145 گرم',
-      value: '5555 گرم',
+      imagePath: 'assets/dark_chocolate.png',
+      name: 'شکلات تلخ 72٪ پارمیدا',
+      indicator: 'کالری',
+      weight: '155',
+      value: '28 گرم',
     ),
   ];
 
@@ -132,7 +132,7 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => RecentSearchScreen(),
+                                builder: (context) => const RecentSearchScreen(),
                               ),
                             );
                           },
@@ -184,7 +184,7 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
           secondaryValues:
           isComparisonEnabled ? widget.recommendedValues : null,
           isComparisonMode: isComparisonEnabled,
-            title: widget.title,
+          title: widget.title,
         );
       case 2: // Monthly
         return MonthlyConsumptionChart(
@@ -192,7 +192,7 @@ class _ConsumptionDetailsPageState extends State<ConsumptionDetailsPage> {
           secondaryValues:
           isComparisonEnabled ? monthlyRecommended : null,
           isComparisonMode: isComparisonEnabled,
-            title: widget.title,
+          title: widget.title,
         );
       case 1: // Weekly
         return WeeklyConsumptionCard(

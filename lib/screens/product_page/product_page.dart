@@ -19,42 +19,41 @@ class ProductPage extends StatefulWidget {
 }
 
 class ProductPageState extends State<ProductPage> {
-
   final List<AlternativeProduct> alternativeProducts = [
     AlternativeProduct(
       imagePath: 'assets/milk.png',
-      name: 'نام محصول در حالت خیلی طولانی ...',
-      calories: '${utils.toPersianNumber('5555')} کالری',
-      weight: '${utils.toPersianNumber('145')} گرم',
+      name: 'شیر پرچرب پگاه',
+      calories: '${utils.toPersianNumber('150')} کالری',
+      weight: '${utils.toPersianNumber('240')} گرم',
       values: {
-        'چربی': '${utils.toPersianNumber('0.55')} گرم',
-        'اسید چرب': '${utils.toPersianNumber('0.14')} گرم',
-        'نمک': '${utils.toPersianNumber('0.55')} گرم',
-        'قند': '${utils.toPersianNumber('0.55')} گرم',
+        'چربی': '${utils.toPersianNumber('8')} گرم',
+        'اسید چرب': '${utils.toPersianNumber('5')} گرم',
+        'نمک': '${utils.toPersianNumber('0.12')} گرم',
+        'قند': '${utils.toPersianNumber('12')} گرم',
       },
     ),
     AlternativeProduct(
-      imagePath: 'assets/milk2.png',
-      name: 'نام محصول در حالت خیلی طولانی ...',
-      calories: '${utils.toPersianNumber('5555')} کالری',
-      weight: '${utils.toPersianNumber('145')} گرم',
+      imagePath: 'assets/saghe.png',
+      name: 'بیسکویت ساقه طلایی مینو',
+      calories: '${utils.toPersianNumber('54')} کالری',
+      weight: '${utils.toPersianNumber('12')} گرم',
       values: {
-        'چربی': '${utils.toPersianNumber('0.55')} گرم',
-        'اسید چرب': '${utils.toPersianNumber('0.14')} گرم',
-        'نمک': '${utils.toPersianNumber('0.55')} گرم',
-        'قند': '${utils.toPersianNumber('0.55')} گرم',
+        'چربی': '${utils.toPersianNumber('1')} گرم',
+        'اسید چرب': '${utils.toPersianNumber('0.1')} گرم',
+        'نمک': '${utils.toPersianNumber('0.04')} گرم',
+        'قند': '${utils.toPersianNumber('2.56')} گرم',
       },
     ),
     AlternativeProduct(
-      imagePath: 'assets/milk3.png',
-      name: 'نام محصول در حالت خیلی طولانی ...',
-      calories: '${utils.toPersianNumber('5555')} کالری',
-      weight: '${utils.toPersianNumber('145')} گرم',
+      imagePath: 'assets/coloche.png',
+      name: 'کلوچه گردویی نادری',
+      calories: '${utils.toPersianNumber('213')} کالری',
+      weight: '${utils.toPersianNumber('50')} گرم',
       values: {
-        'چربی': '${utils.toPersianNumber('0.55')} گرم',
-        'اسید چرب': '${utils.toPersianNumber('0.14')} گرم',
-        'نمک': '${utils.toPersianNumber('0.55')} گرم',
-        'قند': '${utils.toPersianNumber('0.55')} گرم',
+        'چربی': '${utils.toPersianNumber('5.2')} گرم',
+        'اسید چرب': '${utils.toPersianNumber('0.09')} گرم',
+        'نمک': '${utils.toPersianNumber('0.09')} گرم',
+        'قند': '${utils.toPersianNumber('10.8')} گرم',
       },
     ),
   ];
@@ -62,10 +61,10 @@ class ProductPageState extends State<ProductPage> {
   List<FoodItemData> foodInfoItems = [
     FoodItemData(
       label: 'قند',
-      value: 6.6,
+      value: 6,
       unit: 'گرم',
       status: 'متوسط',
-      statusTextColor: Color(0xFFAE701E),
+      statusTextColor: const Color(0xFFAE701E),
       icon: SvgPicture.asset(
         'assets/icons/sugar.svg',
         width: 24,
@@ -74,10 +73,10 @@ class ProductPageState extends State<ProductPage> {
     ),
     FoodItemData(
       label: 'چربی کل',
-      value: 7.2,
+      value: 4,
       unit: 'گرم',
-      status: 'ناسالم',
-      statusTextColor: Color(0xFFD44661),
+      status: 'متوسط',
+      statusTextColor: const Color(0xFFAE701E),
       icon: SvgPicture.asset(
         'assets/icons/bottle_2.svg',
         width: 24,
@@ -86,10 +85,10 @@ class ProductPageState extends State<ProductPage> {
     ),
     FoodItemData(
       label: 'نمک',
-      value: 0,
+      value: 0.07,
       unit: 'گرم',
       status: 'سالم',
-      statusTextColor: Color(0xFF25A749),
+      statusTextColor: const Color(0xFF25A749),
       icon: SvgPicture.asset(
         'assets/icons/salt.svg',
         width: 24,
@@ -98,10 +97,10 @@ class ProductPageState extends State<ProductPage> {
     ),
     FoodItemData(
       label: 'اسیدهای چرب ترانس',
-      value: 0.06,
+      value: 0,
       unit: 'گرم',
       status: 'سالم',
-      statusTextColor: Color(0xFF25A749),
+      statusTextColor: const Color(0xFF25A749),
       icon: SvgPicture.asset(
         'assets/icons/olives.svg',
         width: 20,
@@ -113,10 +112,10 @@ class ProductPageState extends State<ProductPage> {
   List<FoodItemData> calorieAnalysisItems = [
     FoodItemData(
       label: 'کالری کل',
-      value: 426.4727,
+      value: 90,
       unit: 'کیلوکالری',
       status: '',
-      statusTextColor: Color(0xFF25A749),
+      statusTextColor: const Color(0xFF25A749),
       icon: SvgPicture.asset(
         'assets/icons/fire.svg',
         width: 24,
@@ -152,10 +151,10 @@ class ProductPageState extends State<ProductPage> {
   List<FoodItemData> positiveItems = [
     FoodItemData(
       label: 'اسید چرب ترانس',
-      value: 0.06,
+      value: 0,
       unit: 'گرم',
-      status: 'اسید ترانس خوب',
-      statusTextColor: Color(0xFF25A749),
+      status: 'بدون اسید چرب ترانس',
+      statusTextColor: const Color(0xFF25A749),
       icon: SvgPicture.asset(
         'assets/icons/fire.svg',
         width: 24,
@@ -203,10 +202,10 @@ class ProductPageState extends State<ProductPage> {
   List<FoodItemData> negativeItems = [
     FoodItemData(
       label: 'چربی',
-      value: 7.2,
+      value: 2,
       unit: 'گرم',
-      status: 'چربی زیاد',
-      statusTextColor: Color(0xFFD44661),
+      status: 'چربی اشباع شده',
+      statusTextColor: const Color(0xFFD44661),
       icon: SvgPicture.asset(
         'assets/icons/fire.svg',
         width: 24,
@@ -215,10 +214,10 @@ class ProductPageState extends State<ProductPage> {
     ),
     FoodItemData(
       label: 'قند',
-      value: 6.6,
+      value: 6,
       unit: 'گرم',
       status: 'قند متوسط',
-      statusTextColor: Color(0xFFD44661),
+      statusTextColor: const Color(0xFFD44661),
       icon: SvgPicture.asset(
         'assets/icons/sugar.svg',
         width: 24,
@@ -249,10 +248,10 @@ class ProductPageState extends State<ProductPage> {
             SliverPersistentHeader(
               pinned: true,
               delegate: ProductHeaderDelegate(
-                productRate: 2.31,
-                rateCount: 200,
-                productBrand: 'بیسکوییت',
-                productName: 'شیرینی آردی با مغزی شکلات',
+                productRate: 4.5,
+                rateCount: 150,
+                productBrand: 'کوکی',
+                productName: 'کوکی شکلات چیپسی',
                 productCluster: 'شیرینی',
               ),
             ),
@@ -274,8 +273,10 @@ class ProductPageState extends State<ProductPage> {
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.height * 0.02035623409669211195928753180662,
-                    vertical: MediaQuery.of(context).size.height * 0.01017811704834605597964376590331,
+                    horizontal: MediaQuery.of(context).size.height *
+                        0.02035623409669211195928753180662,
+                    vertical: MediaQuery.of(context).size.height *
+                        0.01017811704834605597964376590331,
                   ),
                   color: Colors.white,
                   child: PositiveAttributesCard(foodItems: positiveItems),
@@ -324,7 +325,7 @@ class ProductPageState extends State<ProductPage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      AlternativeProductScreen(),
+                                   AlternativeProductScreen(),
                                 ),
                               );
                             },
@@ -367,7 +368,7 @@ class ProductPageState extends State<ProductPage> {
           ],
         ),
       ),
-      bottomNavigationBar: ProductBottomBar(), // Use the new widget here
+      bottomNavigationBar: const ProductBottomBar(), // Use the new widget here
     );
   }
 }

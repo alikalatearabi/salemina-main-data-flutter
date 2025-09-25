@@ -25,106 +25,108 @@ class HomeContent extends StatelessWidget {
     final HealthLevel currentUserHealthLevel = _mapHealthStatus(userData.healthStatus);
     final HealthStatusInfo statusInfo = getHealthStatusInfo(currentUserHealthLevel);
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.topCenter,
-            children: [
-              HomeHeaderWidget(
-                calories: userData.calories,
-                nutrients: userData.nutrients,
-                subscriptionType: userData.subscriptionType,
-              ),
-              Positioned(
-                // Use responsive positioning
-                top: screenHeight * 0.405,
-                child: ActionButtonWithModal(
-                  label: 'مصرف وعده غذایی',
-                  icon: Icons.add,
-                  modalBuilder: (context) {
-                    return GestureDetector(
-                      onTap: () {},
-                      child: buildProductOptionsModal(context),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: 0),
-            child: Column(
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.topCenter,
               children: [
-                // Use LayoutBuilder for more complex responsive scenarios if needed
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ClusterRankingPage(),
-                          ),
-                        );
-                      },
-                      child: Flexible(
-                        child: buildInfoBox(
-                          context,
-                          'رتبه بندی خوشه ها',
-                          SvgPicture.asset(
-                            'assets/icons/category.svg',
-                            width: 56,
-                            height: 56,
-                          ),
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ComparisonScreen()));
-                      },
-                      child: Flexible(
-                        child: buildInfoBox(
-                          context,
-                          'مقایسه محصولات',
-                          SvgPicture.asset(
-                            'assets/icons/compare.svg',
-                            width: 56,
-                            height: 56,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                HomeHeaderWidget(
+                  calories: userData.calories,
+                  nutrients: userData.nutrients,
+                  subscriptionType: userData.subscriptionType,
                 ),
-                const SizedBox(height: 0),
-                HealthStatusWidget(
-                  statusInfo: statusInfo,
-                  onWarningPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HealthWarningsPage(statusInfo: statusInfo),
-                      ),
-                    );
-                  },
+                Positioned(
+                  // Use responsive positioning
+                  top: screenHeight * 0.405,
+                  child: ActionButtonWithModal(
+                    label: 'مصرف وعده غذایی',
+                    icon: Icons.add,
+                    modalBuilder: (context) {
+                      return GestureDetector(
+                        onTap: () {},
+                        child: buildProductOptionsModal(context),
+                      );
+                    },
+                  ),
                 ),
-                const SizedBox(height: 0),
-                WaterTrackerWidget(
-                  consumedGlasses: userData.waterConsumed.toInt(),
-                  totalGlasses: userData.waterGoal.toInt(),
-                  onGlassTap: (glass) {
-                    // TODO: Implement logic to update water consumption
-                  },
-                ),
-                const SizedBox(height: 10),
               ],
             ),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: 0),
+              child: Column(
+                children: [
+                  // Use LayoutBuilder for more complex responsive scenarios if needed
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ClusterRankingPage(),
+                            ),
+                          );
+                        },
+                        child: Flexible(
+                          child: buildInfoBox(
+                            context,
+                            'رتبه بندی خوشه ها',
+                            SvgPicture.asset(
+                              'assets/icons/category.svg',
+                              width: 56,
+                              height: 56,
+                            ),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ComparisonScreen()));
+                        },
+                        child: Flexible(
+                          child: buildInfoBox(
+                            context,
+                            'مقایسه محصولات',
+                            SvgPicture.asset(
+                              'assets/icons/compare.svg',
+                              width: 56,
+                              height: 56,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 0),
+                  HealthStatusWidget(
+                    statusInfo: statusInfo,
+                    onWarningPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HealthWarningsPage(statusInfo: statusInfo),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 0),
+                  WaterTrackerWidget(
+                    consumedGlasses: userData.waterConsumed.toInt(),
+                    totalGlasses: userData.waterGoal.toInt(),
+                    onGlassTap: (glass) {
+                      // TODO: Implement logic to update water consumption
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
