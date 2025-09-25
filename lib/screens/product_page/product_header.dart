@@ -57,17 +57,15 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     final double progress = (shrinkOffset / (maxExtent - minExtent)).clamp(0.0, 1.0);
-    final double collapsedOpacity = progress;
-    final double expandedOpacity = 1 - progress;
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
-          if (progress > 0.9)
+          if (progress > 0.95)
             BoxShadow(
-              color: Colors.black.withOpacity((progress - 0.9) * 1), // Fade in shadow
+              color: Colors.black.withOpacity(0.1),
               spreadRadius: 1,
               blurRadius: 5,
               offset: const Offset(0, 2),
@@ -77,13 +75,16 @@ class ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Opacity(
-            opacity: expandedOpacity,
-            child: _buildExpandedLayout(context),
-          ),
-          Opacity(
-            opacity: collapsedOpacity,
-            child: _buildCollapsedLayout(context, screenWidth),
+          _buildCollapsedLayout(context, screenWidth),
+          Positioned(
+            top: -shrinkOffset,
+            left: 0,
+            right: 0,
+            height: maxExtent,
+            child: Container(
+              color: Colors.white,
+              child: _buildExpandedLayout(context),
+            ),
           ),
         ],
       ),
