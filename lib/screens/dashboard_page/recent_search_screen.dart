@@ -5,7 +5,7 @@ import '../../widgets/one_attribute_list_item.dart';
 
 class RecentSearchScreen extends StatefulWidget {
 
-  RecentSearchScreen({super.key,});
+  const RecentSearchScreen({super.key,});
 
   @override
   State<RecentSearchScreen> createState() => _RecentSearchScreenState();
@@ -16,25 +16,39 @@ class _RecentSearchScreenState extends State<RecentSearchScreen> {
 
   final List<OneAttributeList> recentProducts = [
     OneAttributeList(
-      imagePath: 'assets/milk.png',
-      name: 'نام محصول در حالت خیلی طولانی ...',
-      indicator: 'کالری',
-      weight: '145',
-      value: '5555 گرم'
+        imagePath: 'assets/milk.png',
+        name: 'شیر پرچرب پگاه',
+        indicator: 'کالری',
+        weight: '150',
+        value: '240 گرم'
     ),
     OneAttributeList(
-      imagePath: 'assets/milk2.png',
-      name: 'نام محصول در حالت خیلی طولانی ...',
-      indicator: 'کالری',
-      weight: '145 گرم',
-      value: '5555 گرم'
+        imagePath: 'assets/saghe.png',
+        name: 'بیسکویت ساقه طلایی مینو',
+        indicator: 'کالری',
+        weight: '54',
+        value: '12 گرم'
     ),
     OneAttributeList(
-      imagePath: 'assets/milk3.png',
-      name: 'نام محصول در حالت خیلی طولانی ...',
-      indicator: 'کالری',
-      weight: '145 گرم',
-      value: '5555 گرم'
+        imagePath: 'assets/coloche.png',
+        name: 'کلوچه گردویی نادری',
+        indicator: 'کالری',
+        weight: '213',
+        value: '50 گرم'
+    ),
+    OneAttributeList(
+        imagePath: 'assets/yogurt.png',
+        name: 'ماست کم چرب کاله',
+        indicator: 'کالری',
+        weight: '120',
+        value: '150 گرم'
+    ),
+    OneAttributeList(
+        imagePath: 'assets/dark_chocolate.png',
+        name: 'شکلات تلخ 72٪ پارمیدا',
+        indicator: 'کالری',
+        weight: '155',
+        value: '28 گرم'
     ),
   ];
 

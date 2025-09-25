@@ -8,7 +8,7 @@ import '../../widgets/one_attribute_list_item.dart';
 class CategoryListScreen extends StatefulWidget {
   final String title;
 
-  CategoryListScreen({super.key,required this.title});
+  const CategoryListScreen({super.key,required this.title});
 
   @override
   State<CategoryListScreen> createState() => _CategoryListScreenState();
@@ -20,6 +20,68 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   int currentIndex=0;
 
   late List<OneAttributeList> products ;
+  final List<Map<String, dynamic>> allProductsData = [
+    {
+      'imagePath': 'assets/milk.png',
+      'name': 'شیر پرچرب پگاه',
+      'serving': '240 گرم',
+      'values': {'کالری': '150', 'قند': '12', 'چربی': '8', 'اسید چرب': '5', 'نمک': '0.12'}
+    },
+    {
+      'imagePath': 'assets/saghe.png',
+      'name': 'بیسکویت ساقه طلایی مینو',
+      'serving': '12 گرم',
+      'values': {'کالری': '54', 'قند': '2.56', 'چربی': '1', 'اسید چرب': '0.1', 'نمک': '0.04'}
+    },
+    {
+      'imagePath': 'assets/coloche.png',
+      'name': 'کلوچه گردویی نادری',
+      'serving': '50 گرم',
+      'values': {'کالری': '213', 'قند': '10.8', 'چربی': '5.2', 'اسید چرب': '0.09', 'نمک': '0.09'}
+    },
+    {
+      'imagePath': 'assets/yogurt.png',
+      'name': 'ماست کم چرب کاله',
+      'serving': '150 گرم',
+      'values': {'کالری': '120', 'قند': '8', 'چربی': '3', 'اسید چرب': '1.5', 'نمک': '0.1'}
+    },
+    {
+      'imagePath': 'assets/dark_chocolate.png',
+      'name': 'شکلات تلخ 72٪ پارمیدا',
+      'serving': '28 گرم',
+      'values': {'کالری': '155', 'قند': '14', 'چربی': '9', 'اسید چرب': '5', 'نمک': '0.01'}
+    },
+    {
+      'imagePath': 'assets/barley_bread.png',
+      'name': 'نان جو سبوس دار',
+      'serving': '100 گرم',
+      'values': {'کالری': '250', 'قند': '5', 'چربی': '3', 'اسید چرب': '0.5', 'نمک': '1.2'}
+    },
+    // {
+    //   'imagePath': 'assets/beans.png',
+    //   'name': 'کنسرو لوبیا چیتی',
+    //   'serving': '100 گرم',
+    //   'values': {'کالری': '85', 'قند': '4', 'چربی': '0.5', 'اسید چرب': '0.1', 'نمک': '0.8'}
+    // },
+    // {
+    //   'imagePath': 'assets/almond_milk.png',
+    //   'name': 'شیر بادام شیرین نشده',
+    //   'serving': '240 گرم',
+    //   'values': {'کالری': '39', 'قند': '0', 'چربی': '3', 'اسید چرب': '0.2', 'نمک': '0.14'}
+    // },
+    // {
+    //   'imagePath': 'assets/cereal.png',
+    //   'name': 'غلات صبحانه با فیبر بالا',
+    //   'serving': '30 گرم',
+    //   'values': {'کالری': '110', 'قند': '5', 'چربی': '1', 'اسید چرب': '0.2', 'نمک': '0.2'}
+    // },
+    // {
+    //   'imagePath': 'assets/feta_cheese.png',
+    //   'name': 'پنیر فتا کم نمک',
+    //   'serving': '30 گرم',
+    //   'values': {'کالری': '80', 'قند': '0.5', 'چربی': '6', 'اسید چرب': '4', 'نمک': '0.3'}
+    // },
+  ];
 
   @override
   void initState() {
@@ -32,7 +94,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-          automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false,
         toolbarHeight: MediaQuery.of(context).size.height * 0.08,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -58,7 +120,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  side: BorderSide(
+                  side: const BorderSide(
                     color: Color(0xFF018A08),
                     width: 1,
                   ),
@@ -71,12 +133,12 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                       'assets/icons/sort.svg',
                       width: 18,
                       height: 18,
-                      color: Color(0xFF018A08),
+                      color: const Color(0xFF018A08),
                     ),
-                    SizedBox(width: 4,),
+                    const SizedBox(width: 4,),
                     Text(
                       sortState,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color(0xFF018A08),
                           fontSize: 14,
                           fontWeight: FontWeight.w600
@@ -102,7 +164,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                 BoxShadow(
                   color: Colors.black.withOpacity(0.1),
                   blurRadius: 10,
-                  offset: Offset(0, 5),
+                  offset: const Offset(0, 5),
                 ),
               ],
             ),
@@ -113,7 +175,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                 child: Text(
                   widget.title,
                   textDirection: TextDirection.rtl,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 16,
                   ),
@@ -153,144 +215,39 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
         if (selectedIndex==0){
           sortState='سالمترین';
           indicator='کالری';
-          buildProductList();
         }else if (selectedIndex==1){
           sortState='کمترین کالری';
           indicator='کالری';
-          buildProductList();
         }else if (selectedIndex==2){
           sortState='کمترین قند';
           indicator='قند';
-          buildProductList();
         }else if (selectedIndex==3){
           sortState='کمترین چربی';
           indicator='چربی';
-          buildProductList();
         }else if (selectedIndex==4){
           sortState='کمترین اسیدچرب';
           indicator='اسید چرب';
-          buildProductList();
         }else if (selectedIndex==5){
           sortState='کمترین نمک';
           indicator='نمک';
-          buildProductList();
         }else if (selectedIndex==6){
           sortState='ملاحظات شخصی';
           indicator='کالری';
-          buildProductList();
         }
+        buildProductList();
       });
     }
   }
 
   void buildProductList() {
-    products = [
-      OneAttributeList(
-          imagePath: 'assets/milk.png',
-          name: 'نام محصول در حالت خیلی طولانی ...',
-          indicator: indicator,
-          weight: '145',
-          value: '5555 گرم'
-      ),
-      OneAttributeList(
-          imagePath: 'assets/milk2.png',
-          name: 'نام محصول در حالت خیلی طولانی ...',
-          indicator: indicator,
-          weight: '145 گرم',
-          value: '5555 گرم'
-      ),
-      OneAttributeList(
-          imagePath: 'assets/milk3.png',
-          name: 'نام محصول در حالت خیلی طولانی ...',
-          indicator: indicator,
-          weight: '145 گرم',
-          value: '5555 گرم'
-      ),
-      OneAttributeList(
-          imagePath: 'assets/milk.png',
-          name: 'نام محصول در حالت خیلی طولانی ...',
-          indicator: indicator,
-          weight: '145',
-          value: '5555 گرم'
-      ),
-      OneAttributeList(
-          imagePath: 'assets/milk2.png',
-          name: 'نام محصول در حالت خیلی طولانی ...',
-          indicator: indicator,
-          weight: '145 گرم',
-          value: '5555 گرم'
-      ),
-      OneAttributeList(
-          imagePath: 'assets/milk3.png',
-          name: 'نام محصول در حالت خیلی طولانی ...',
-          indicator: indicator,
-          weight: '145 گرم',
-          value: '5555 گرم'
-      ),
-      OneAttributeList(
-          imagePath: 'assets/milk.png',
-          name: 'نام محصول در حالت خیلی طولانی ...',
-          indicator: indicator,
-          weight: '145',
-          value: '5555 گرم'
-      ),
-      OneAttributeList(
-          imagePath: 'assets/milk2.png',
-          name: 'نام محصول در حالت خیلی طولانی ...',
-          indicator: indicator,
-          weight: '145 گرم',
-          value: '5555 گرم'
-      ),
-      OneAttributeList(
-          imagePath: 'assets/milk3.png',
-          name: 'نام محصول در حالت خیلی طولانی ...',
-          indicator: indicator,
-          weight: '145 گرم',
-          value: '5555 گرم'
-      ),
-      OneAttributeList(
-          imagePath: 'assets/milk.png',
-          name: 'نام محصول در حالت خیلی طولانی ...',
-          indicator: indicator,
-          weight: '145',
-          value: '5555 گرم'
-      ),
-      OneAttributeList(
-          imagePath: 'assets/milk2.png',
-          name: 'نام محصول در حالت خیلی طولانی ...',
-          indicator: indicator,
-          weight: '145 گرم',
-          value: '5555 گرم'
-      ),
-      OneAttributeList(
-          imagePath: 'assets/milk3.png',
-          name: 'نام محصول در حالت خیلی طولانی ...',
-          indicator: indicator,
-          weight: '145 گرم',
-          value: '5555 گرم'
-      ),
-      OneAttributeList(
-          imagePath: 'assets/milk.png',
-          name: 'نام محصول در حالت خیلی طولانی ...',
-          indicator: indicator,
-          weight: '145',
-          value: '5555 گرم'
-      ),
-      OneAttributeList(
-          imagePath: 'assets/milk2.png',
-          name: 'نام محصول در حالت خیلی طولانی ...',
-          indicator: indicator,
-          weight: '145 گرم',
-          value: '5555 گرم'
-      ),
-      OneAttributeList(
-          imagePath: 'assets/milk3.png',
-          name: 'نام محصول در حالت خیلی طولانی ...',
-          indicator: indicator,
-          weight: '145 گرم',
-          value: '5555 گرم'
-      ),
-    ];
+    products = allProductsData.map((p) {
+      return OneAttributeList(
+        imagePath: p['imagePath'],
+        name: p['name'],
+        indicator: indicator,
+        weight: p['values'][indicator] ?? '0',
+        value: p['serving'],
+      );
+    }).toList();
   }
-
 }
