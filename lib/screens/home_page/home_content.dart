@@ -10,10 +10,65 @@ import '../search_page/cluster_ranking_page.dart' show ClusterRankingPage;
 import 'home_header_widget.dart';
 import 'models/user_data_model.dart';
 import 'water_tracker_widget.dart';
-class HomeContent extends StatelessWidget {
-  final UserData userData;
 
-  const HomeContent({super.key, required this.userData});
+class HomeContent extends StatefulWidget {
+  final UserData userData;
+  final Future<void> Function(int glass)? onWaterTap;
+
+  const HomeContent({super.key, required this.userData, this.onWaterTap});
+
+  @override
+  State<HomeContent> createState() => _HomeContentState();
+}
+
+class _HomeContentState extends State<HomeContent> {
+  late int _consumedGlasses;
+  bool _isUpdatingWater = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _consumedGlasses = widget.userData.waterConsumed.toInt();
+  }
+
+  @override
+  void didUpdateWidget(covariant HomeContent oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.userData.waterConsumed != widget.userData.waterConsumed &&
+        !_isUpdatingWater) {
+      _consumedGlasses = widget.userData.waterConsumed.toInt();
+    }
+  }
+
+  Future<void> _handleWaterTap(int glass) async {
+    if (_isUpdatingWater) return;
+    final previous = _consumedGlasses;
+    setState(() {
+      _consumedGlasses = glass;
+      _isUpdatingWater = true;
+    });
+
+    try {
+      await widget.onWaterTap?.call(glass);
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _consumedGlasses = previous;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('خطا در ذخیره مصرف آب: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isUpdatingWater = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +77,8 @@ class HomeContent extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     // TODO: The health level logic should be mapped from userData.healthStatus
-    final HealthLevel currentUserHealthLevel = _mapHealthStatus(userData.healthStatus);
+    final HealthLevel currentUserHealthLevel =
+        _mapHealthStatus(widget.userData.healthStatus);
     final HealthStatusInfo statusInfo = getHealthStatusInfo(currentUserHealthLevel);
 
     return SafeArea(
@@ -34,9 +90,9 @@ class HomeContent extends StatelessWidget {
               alignment: Alignment.topCenter,
               children: [
                 HomeHeaderWidget(
-                  calories: userData.calories,
-                  nutrients: userData.nutrients,
-                  subscriptionType: userData.subscriptionType,
+                  calories: widget.userData.calories,
+                  nutrients: widget.userData.nutrients,
+                  subscriptionType: widget.userData.subscriptionType,
                 ),
                 Positioned(
                   // Use responsive positioning
@@ -115,11 +171,9 @@ class HomeContent extends StatelessWidget {
                   ),
                   const SizedBox(height: 0),
                   WaterTrackerWidget(
-                    consumedGlasses: userData.waterConsumed.toInt(),
-                    totalGlasses: userData.waterGoal.toInt(),
-                    onGlassTap: (glass) {
-                      // TODO: Implement logic to update water consumption
-                    },
+                    consumedGlasses: _consumedGlasses,
+                    totalGlasses: widget.userData.waterGoal.toInt(),
+                    onGlassTap: _handleWaterTap,
                   ),
                   const SizedBox(height: 10),
                 ],

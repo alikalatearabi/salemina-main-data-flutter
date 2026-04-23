@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'auth_http_client.dart';
 
 class ActivityOption {
   final String id;
@@ -17,7 +18,7 @@ class DietService {
   static String get baseUrl => '${dotenv.env['BASE_URL']}/api';
 
   static Future<List<ActivityOption>> getAppetiteModes() async {
-    final response = await http.get(
+    final response = await authGet(
       Uri.parse('$baseUrl/auth/appetite-modes'),
     );
     

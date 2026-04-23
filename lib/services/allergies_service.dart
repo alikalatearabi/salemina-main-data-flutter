@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'auth_http_client.dart';
 
 class AllergyCategory {
   final int id;
@@ -34,7 +35,7 @@ class AllergiesService {
   static String get baseUrl => '${dotenv.env['BASE_URL']}/api';
 
   static Future<List<AllergyCategory>> getAllergies() async {
-    final response = await http.get(
+    final response = await authGet(
       Uri.parse('$baseUrl/auth/allergies'),
     );
     
@@ -51,10 +52,9 @@ class AllergiesService {
     required List<int> allergyIds,
   }) async {
     final allergiesList = allergyIds.map((id) => {"id": id}).toList();
-    
-    final response = await http.post(
+
+    final response = await authPost(
       Uri.parse('$baseUrl/auth/signup/allergies'),
-      headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'userId': userId,
         'allergies': allergiesList,

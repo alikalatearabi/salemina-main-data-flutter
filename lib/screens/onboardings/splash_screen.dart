@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:main_app/screens/home_page/view/home_page.dart';
+import 'package:main_app/services/auth_storage.dart';
 
 import 'onboarding_screen.dart';
 
@@ -14,13 +16,24 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
+    _navigateNext();
+  }
+
+  Future<void> _navigateNext() async {
+    await Future.delayed(const Duration(seconds: 3));
+    final token = await AuthStorage.getAccessToken();
+    if (!mounted) return;
+    if (token != null) {
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (ctx) => const OnboardingScreen(),
-          ));
-    });
+        context,
+        MaterialPageRoute(builder: (ctx) => const HomePage()),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (ctx) => const OnboardingScreen()),
+      );
+    }
   }
 
   @override

@@ -7,7 +7,7 @@ import '../../search_page/search_page.dart';
 import '../../scanner_page/scanner_page.dart';
 import '../../dashboard_page/dashboard_page.dart';
 import '../../profile_page/profile_page.dart';
-
+import '../../authentication_page/phone_number_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -43,6 +43,10 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<void> _onWaterTapped(int glass) async {
+    await _homeService.updateWaterConsumed(glass);
+  }
+
   Widget _buildPageContent(int index) {
     if (index == 0) {
       return FutureBuilder<UserData>(
@@ -51,21 +55,48 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
+            final err = snapshot.error.toString();
+            final isUnauthorized = err.contains('401');
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text('Failed to load data.'),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _reloadData,
-                    child: const Text('Try Again'),
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Text(
+                      snapshot.error.toString(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.grey),
+                    ),
                   ),
+                  const SizedBox(height: 16),
+                  if (!isUnauthorized)
+                    ElevatedButton(
+                      onPressed: _reloadData,
+                      child: const Text('Try Again'),
+                    ),
+                  if (isUnauthorized)
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => const PhoneNumberPage(),
+                          ),
+                          (route) => false,
+                        );
+                      },
+                      child: const Text('Sign in again'),
+                    ),
                 ],
               ),
             );
           } else if (snapshot.hasData) {
-            return HomeContent(userData: snapshot.data!);
+            return HomeContent(
+              userData: snapshot.data!,
+              onWaterTap: _onWaterTapped,
+            );
           } else {
             return const Center(child: Text('No data available.'));
           }

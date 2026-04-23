@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'auth_http_client.dart';
 
 class FoodPreference {
   final String title;
@@ -21,7 +22,7 @@ class FoodPreferenceService {
   static String get baseUrl => '${dotenv.env['BASE_URL']}/api';
 
   static Future<List<FoodPreference>> getFoodPreferences() async {
-    final response = await http.get(
+    final response = await authGet(
       Uri.parse('$baseUrl/auth/full-food-preferences'),
     );
     
@@ -38,9 +39,8 @@ class FoodPreferenceService {
     required String appetiteMode,
     required List<Map<String, dynamic>> foodPreferences,
   }) async {
-    final response = await http.post(
+    final response = await authPost(
       Uri.parse('$baseUrl/auth/signup/dietary-preferences'),
-      headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'userId': userId,
         'appetiteMode': appetiteMode,

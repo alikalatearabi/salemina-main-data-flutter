@@ -158,30 +158,49 @@ Widget buildModalButton(
     BuildContext context, String text, IconData icon, VoidCallback onPressed) {
   return SizedBox(
     width: MediaQuery.of(context).size.width * 0.7,
-    child: ElevatedButton.icon(
+    child: ElevatedButton(
       onPressed: onPressed,
-      icon: Icon(
-        icon,
-        color: const Color(0xFF018A08),
-      ),
-      label: Text(
-        text,
-        style: const TextStyle(
-          color: Color(0xFF018A08),
-          fontWeight: FontWeight.bold,
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: const Color(0x14018A08),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  icon,
+                  color: const Color(0xFF018A08),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                text,
+                style: const TextStyle(
+                  color: Color(0xFF018A08),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
         side: const BorderSide(
           color: Color(0xFF018A08),
-          width: 1,
+          width: 3,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
         padding: const EdgeInsets.symmetric(
-          vertical: 12,
+          vertical: 20,
           horizontal: 16,
         ),
       ),

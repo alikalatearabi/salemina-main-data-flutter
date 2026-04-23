@@ -83,61 +83,69 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 textAlign: TextAlign.center,
               ),
               Expanded(
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: _contentList.length,
-                  onPageChanged: (int page) {
-                    setState(() {
-                      _currentPage = page;
-                    });
-                  },
-                  itemBuilder: (context, index) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          _contentList[index].image,
-                        width:MediaQuery.of(context).size.width*0.76,
-                        ),
-                        const SizedBox(height: 20),
-                        Text(
-                          _contentList[index].title,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
+                child: Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: _contentList.length,
+                    onPageChanged: (int page) {
+                      setState(() {
+                        _currentPage = page;
+                      });
+                    },
+                    itemBuilder: (context, index) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            _contentList[index].image,
+                            width: MediaQuery.of(context).size.width * 0.76,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          _contentList[index].description,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w300,
-                            color: Color(0xFF464E59),
+                          const SizedBox(height: 20),
+                          Text(
+                            _contentList[index].title,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    );
-                  },
+                          const SizedBox(height: 16),
+                          Text(
+                            _contentList[index].description,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w300,
+                              color: Color(0xFF464E59),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(_contentList.length, (index) {
-                  return AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    width: index == _currentPage ? 16 : 8,
-                    height: 4,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    decoration: BoxDecoration(
-                      color: index == _currentPage ? Color(0xFF018A08) : Color(0xFFCBD1D6),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  );
-                }),
+              Directionality(
+                textDirection: TextDirection.ltr,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(_contentList.length, (index) {
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      width: index == _currentPage ? 16 : 8,
+                      height: 4,
+                      margin: const EdgeInsets.symmetric(horizontal: 2),
+                      decoration: BoxDecoration(
+                        color: index == _currentPage
+                            ? const Color(0xFF018A08)
+                            : const Color(0xFFCBD1D6),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    );
+                  }),
+                ),
               ),
               const SizedBox(height: 40),
               SizedBox(

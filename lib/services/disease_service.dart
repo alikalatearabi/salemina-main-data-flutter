@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'auth_http_client.dart';
 
 class IllnessLevel {
   final int id;
@@ -46,7 +47,7 @@ class DiseaseService {
   static String get baseUrl => '${dotenv.env['BASE_URL']}/api';
 
   static Future<List<Disease>> getDiseases() async {
-    final response = await http.get(
+    final response = await authGet(
       Uri.parse('$baseUrl/auth/illnesses'),
     );
     
@@ -63,9 +64,8 @@ class DiseaseService {
     required String activityLevel,
     required List<Map<String, dynamic>> illnesses,
   }) async {
-    final response = await http.post(
+    final response = await authPost(
       Uri.parse('$baseUrl/auth/signup/health-info'),
-      headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'userId': userId,
         'activityLevel': activityLevel,

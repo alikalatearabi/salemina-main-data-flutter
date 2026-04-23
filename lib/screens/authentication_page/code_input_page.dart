@@ -5,8 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:main_app/screens/authentication_page/phone_number_page.dart';
 import 'package:main_app/screens/personal_info/personal_info_confirmation.dart';
-import 'package:main_app/screens/personal_info/name_info.dart';
+import 'package:main_app/screens/activity_diet_page/activity_level_page.dart';
+import 'package:main_app/screens/activity_diet_page/diet_page.dart';
+import 'package:main_app/screens/activity_diet_page/allergies_page.dart';
+import 'package:main_app/screens/activity_diet_page/water_intake_page.dart';
+import 'package:main_app/screens/home_page/view/home_page.dart';
 import 'package:main_app/services/to_farsi_numbers.dart';
+import 'package:main_app/services/auth_api.dart';
+import 'package:main_app/services/auth_storage.dart';
 
 class CodeInputPage extends StatefulWidget {
   final String phoneNumber;
@@ -34,6 +40,7 @@ class CodeInputPageState extends State<CodeInputPage> {
   late Timer _timer;
 
   bool _isButtonEnabled = false;
+  bool _isSubmitting = false;
 
   @override
   void initState() {
@@ -85,6 +92,80 @@ class CodeInputPageState extends State<CodeInputPage> {
     setState(() {
       _isButtonEnabled = code.length == 5; // Enable button if 5 digits entered
     });
+  }
+
+  Future<void> _submitCode() async {
+    if (_isSubmitting) return;
+    setState(() {
+      _isSubmitting = true;
+    });
+    try {
+      final code = _controllers.map((c) => c.text).join();
+      final result = await AuthApi.verifyOtp(
+        phone: widget.phoneNumber,
+        code: code,
+        userId: widget.userId,
+      );
+
+      final accessToken = result['accessToken'] as String?;
+      final refreshToken = result['refreshToken'] as String?;
+      final nextStep = result['nextStep'] as String?;
+      final userSnapshot = result['user'] as Map<String, dynamic>?;
+      final resolvedUserId =
+          (userSnapshot?['id'] as int?) ?? widget.userId;
+
+      if (accessToken != null && refreshToken != null) {
+        await AuthStorage.saveTokens(accessToken, refreshToken);
+      }
+      await AuthStorage.saveUserId(resolvedUserId);
+
+      Widget target;
+      switch (nextStep) {
+        case 'basic-info':
+          // Start the personal-info flow
+          target = PersonalInfoConfirmationPage(userId: widget.userId);
+          break;
+        case 'health-info':
+          target = ActivityLevelPage(userId: widget.userId);
+          break;
+        case 'dietary-preferences':
+          target = DietPage(userId: widget.userId);
+          break;
+        case 'allergies':
+          target = AllergiesPage(userId: widget.userId);
+          break;
+        case 'water-intake':
+          target = WaterIntakePage(userId: widget.userId);
+          break;
+        case 'complete':
+        case null:
+          target = const HomePage();
+          break;
+        default:
+          // Fallback to confirmation screen which starts from the beginning
+          target = PersonalInfoConfirmationPage(userId: widget.userId);
+          break;
+      }
+
+      if (!mounted) return;
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => target),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('خطا در تایید کد: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSubmitting = false;
+        });
+      }
+    }
   }
 
   String _formatTime(int seconds) {
@@ -287,26 +368,8 @@ class CodeInputPageState extends State<CodeInputPage> {
                       width: double.infinity,
                       height: 48,
                       child: ElevatedButton(
-                        onPressed: _isButtonEnabled
-                            ? () {
-                          // Determine next screen based on nextStep from API
-                          Widget nextScreen;
-
-                          switch (widget.nextStep) {
-                            case 'basic-info':
-                              nextScreen = NameInfoPage(userId: widget.userId);
-                              break;
-                            default:
-                              nextScreen = PersonalInfoConfirmationPage(userId: widget.userId);
-                              break;
-                          }
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => nextScreen,
-                            ),
-                          );
-                        }
-                            : null,
+                        onPressed:
+                            _isButtonEnabled && !_isSubmitting ? _submitCode : null,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF018A08),
                           disabledBackgroundColor:

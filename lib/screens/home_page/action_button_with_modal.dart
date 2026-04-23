@@ -20,6 +20,7 @@ class ActionButtonWithModal extends StatelessWidget {
           context: context,
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
+          barrierColor: const Color(0x7A929EAA),
           builder: modalBuilder,
         );
       },

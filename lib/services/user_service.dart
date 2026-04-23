@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'auth_http_client.dart';
 
 class UserService {
   static String get baseUrl => '${dotenv.env['BASE_URL']}/api';
@@ -20,9 +20,8 @@ class UserService {
     required String gender,
     required DateTime birthDate,
   }) async {
-    final response = await http.post(
+    final response = await authPost(
       Uri.parse('$baseUrl/auth/signup/basic-info'),
-      headers: {'Content-Type': 'application/json'},
       body: json.encode({
         'userId': userId,
         'name': name,
@@ -31,7 +30,7 @@ class UserService {
       }),
     );
     
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return json.decode(response.body);
     } else {
       throw Exception('Failed to submit basic info: ${response.body}');
@@ -49,9 +48,8 @@ class UserService {
   }) async {
     final gregorianDate = jalaliToGregorian(birthYear, birthMonth, birthDay);
     
-    final response = await http.post(
+    final response = await authPost(
       Uri.parse('$baseUrl/auth/signup/basic-info'),
-      headers: {'Content-Type': 'application/json'},
       body: json.encode({
         'userId': userId,
         'name': name,
@@ -60,7 +58,7 @@ class UserService {
       }),
     );
     
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return json.decode(response.body);
     } else {
       throw Exception('Failed to submit basic info: ${response.body}');

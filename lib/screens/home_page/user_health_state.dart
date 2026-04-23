@@ -58,8 +58,7 @@ class HealthStatusWidget extends StatelessWidget {
                         fontSize: 16,
                       ),
                     ),
-                    if (showWarningButton)
-                      _buildWarningButton(),
+                    if (showWarningButton) _buildWarningButton(),
                   ],
                 ),
                 const SizedBox(height: 16),

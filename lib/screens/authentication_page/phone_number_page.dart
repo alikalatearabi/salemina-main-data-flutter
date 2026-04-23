@@ -5,11 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:main_app/screens/authentication_page/code_input_page.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:main_app/screens/home_page/view/home_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:main_app/screens/personal_info/name_info.dart';
-import 'package:main_app/screens/activity_diet_page/activity_level_page.dart';
-import 'package:main_app/screens/activity_diet_page/diet_page.dart';
+import 'package:main_app/screens/terms/salemina_terms_bottom_sheet.dart';
 
 class PhoneNumberPage extends StatefulWidget {
   const PhoneNumberPage({super.key});
@@ -55,59 +52,16 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
       if (!mounted) return;
       if (response.statusCode == 201 || response.statusCode == 200) {
         final data = json.decode(response.body);
-        if (data['exists'] == true && data['signupComplete'] == true) {
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => const HomePage()),
-                  (route) => false);
-        } else if (data['exists'] == true &&
-            data['signupComplete'] == false) {
-          switch (data['nextStep']) {
-            case 'basic-info':
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                      builder: (context) => NameInfoPage(userId: data['userId'])),
-                      (route) => false);
-              break;
-            case 'health-info':
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ActivityLevelPage(userId: data['userId'])),
-                      (route) => false);
-              break;
-            case 'dietary-preferences':
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                      builder: (context) => DietPage(userId: data['userId'])),
-                      (route) => false);
-              break;
-            case 'complete':
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const HomePage()),
-                      (route) => false);
-              break;
-            default:
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => CodeInputPage(
-                    phoneNumber: _phoneController.text,
-                    userId: data['userId'],
-                    nextStep: data['nextStep'],
-                  ),
-                ),
-              );
-          }
-        } else {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => CodeInputPage(
-                phoneNumber: _phoneController.text,
-                userId: data['userId'],
-                nextStep: data['nextStep'],
-              ),
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => CodeInputPage(
+              phoneNumber: _phoneController.text,
+              userId: data['userId'],
+              nextStep: data['nextStep'] ??
+                  (data['signupComplete'] == true ? 'complete' : 'basic-info'),
             ),
-          );
-        }
+          ),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -156,8 +110,7 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
                 Directionality(
                   textDirection: TextDirection.rtl,
                   child: Padding(
-                    padding:
-                    EdgeInsets.symmetric(horizontal: 24),
+                    padding: EdgeInsets.symmetric(horizontal: 24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -230,22 +183,24 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
                               ),
                               error: errorText != null
                                   ? Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  errorText,
-                                  style: const TextStyle(
-                                      color: Color(0xFFF2506E)),
-                                ),
-                              )
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                        errorText,
+                                        style: const TextStyle(
+                                            color: Color(0xFFF2506E)),
+                                      ),
+                                    )
                                   : null,
                               prefixIcon: const Padding(
-                                padding: EdgeInsets.only(left: 12.0, right: 8.0),
+                                padding:
+                                    EdgeInsets.only(left: 12.0, right: 8.0),
                                 child: Text('+98',
                                     style: TextStyle(
-                                        fontSize: 16, color: Color(0xFF232A34))),
+                                        fontSize: 16,
+                                        color: Color(0xFF232A34))),
                               ),
-                              prefixIconConstraints:
-                              const BoxConstraints(minWidth: 0, minHeight: 0),
+                              prefixIconConstraints: const BoxConstraints(
+                                  minWidth: 0, minHeight: 0),
                             ),
                           ),
                         ),
@@ -259,49 +214,48 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
                                 : null,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF018A08),
-                              disabledBackgroundColor:
-                              const Color(0xFFE5E8EB),
+                              disabledBackgroundColor: const Color(0xFFE5E8EB),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                               padding: EdgeInsets.zero,
                             ),
                             child: _isLoading
                                 ? const SizedBox(
-                              width: 24,
-                              height: 24,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2.5,
-                              ),
-                            )
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2.5,
+                                    ),
+                                  )
                                 : Row(
-                              textDirection: TextDirection.ltr,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/icons/arrow-left.svg',
-                                  width: 24,
-                                  height: 24,
-                                  colorFilter: ColorFilter.mode(
-                                    _isButtonEnabled
-                                        ? Colors.white
-                                        : const Color(0xFFA2ADB8),
-                                    BlendMode.srcIn,
+                                    textDirection: TextDirection.rtl,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/icons/arrow-right.svg',
+                                        width: 24,
+                                        height: 24,
+                                        colorFilter: ColorFilter.mode(
+                                          _isButtonEnabled
+                                              ? Colors.white
+                                              : const Color(0xFFA2ADB8),
+                                          BlendMode.srcIn,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'تایید و ادامه',
+                                        style: TextStyle(
+                                          color: _isButtonEnabled
+                                              ? Colors.white
+                                              : const Color(0xFFA2ADB8),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  'تایید و ادامه',
-                                  style: TextStyle(
-                                    color: _isButtonEnabled
-                                        ? Colors.white
-                                        : const Color(0xFFA2ADB8),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                         ),
                         const SizedBox(height: 30),
@@ -324,7 +278,15 @@ class PhoneNumberPageState extends State<PhoneNumberPage> {
                                       color: Color(0xFF4BB4D8),
                                     ),
                                     recognizer: TapGestureRecognizer()
-                                      ..onTap = () {},
+                                      ..onTap = () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.transparent,
+                                          builder: (ctx) =>
+                                              const SaleminaTermsBottomSheet(),
+                                        );
+                                      },
                                   ),
                                   const TextSpan(text: ' می‌باشد.'),
                                 ],

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'auth_http_client.dart';
 
 class ActivityLevel {
   final int id;
@@ -32,7 +33,7 @@ class ActivityLevelService {
   static String get baseUrl => '${dotenv.env['BASE_URL']}/api';
 
   static Future<List<ActivityLevel>> getActivityLevels() async {
-    final response = await http.get(
+    final response = await authGet(
       Uri.parse('$baseUrl/auth/activity-levels'),
     );
     
